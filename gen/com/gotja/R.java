@@ -247,11 +247,11 @@ containing a value of this type.
         public static final int profile_name=0x7f04001f;
         public static final int realtabcontent=0x01010000;
         public static final int search_box=0x7f040013;
-        public static final int selectionFragment=0x7f040018;
+        public static final int selectionFragment=0x7f040019;
         public static final int selection_profile_pic=0x7f04001c;
         public static final int selection_user_name=0x7f04001d;
         public static final int small=0x7f040000;
-        public static final int splashFragment=0x7f040019;
+        public static final int splashFragment=0x7f040018;
         public static final int splash_icon=0x7f04001e;
         public static final int userSettingsFragment=0x7f04001a;
     }

@@ -100,11 +100,11 @@ int id picker_subtitle 0x7f040014
 int id profile_name 0x7f04001f
 int id realtabcontent 0x01010000
 int id search_box 0x7f040013
-int id selectionFragment 0x7f040018
+int id selectionFragment 0x7f040019
 int id selection_profile_pic 0x7f04001c
 int id selection_user_name 0x7f04001d
 int id small 0x7f040000
-int id splashFragment 0x7f040019
+int id splashFragment 0x7f040018
 int id splash_icon 0x7f04001e
 int id userSettingsFragment 0x7f04001a
 int layout com_facebook_friendpickerfragment 0x7f030000

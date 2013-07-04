@@ -1,9 +1,5 @@
 package com.gotja;
 
-import com.facebook.Session;
-import com.facebook.SessionState;
-import com.facebook.UiLifecycleHelper;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,6 +11,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TabHost;
 import android.widget.TabWidget;
+
+import com.facebook.Session;
+import com.facebook.SessionState;
+import com.facebook.UiLifecycleHelper;
 
 public class FragmentTabs extends FragmentActivity {
 	private static final int SPLASH = 0;
@@ -40,6 +40,8 @@ public class FragmentTabs extends FragmentActivity {
         menuTabHost.setup();
         menuTabManager = new TabManager(this, menuTabHost, R.id.realtabcontent);
         
+        findViewById(R.id.realtabcontent).setOnClickListener(null);
+        
         FragmentManager fm = getSupportFragmentManager();
 	    fragments[SPLASH] = fm.findFragmentById(R.id.splashFragment);
 	    fragments[SELECTION] = fm.findFragmentById(R.id.selectionFragment);
@@ -51,19 +53,21 @@ public class FragmentTabs extends FragmentActivity {
 	    }
 	    transaction.commit();
         
-        //menuTabHost.setCurrentTab(0);//設定一開始就跳到第一個分頁
-        /*
+        menuTabHost.setCurrentTab(0);//設定一開始就跳到第一個分頁
+        
         menuTabManager.addTab(
             menuTabHost.newTabSpec("Home").setIndicator("Home"),
-            Home.class, null);
-            */
+            SelectionFragment.class, null);
+            
         menuTabManager.addTab(
             menuTabHost.newTabSpec("MyActivity").setIndicator("MyActivity"),
             MyActivity.class, null);
-        /*
+        
         menuTabManager.addTab(
-            menuTabHost.newTabSpec("Suggestion").setIndicator("Suggestion"),
-            Suggestion.class, null);
+            menuTabHost.newTabSpec("Login").setIndicator("Login"),
+            SplashFragment.class, null);
+        
+        /*
         menuTabManager.addTab(
             menuTabHost.newTabSpec("Setting").setIndicator("Setting"),
             Setting.class, null);
@@ -85,11 +89,14 @@ public class FragmentTabs extends FragmentActivity {
 	    FragmentManager fm = getSupportFragmentManager();
 	    FragmentTransaction transaction = fm.beginTransaction();
 	    for (int i = 0; i < fragments.length; i++) {
-	        if (i == fragmentIndex) {
+	    	transaction.hide(fragments[i]);
+	        /*
+	    	if (i == fragmentIndex) {
 	            transaction.show(fragments[i]);
 	        } else {
 	            transaction.hide(fragments[i]);
 	        }
+	        */
 	    }
 	    if (addToBackStack) {
 	        transaction.addToBackStack(null);
