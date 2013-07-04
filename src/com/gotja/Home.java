@@ -13,25 +13,25 @@ import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 
-public class MainActivity extends FragmentActivity {
+public class Home extends FragmentActivity {
 	private static final int SPLASH = 0;
 	private static final int SELECTION = 1;
 	private static final int SETTINGS = 2;
 	private static final int FRAGMENT_COUNT = SETTINGS +1;
 
 	private Fragment[] fragments = new Fragment[FRAGMENT_COUNT];
-	
+
 	private MenuItem settings;
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 
-	    setContentView(R.layout.main);
+	    setContentView(R.layout.home);
 
 	    uiHelper = new UiLifecycleHelper(this, callback);
 	    uiHelper.onCreate(savedInstanceState);
-	    
+
 	    FragmentManager fm = getSupportFragmentManager();
 	    fragments[SPLASH] = fm.findFragmentById(R.id.splashFragment);
 	    fragments[SELECTION] = fm.findFragmentById(R.id.selectionFragment);
@@ -43,7 +43,7 @@ public class MainActivity extends FragmentActivity {
 	    }
 	    transaction.commit();
 	}
-	
+
 	private void showFragment(int fragmentIndex, boolean addToBackStack) {
 	    FragmentManager fm = getSupportFragmentManager();
 	    FragmentTransaction transaction = fm.beginTransaction();
@@ -59,10 +59,10 @@ public class MainActivity extends FragmentActivity {
 	    }
 	    transaction.commit();
 	}
-	
+
 	private boolean isResumed = false;
-	
-	
+
+
 	private void onSessionStateChange(Session session, SessionState state, Exception exception) {
 	    // Only make changes if the activity is visible
 	    if (isResumed) {
@@ -84,7 +84,7 @@ public class MainActivity extends FragmentActivity {
 	        }
 	    }
 	}
-	
+
 	@Override
 	protected void onResumeFragments() {
 	    super.onResumeFragments();
@@ -100,7 +100,7 @@ public class MainActivity extends FragmentActivity {
 	        showFragment(SPLASH, false);
 	    }
 	}
-	
+
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 	    // only add the menu when the selection fragment is showing
@@ -115,7 +115,7 @@ public class MainActivity extends FragmentActivity {
 	    }
 	    return false;
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    if (item.equals(settings)) {
@@ -124,7 +124,7 @@ public class MainActivity extends FragmentActivity {
 	    }
 	    return false;
 	}
-	
+
 	private UiLifecycleHelper uiHelper;
 	private Session.StatusCallback callback = 
 	    new Session.StatusCallback() {
@@ -134,7 +134,7 @@ public class MainActivity extends FragmentActivity {
 	        onSessionStateChange(session, state, exception);
 	    }
 	};
-	
+
 
 	@Override
 	public void onResume() {
@@ -149,7 +149,7 @@ public class MainActivity extends FragmentActivity {
 	    uiHelper.onPause();
 	    isResumed = false;
 	}
-	
+
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 	    super.onActivityResult(requestCode, resultCode, data);

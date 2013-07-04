@@ -21,14 +21,14 @@ public class SelectionFragment extends Fragment {
 	private ProfilePictureView profilePictureView;
 	private TextView userNameView;
 	private static final int REAUTH_ACTIVITY_CODE = 100;
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	    uiHelper = new UiLifecycleHelper(getActivity(), callback);
 	    uiHelper.onCreate(savedInstanceState);
 	}
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, 
 	        ViewGroup container, Bundle savedInstanceState) {
@@ -41,17 +41,17 @@ public class SelectionFragment extends Fragment {
 
 	 // Find the user's name view
 	 userNameView = (TextView) view.findViewById(R.id.selection_user_name);
-	 
+
 	// Check for an open session
 	 Session session = Session.getActiveSession();
 	    if (session != null && session.isOpened()) {
 	        // Get the user's data
 	        makeMeRequest(session);
 	    }
-	    
+
 	    return view;
 	}
-	
+
 	private void makeMeRequest(final Session session) {
 	    // Make an API call to get user data and define a 
 	    // new callback to handle the response.
@@ -77,14 +77,14 @@ public class SelectionFragment extends Fragment {
 	    });
 	    request.executeAsync();
 	} 
-	
+
 	private void onSessionStateChange(final Session session, SessionState state, Exception exception) {
 	    if (session != null && session.isOpened()) {
 	        // Get the user's data.
 	        makeMeRequest(session);
 	    }
 	}
-	
+
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 	    super.onActivityResult(requestCode, resultCode, data);
@@ -92,7 +92,7 @@ public class SelectionFragment extends Fragment {
 	        uiHelper.onActivityResult(requestCode, resultCode, data);
 	    }
 	}
-	
+
 	private UiLifecycleHelper uiHelper;
 	private Session.StatusCallback callback = new Session.StatusCallback() {
 	    @Override
@@ -100,7 +100,7 @@ public class SelectionFragment extends Fragment {
 	        onSessionStateChange(session, state, exception);
 	    }
 	};
-	
+
 	@Override
 	public void onResume() {
 	    super.onResume();
