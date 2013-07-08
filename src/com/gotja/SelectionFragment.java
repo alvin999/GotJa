@@ -17,7 +17,7 @@ import com.facebook.model.GraphUser;
 import com.facebook.widget.ProfilePictureView;
 
 public class SelectionFragment extends Fragment {
-	private static final String TAG = "SelectionFragment";
+	//private static final String TAG = "SelectionFragment";
 	private ProfilePictureView profilePictureView;
 	private TextView userNameView;
 	private static final int REAUTH_ACTIVITY_CODE = 100;

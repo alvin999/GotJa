@@ -20,24 +20,7 @@
             android:id="@+android:id/realtabcontent"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1">
-
-        <fragment android:name="com.gotja.SplashFragment"
-          android:id="@+id/splashFragment"
-          android:layout_width="match_parent"
-          android:layout_height="match_parent" />
-            
-        <fragment android:name="com.gotja.SelectionFragment"
-          android:id="@+id/selectionFragment"
-          android:layout_width="match_parent"
-          android:layout_height="match_parent" />
-    
-    <fragment android:name="com.facebook.widget.UserSettingsFragment"
-          android:id="@+id/userSettingsFragment"
-          android:layout_width="match_parent"
-          android:layout_height="match_parent" />
-            
-        </FrameLayout>
+            android:layout_weight="1"/>
         
         <TabWidget
             android:id="@android:id/tabs"
