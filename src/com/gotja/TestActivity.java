@@ -7,7 +7,8 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 public class TestActivity extends Activity {
-	 public void onCreate(Bundle savedInstanceState) {
+	 @Override
+	public void onCreate(Bundle savedInstanceState) {
 	      super.onCreate(savedInstanceState);
 	      
 	      // 設定 Layout 為 main2.xml
@@ -18,7 +19,8 @@ public class TestActivity extends Activity {
 	      
 	      // Button 的 OnClick Trigger
 	      testButton.setOnClickListener(  new OnClickListener(){
-	         public void onClick(View v) {
+	         @Override
+			public void onClick(View v) {
 	            /*
 	            // 指定要呼叫的 Activity Class
 	            Intent newAct = new Intent();

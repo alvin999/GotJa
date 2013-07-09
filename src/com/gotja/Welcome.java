@@ -43,11 +43,13 @@ public class Welcome extends Activity {
 	private void getInMainActivity(){
 		//留旅祅秙
 		authButton.setVisibility(View.GONE);
-		//砞﹚计锣传Activity计
-		new CountDownTimer(1000, 1000) {
+		//砞﹚计锣传Activity计
+		new CountDownTimer(3000, 1000) {
+			@Override
 			public void onTick(long millisUntilFinished) {
 				//mTextField.setText("seconds remaining: " + millisUntilFinished / 1000);
 			}
+			@Override
 			public void onFinish() {
 				Intent intentTabs = new Intent(Welcome.this, FragmentTabs.class);
 				startActivity(intentTabs);

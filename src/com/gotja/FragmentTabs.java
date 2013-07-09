@@ -2,10 +2,8 @@ package com.gotja;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.support.v4.app.FragmentActivity;
 import android.util.DisplayMetrics;
-import android.view.View;
 import android.widget.TabHost;
 import android.widget.TabWidget;
 
@@ -45,19 +43,27 @@ public class FragmentTabs extends FragmentActivity {
         
         //TabSpec是傳給menuTabManager的tag，Indicator是顯示的Text
         menuTabManager.addTab(
-            menuTabHost.newTabSpec("Home").setIndicator("Home"),
+            menuTabHost.newTabSpec("Home").
+            setIndicator("Home", getResources().getDrawable(
+                            R.drawable.home)),
             SelectionFragment.class, null);
             
         menuTabManager.addTab(
-            menuTabHost.newTabSpec("MyActivity").setIndicator("MyActivity"),
+            menuTabHost.newTabSpec("MyActivity").
+            setIndicator("MyActivity", getResources().getDrawable(
+                    R.drawable.activity)),
             MyActivity.class, null);
         
         menuTabManager.addTab(
-            menuTabHost.newTabSpec("Login").setIndicator("Login"),
+            menuTabHost.newTabSpec("Login").
+            setIndicator("Login", getResources().getDrawable(
+                    R.drawable.advice)),
             SplashFragment.class, null);
         
         menuTabManager.addTab(
-            menuTabHost.newTabSpec("Test").setIndicator("Test"),
+            menuTabHost.newTabSpec("Test").
+            setIndicator("Test", getResources().getDrawable(
+                    R.drawable.setting)),
             TestFragment.class, null);
         
         DisplayMetrics dm = new DisplayMetrics();   
