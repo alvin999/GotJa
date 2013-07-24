@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -28,6 +30,9 @@ public class Welcome extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		//隱藏TitleBar NotificationBar
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		// 設定 Layout
 		setContentView(R.layout.welcomeactivity);
 		// 設定Logo動畫
@@ -51,7 +56,7 @@ public class Welcome extends Activity {
 			}
 			@Override
 			public void onFinish() {
-				Intent intentTabs = new Intent(Welcome.this, FragmentTabs.class);
+				Intent intentTabs = new Intent(Welcome.this, MainMenu.class);
 				startActivity(intentTabs);
 				finish();
 				return;

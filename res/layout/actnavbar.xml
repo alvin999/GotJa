@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent"
+  android:background="@android:color/white"
+>
+
+<FrameLayout
+        android:id="@+id/tabcontent"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+
+  <RadioGroup
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:layout_alignParentBottom="true"
+      android:background="@drawable/navbacking"
+      android:orientation="horizontal" >
+
+    <!-- android:background="@drawable/navbar_background" -->
+    <RadioButton
+      android:id="@+id/btnHome"
+      style="@style/navbar_button"
+      android:drawableTop="@drawable/home"
+      android:checked="true"
+    />
+    <RadioButton
+      android:id="@+id/btnActivity"
+      style="@style/navbar_button"
+      android:drawableTop="@drawable/activity"
+    />
+    <RadioButton
+      android:id="@+id/btnAdvice"
+      style="@style/navbar_button"
+      android:drawableTop="@drawable/advice"
+    />
+    <RadioButton
+      android:id="@+id/btnSetting"
+      style="@style/navbar_button"
+      android:drawableTop="@drawable/setting"
+    />
+    </RadioGroup>
+</RelativeLayout>

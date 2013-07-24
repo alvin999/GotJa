@@ -1,7 +1,12 @@
 package com.gotja;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,104 +29,134 @@ public class SelectionFragment extends Fragment {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-	    super.onCreate(savedInstanceState);
-	    uiHelper = new UiLifecycleHelper(getActivity(), callback);
-	    uiHelper.onCreate(savedInstanceState);
+		super.onCreate(savedInstanceState);
+		uiHelper = new UiLifecycleHelper(getActivity(), callback);
+		uiHelper.onCreate(savedInstanceState);
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, 
-	        ViewGroup container, Bundle savedInstanceState) {
-	    super.onCreateView(inflater, container, savedInstanceState);
-	    View view = inflater.inflate(R.layout.selection, container, false);
+			ViewGroup container, Bundle savedInstanceState) {
+		super.onCreateView(inflater, container, savedInstanceState);
+		View view = inflater.inflate(R.layout.selection, container, false);
 
-	 // Find the user's profile picture custom view
-	 profilePictureView = (ProfilePictureView) view.findViewById(R.id.selection_profile_pic);
-	 profilePictureView.setCropped(true);
+		// Find the user's profile picture custom view
+		profilePictureView = (ProfilePictureView) view.findViewById(R.id.selection_profile_pic);
+		profilePictureView.setCropped(true);
 
-	 // Find the user's name view
-	 userNameView = (TextView) view.findViewById(R.id.selection_user_name);
+		// Find the user's name view
+		userNameView = (TextView) view.findViewById(R.id.selection_user_name);
 
-	// Check for an open session
-	 Session session = Session.getActiveSession();
-	    if (session != null && session.isOpened()) {
-	        // Get the user's data
-	        makeMeRequest(session);
-	    }
+		// Check for an open session
+		Session session = Session.getActiveSession();
+		if (session != null && session.isOpened()) {
+			// Get the user's data
+			makeMeRequest(session);
+		}
 
-	    return view;
+		//Countdown
+		//2013-07-23 06:31:09
+		final TextView countdownText = (TextView) view.findViewById(R.id.countdownText);
+		final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		Date a = null, b = null;
+		try {
+			a = sdf.parse("2013-07-23 06:31:09");
+			b = new Date();
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		//      .getTime() does the conversion: Date --> long
+		final CountDownTimer cdt = new CountDownTimer(a.getTime() - b.getTime(), 1000) {
+			
+			@Override
+			public void onTick(long millisUntilFinished) {
+				// TODO Auto-generated method stub
+				long secUntilFinished = millisUntilFinished / 1000;
+				countdownText.setText(String.valueOf(secUntilFinished / 3600) + "Hours" 
+				+ String.valueOf(secUntilFinished % 3600 / 60) + "Minutes"
+				+ String.valueOf(secUntilFinished % 60) + "Seconds");
+			}
+
+			@Override
+			public void onFinish() {
+				// TODO Auto-generated method stub
+
+			}
+		}.start();
+		return view;
 	}
 
 	private void makeMeRequest(final Session session) {
-	    // Make an API call to get user data and define a 
-	    // new callback to handle the response.
-	    Request request = Request.newMeRequest(session, 
-	            new Request.GraphUserCallback() {
-	        @Override
-	        public void onCompleted(GraphUser user, Response response) {
-	            // If the response is successful
-	            if (session == Session.getActiveSession()) {
-	                if (user != null) {
-	                    // Set the id for the ProfilePictureView
-	                    // view that in turn displays the profile picture.
-	                    profilePictureView.setProfileId(user.getId());
-	                    // Set the Textview's text to the user's name.
-	                    userNameView.setText(user.getName());
-	                }
-	            }
-	            if (response.getError() != null) {
-	                // Handle errors, will do so later.
-	            	userNameView.setText(response.getError().toString());
-	            }
-	        }
-	    });
-	    request.executeAsync();
+		// Make an API call to get user data and define a 
+		// new callback to handle the response.
+		Request request = Request.newMeRequest(session, 
+				new Request.GraphUserCallback() {
+			@Override
+			public void onCompleted(GraphUser user, Response response) {
+				// If the response is successful
+				if (session == Session.getActiveSession()) {
+					if (user != null) {
+						// Set the id for the ProfilePictureView
+						// view that in turn displays the profile picture.
+						profilePictureView.setProfileId(user.getId());
+						// Set the Textview's text to the user's name.
+						userNameView.setText(user.getName());
+					}
+				}
+				if (response.getError() != null) {
+					// Handle errors, will do so later.
+					userNameView.setText(response.getError().toString());
+				}
+			}
+		});
+		request.executeAsync();
 	} 
 
 	private void onSessionStateChange(final Session session, SessionState state, Exception exception) {
-	    if (session != null && session.isOpened()) {
-	        // Get the user's data.
-	        makeMeRequest(session);
-	    }
+		if (session != null && session.isOpened()) {
+			// Get the user's data.
+			makeMeRequest(session);
+		}
 	}
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-	    super.onActivityResult(requestCode, resultCode, data);
-	    if (requestCode == REAUTH_ACTIVITY_CODE) {
-	        uiHelper.onActivityResult(requestCode, resultCode, data);
-	    }
+		super.onActivityResult(requestCode, resultCode, data);
+		if (requestCode == REAUTH_ACTIVITY_CODE) {
+			uiHelper.onActivityResult(requestCode, resultCode, data);
+		}
 	}
 
 	private UiLifecycleHelper uiHelper;
 	private Session.StatusCallback callback = new Session.StatusCallback() {
-	    @Override
-	    public void call(final Session session, final SessionState state, final Exception exception) {
-	        onSessionStateChange(session, state, exception);
-	    }
+		@Override
+		public void call(final Session session, final SessionState state, final Exception exception) {
+			onSessionStateChange(session, state, exception);
+		}
 	};
 
 	@Override
 	public void onResume() {
-	    super.onResume();
-	    uiHelper.onResume();
+		super.onResume();
+		uiHelper.onResume();
 	}
 
 	@Override
 	public void onSaveInstanceState(Bundle bundle) {
-	    super.onSaveInstanceState(bundle);
-	    uiHelper.onSaveInstanceState(bundle);
+		super.onSaveInstanceState(bundle);
+		uiHelper.onSaveInstanceState(bundle);
 	}
 
 	@Override
 	public void onPause() {
-	    super.onPause();
-	    uiHelper.onPause();
+		super.onPause();
+		uiHelper.onPause();
 	}
 
 	@Override
 	public void onDestroy() {
-	    super.onDestroy();
-	    uiHelper.onDestroy();
+		super.onDestroy();
+		uiHelper.onDestroy();
 	}
 }

@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- 
-<ScrollView
-       
+<ScrollView 
+    
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
  -->
-    <LinearLayout
+    <FrameLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="#FFFFFF" >
+        android:background="#FFFFFF"
+        android:layout_gravity="bottom" >
 
         <ImageView
             android:id="@+id/gotjalogo"
@@ -18,11 +19,11 @@
             android:layout_height="wrap_content"
             android:contentDescription="@string/logo"
             android:src="@drawable/gotja" />
-
+        
         <com.facebook.widget.LoginButton
             android:id="@+id/login_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal" />
-    </LinearLayout>
+            android:layout_gravity="center_horizontal|bottom"/>
+    </FrameLayout>
 <!-- </ScrollView> -->
