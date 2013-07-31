@@ -6,12 +6,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
 
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
+import com.google.android.gcm.GCMRegistrar;
 
 public class MainMenu extends FragmentActivity{
 	Fragment f = null;
@@ -51,6 +53,14 @@ public class MainMenu extends FragmentActivity{
 		radioButton.setOnCheckedChangeListener(btnNavBarOnCheckedChangeListener);
 		radioButton = (RadioButton) findViewById(R.id.btnSetting);
 		radioButton.setOnCheckedChangeListener(btnNavBarOnCheckedChangeListener);
+
+		GCMRegistrar.checkDevice(this);
+		GCMRegistrar.checkManifest(this);
+		Log.i("Register", "Registering device");
+		// Retrive the sender ID from GCMIntentService.java
+		// Sender ID will be registered into GCMRegistrar
+		GCMRegistrar.register(MainMenu.this,
+				GCMIntentService.SENDER_ID);
 	}
 
 	private CompoundButton.OnCheckedChangeListener btnNavBarOnCheckedChangeListener 
@@ -63,13 +73,13 @@ public class MainMenu extends FragmentActivity{
 					f = new SelectionFragment();
 				}
 				else if(fragmentId == R.id.btnActivity){
-					f = new MyActivity();
+					f = new com.example.addactivity.Myactivity();
 				}
 				else if(fragmentId == R.id.btnAdvice){
-					f = new SplashFragment();
+					f = new TestFragment();
 				}
 				else if(fragmentId == R.id.btnSetting){
-					f = new TestFragment();
+					f = new SplashFragment();
 				}
 				FragmentTransaction transaction = fm.beginTransaction();
 				transaction.replace(R.id.tabcontent, f);

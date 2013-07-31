@@ -50,7 +50,7 @@ public class InviteFacebook extends Activity {
 	    Bundle params = new Bundle();
 	    params.putString("message", "Learn how to make your Android apps social");
 	    params.putString("frictionless", "1"); //Turn on frictionless
-	    params.putString("data", "2");
+	    params.putString("data", "100000217523324_1");
 	    WebDialog requestsDialog = (
 	        new WebDialog.RequestsDialogBuilder(InviteFacebook.this,
 	            Session.getActiveSession(),

@@ -15,30 +15,30 @@
       android:layout_width="fill_parent"
       android:layout_height="wrap_content"
       android:layout_alignParentBottom="true"
-      android:background="@drawable/navbacking"
+      android:background="@drawable/navbac2"
       android:orientation="horizontal" >
 
-    <!-- android:background="@drawable/navbar_background" -->
+    <!-- android:background="@drawable/navbar_background" #17A2FF-->
     <RadioButton
       android:id="@+id/btnHome"
       style="@style/navbar_button"
-      android:drawableTop="@drawable/home"
+      android:button="@drawable/home"
       android:checked="true"
     />
     <RadioButton
       android:id="@+id/btnActivity"
       style="@style/navbar_button"
-      android:drawableTop="@drawable/activity"
+      android:button="@drawable/activity"
     />
     <RadioButton
       android:id="@+id/btnAdvice"
       style="@style/navbar_button"
-      android:drawableTop="@drawable/advice"
+      android:button="@drawable/advice"
     />
     <RadioButton
       android:id="@+id/btnSetting"
       style="@style/navbar_button"
-      android:drawableTop="@drawable/setting"
+      android:button="@drawable/setting"
     />
     </RadioGroup>
 </RelativeLayout>

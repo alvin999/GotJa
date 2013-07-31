@@ -5,30 +5,168 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="5"
-        android:targetSdkVersion="17" />
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.READ_CONTACTS"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
+        android:minSdkVersion="8"
+        android:targetSdkVersion="18" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- Google Cloud Message -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+
+    <permission
+        android:name="com.gotja.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="com.gotja.permission.C2D_MESSAGE" />
 
     <application
+        android:name=".GlobalVariable"
         android:allowBackup="true"
         android:icon="@drawable/logo"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" android:logo="@drawable/logo">
-        <meta-data android:value="@string/app_id" android:name="com.facebook.sdk.ApplicationId"/>
-        <activity android:name="com.facebook.LoginActivity"></activity>
-        <activity android:name="Welcome">
-            <intent-filter> 
-                <action android:name="android.intent.action.MAIN" /> 
-                <category android:name="android.intent.category.LAUNCHER" /> 
-            </intent-filter> 
+        android:logo="@drawable/logo"
+        android:theme="@style/AppTheme" >
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/app_id" />
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyAhVhFx2qzcM6r7nM5OEjW004sCfVMLGGo" />
+
+        <activity android:name="com.facebook.LoginActivity" >
         </activity>
-        <activity android:name="TestActivity"></activity>
-        <activity android:name="FragmentTabs" android:launchMode="singleInstance"></activity>
-        <activity android:name="InviteFacebook"></activity>
-        <activity android:name="MainMenu" android:launchMode="singleInstance"></activity>
-        <activity android:name="InviteContacts"></activity>
+        <activity android:name="Welcome" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="TestActivity" >
+        </activity>
+        <activity
+            android:name="FragmentTabs"
+            android:launchMode="singleInstance" >
+        </activity>
+        <activity android:name="InviteFacebook" >
+        </activity>
+        <activity
+            android:name="MainMenu"
+            android:launchMode="singleInstance" >
+        </activity>
+        <activity android:name="InviteContacts" >
+        </activity>
+        <activity android:name="ChatRoom" >
+        </activity>
+
+        <!-- Google Cloud Message -->
+        <receiver
+            android:name="com.google.android.gcm.GCMBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+ 
+                <category android:name="com.gotja" />
+            </intent-filter>
+        </receiver>
+
+        <service android:name=".GCMIntentService" />
+
+        <!-- AddActivity -->
+
+        <activity android:name="com.example.addactivity.Index" >
+        </activity>
+        <activity
+            android:name="com.example.addactivity.Selectproperty"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        <activity
+            android:name="com.example.addactivity.Addeat"
+            android:label="@string/title_activity_addeat"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        <activity
+            android:name="com.example.addactivity.Addmovie"
+            android:label="@string/title_activity_addmovie"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        <activity
+            android:name="com.example.addactivity.Addshopping"
+            android:label="@string/title_activity_addshopping"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        <activity
+            android:name="com.example.addactivity.Addshow"
+            android:label="@string/title_activity_addshow"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        <activity
+            android:name="com.example.addactivity.Addoutdoor"
+            android:label="@string/title_activity_addoutdoor"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        <activity
+            android:name="com.example.addactivity.Addother"
+            android:label="@string/title_activity_addother"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        <activity
+            android:name="com.example.addactivity.Addfinal"
+            android:label="@string/title_activity_addfinal"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        <activity
+            android:name="com.example.addactivity.Addfriend"
+            android:label="@string/title_activity_addfriend" >
+        </activity>
+        <activity
+            android:name="com.example.myactivity.Newactivity"
+            android:label="@string/title_activity_newactivity" >
+        </activity>
+        <activity
+            android:name="com.example.myactivity.MainActivity"
+            android:label="@string/title_activity_main" >
+        </activity>
+        <activity
+            android:name="com.example.addactivity.Addfinaleat"
+            android:label="@string/title_activity_addfinaleat" >
+        </activity>
+        <activity
+            android:name="com.example.addactivity.Myactivity"
+            android:label="@string/title_activity_myactivity" >
+        </activity>
+        <activity
+            android:name="com.example.addactivity.Invitedac"
+            android:label="@string/title_activity_invitedac" >
+        </activity>
+        <activity
+            android:name="com.example.addactivity.Myjoinac"
+            android:label="@string/title_activity_myjoinac" >
+        </activity>
+        <activity
+            android:name="com.example.addactivity.Myjoinac_organizer"
+            android:label="@string/title_activity_myjoinac_organizer" >
+        </activity>
+        <activity
+            android:name="com.example.addactivity.Myactivity_organizer_edit"
+            android:label="@string/title_activity_myactivity_organizer_edit" >
+        </activity>
+        <activity
+            android:name="com.example.addactivity.Myjoinac_organizer_edit"
+            android:label="@string/title_activity_myjoinac_organizer_edit" >
+        </activity>
+        <activity
+            android:name="com.example.addactivity.Invitedac_voting"
+            android:label="@string/title_activity_invitedac_voting" >
+        </activity>
     </application>
-    
+
 </manifest>
