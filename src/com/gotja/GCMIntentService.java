@@ -132,6 +132,10 @@ public class GCMIntentService extends GCMBaseIntentService {
 			timer.schedule(task, 5000);
 		}
 
+		//Send Broadcast
+		 String GOTJA_BROATCAST_STRING = "REFRESH_PAGE";
+		 Intent i = new Intent(GOTJA_BROATCAST_STRING);
+		 sendBroadcast(i);
 	}
 
 	@Override

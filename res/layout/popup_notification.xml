@@ -3,8 +3,8 @@
     android:id="@+id/popup_element"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:alpha="0.8"
-    android:background="#FFEF71"
+    android:alpha="0.9"
+    android:background="@android:color/white"
     android:orientation="vertical" >
 
     <ListView

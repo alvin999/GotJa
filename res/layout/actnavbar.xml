@@ -15,7 +15,7 @@
       android:layout_width="fill_parent"
       android:layout_height="wrap_content"
       android:layout_alignParentBottom="true"
-      android:background="@drawable/navbac2"
+      android:background="@drawable/navbac3"
       android:orientation="horizontal" >
 
     <!-- android:background="@drawable/navbar_background" #17A2FF-->

@@ -9,25 +9,35 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity" >
 
-    <TextView
-        android:id="@+id/chatContent"
+    <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:maxLines="15"
-        android:scrollbars="vertical" />
+        android:layout_height="280px" >
+
+        <TextView
+            android:id="@+id/chatContent"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="100"
+            android:scrollbars="vertical"
+            android:windowSoftInputMode="adjustPan" />
+    </ScrollView>
 
     <EditText
         android:id="@+id/comments"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/chatContent"
-        android:hint="@string/prompt_chat" />
+        android:layout_below="@+id/scrollView"
+        android:hint="@string/prompt_chat"
+        android:imeOptions="actionDone"
+        android:singleLine="true" />
 
     <Button
         android:id="@+id/sendCommentButton"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/comments"
+        android:layout_gravity="bottom"
         android:text="@string/send_button" />
 
 </RelativeLayout>

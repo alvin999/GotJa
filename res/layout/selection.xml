@@ -11,14 +11,17 @@
         android:background="@drawable/paper_background"
         android:orientation="vertical" >
 
-        <TextView
-            android:id="@+id/notificationText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/button_border"
-            android:clickable="true" />
+            <TextView
+                android:id="@+id/notificationText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:background="@drawable/button_border"
+                android:drawableLeft="@drawable/bell_blue"
+                android:clickable="true"
+                android:textColor="#333" />
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -73,12 +76,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/last_activity"
+                    android:textColor="#333"
                     android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/activityText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="#333"
                     android:textSize="18sp" />
             </TableRow>
 
@@ -94,6 +99,7 @@
                     android:id="@+id/countdownText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="#333"
                     android:textSize="40sp" />
             </TableRow>
         </TableLayout>

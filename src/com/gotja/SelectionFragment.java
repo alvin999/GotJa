@@ -154,6 +154,10 @@ public class SelectionFragment extends Fragment implements OnClickListener{
 						String strResult = EntityUtils.toString(response
 								.getEntity(), HTTP.UTF_8);
 						AnnouncementResult = strResult.split(",");
+						//假如沒有符合的字串仍會回傳值，造成ListView認為還有element
+						if(AnnouncementResult[0] == strResult){
+							return;
+						}
 						Log.v("Announce Response", strResult);
 					} else {
 						Log.v("Announce Response", String.valueOf(response.getStatusLine().getStatusCode()));
@@ -329,6 +333,10 @@ public class SelectionFragment extends Fragment implements OnClickListener{
 			String splitedHttpResult[] = result.split("\\n");
 			Log.v("String Result",splitedHttpResult[0]);
 
+			//如果有通知就把圖片改成紅色
+			if(splitedHttpResult[splitedHttpResult.length - 1].matches(".*\\d.*")){
+				notificationText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.bell_red, 0, 0, 0);
+			}
 
 			if(splitedHttpResult.length == 3){
 				activityText.setText(splitedHttpResult[1]);
