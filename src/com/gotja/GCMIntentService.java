@@ -84,7 +84,6 @@ public class GCMIntentService extends GCMBaseIntentService {
 
 	@Override
 	protected void onUnregistered(Context context, String registrationId) {
-
 		Log.i(TAG, "onUnregistered: registrationId=" + registrationId);
 	}
 
@@ -102,7 +101,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 				PendingIntent.FLAG_UPDATE_CURRENT);
 		// Create the notification with a notification builder
 		Notification notification = new NotificationCompat.Builder(this)
-				.setSmallIcon(R.drawable.ic_launcher)
+				.setSmallIcon(R.drawable.logo)
 				.setWhen(System.currentTimeMillis())
 				.setContentTitle("GotJa Notification")
 				.setContentText(message).setContentIntent(pIntent)

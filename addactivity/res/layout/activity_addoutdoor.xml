@@ -1,0 +1,267 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" 
+    tools:context=".Addother" 
+    android:background="@drawable/background">
+    
+    <RelativeLayout
+    android:id="@+id/r1"
+    android:layout_width="300dp"
+    android:layout_height="60dp"
+    android:layout_alignParentTop="true"
+    android:layout_centerHorizontal="true"
+    android:layout_marginTop="15dp" 
+    android:background="@drawable/processback" >
+    
+        <Button
+            android:id="@+id/btnp1"
+    		android:layout_width="45dp"
+    		android:layout_height="45dp"
+    		android:layout_marginTop="8dp"
+    		android:layout_marginLeft="10dp"
+    		android:background="@drawable/process1used"/>
+        <Button
+            android:id="@+id/btnp2"
+    		android:layout_width="45dp"
+    		android:layout_height="45dp"
+    		android:layout_marginTop="8dp"
+    		android:layout_marginLeft="93dp"
+    		android:background="@drawable/process2"/>
+        <Button
+            android:id="@+id/btnp3"
+    		android:layout_width="52dp"
+    		android:layout_height="40dp"
+    		android:layout_marginTop="13dp"
+    		android:layout_marginLeft="170dp"
+    		android:background="@drawable/process3"/>
+        <Button
+            android:id="@+id/btnp4"
+    		android:layout_width="50dp"
+    		android:layout_height="47dp"
+    		android:layout_marginTop="6dp"
+    		android:layout_marginLeft="245dp"
+    		android:background="@drawable/process4"/>
+     
+   </RelativeLayout>
+       
+<ScrollView
+    android:layout_width="290dp"
+    android:layout_height="400dp"
+    android:layout_centerHorizontal="true"
+    android:layout_alignTop="@+id/r1" 
+    android:layout_marginTop="75dp"   
+    android:id="@+id/scroll">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"   
+        android:orientation="vertical" >
+        <View
+        android:id="@+id/v3"
+        android:layout_width="fill_parent"
+        android:layout_height="20sp" />
+
+        <TextView
+            android:id="@+id/tname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/activity_name"
+            android:textSize="15sp"
+            android:textColor="#000000" />        
+
+        <EditText
+            android:id="@+id/editname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:padding="5dp"
+            android:layout_marginTop="5dp" 
+            style="@style/my_edittext_style_outdoor"/>
+       
+       <View
+        android:id="@+id/v1"
+        android:layout_width="fill_parent"
+        android:layout_height="20sp" />
+       
+        <TextView
+            android:id="@+id/tdes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/des"
+            android:textSize="15sp"
+            android:textColor="#000000" />
+        
+<RelativeLayout
+           android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:layout_marginTop="5dp">
+        <Button
+            android:id="@+id/btnaddress"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/editdes"
+            android:layout_marginRight="5dp"
+            android:onClick="showMyLocation"
+            android:background="@drawable/search_outdoor"/>
+
+        
+        <EditText
+            android:id="@+id/editdes"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:ems="10" 
+            android:padding="5dp"
+            style="@style/my_edittext_style_outdoor"/>
+         </RelativeLayout>
+         
+        <TextView
+    		android:id="@+id/message_text"
+    		android:layout_width="match_parent"
+    		android:layout_height="wrap_content"
+    		/>
+         <fragment 
+      android:id="@+id/map"
+      android:layout_width="match_parent"
+      android:layout_height="200dp"
+      class="com.google.android.gms.maps.SupportMapFragment"/>
+        
+        <TextView
+            android:id="@+id/tplace"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" 
+            android:layout_marginTop="5dp"
+            android:text="@string/place"
+            android:textSize="15sp"
+            android:textColor="#000000"  />
+        <EditText
+            android:id="@+id/editplace"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:ems="10" 
+            android:padding="5dp"
+            style="@style/my_edittext_style_outdoor"/>
+        <View
+        android:id="@+id/v2"
+        android:layout_width="fill_parent"
+        android:layout_height="20sp"/>
+        
+  <RelativeLayout
+           android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:layout_marginTop="15dp" >
+          <TextView
+            android:id="@+id/tprocess"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/process_name"
+            android:textSize="15sp"
+            android:textColor="#000000" />
+        <Button           
+            android:id="@+id/btnprocess"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignTop="@+id/tprocess"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="180dp"
+            android:background="@drawable/addplacebutton" />
+        
+        </RelativeLayout>
+        
+      
+    <LinearLayout
+       android:layout_width="fill_parent"
+        android:layout_height="wrap_content"   
+        android:orientation="vertical" >
+
+        <ListView
+            android:id="@+id/listView2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true" >
+        </ListView>
+        </LinearLayout>
+ 
+    
+
+  <RelativeLayout
+       android:layout_width="match_parent"
+      android:layout_height="match_parent"
+       android:layout_marginTop="15dp" >
+
+        <TextView
+            android:id="@+id/ttime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/time"
+            android:textSize="15sp"
+            android:textColor="#000000" />
+
+        <Button
+            android:id="@+id/btntime"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignTop="@+id/ttime"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="130dp"
+            android:background="@drawable/addtime_outdoor" />
+        </RelativeLayout>
+          <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"   
+        android:orientation="vertical" 
+        android:layout_marginTop="5dp">
+
+        <ListView
+            android:id="@+id/listView1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true" >
+        </ListView>
+        </LinearLayout>
+        
+        
+          <RelativeLayout
+             android:layout_width="match_parent"
+      	 	 android:layout_height="match_parent"
+      		 android:layout_marginTop="15dp">
+
+        <TextView
+            android:id="@+id/tdltime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/deadlinetime"
+            android:textSize="15sp"
+            android:textColor="#000000" />
+        
+
+        <Button
+            android:id="@+id/btndeadlinetime"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignTop="@+id/tdltime"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="70dp"
+            android:background="@drawable/addtime_outdoor" />
+        
+      </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tdeadlinetime"
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:textSize="20sp"
+            android:layout_marginTop="5dp"
+            android:background="@layout/backtest7" 
+   		    android:padding="5dp"
+            android:textColor="#000000" />
+        <View
+        android:layout_width="fill_parent"
+        android:layout_height="20sp" />
+
+    </LinearLayout>
+</ScrollView>
+
+</RelativeLayout>

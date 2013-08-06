@@ -1,0 +1,103 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Recommend_index"
+    android:background="@drawable/background"
+    android:id="@+id/rr">
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/upr"
+        android:layout_alignLeft="@+id/upr"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="50dp"
+        android:text="請選擇活動屬性" />
+
+       <ImageButton
+           android:id="@+id/btnmovie"
+           android:layout_width="80dp"
+           android:layout_height="80dp"
+           android:layout_alignParentRight="true"
+           android:layout_alignTop="@+id/btneat"
+           android:layout_marginRight="52dp"
+           android:background="@drawable/movie" />
+
+       <ImageButton
+           android:id="@+id/btneat"
+           android:layout_width="80dp"
+           android:layout_height="80dp"
+           android:layout_alignRight="@+id/textView1"
+           android:layout_below="@+id/textView1"
+           android:layout_marginTop="20dp"
+           android:background="@drawable/eat" />
+
+       <ImageButton
+           android:id="@+id/btnshopping"
+           android:layout_width="80dp"
+           android:layout_height="80dp"
+           android:layout_alignLeft="@+id/btneat"
+           android:layout_below="@+id/btneat"
+           android:layout_marginTop="40dp"
+           android:background="@drawable/shopping" />
+
+       <ImageButton
+           android:id="@+id/btnshow"
+           android:layout_width="80dp"
+           android:layout_height="80dp"
+           android:layout_alignLeft="@+id/btnmovie"
+           android:layout_alignTop="@+id/btnshopping"
+           android:background="@drawable/show" />
+
+       <ImageButton
+           android:id="@+id/btnoutdoor"
+           android:layout_width="80dp"
+           android:layout_height="80dp"
+           android:layout_alignLeft="@+id/btnshopping"
+           android:layout_alignTop="@+id/btnother"
+           android:background="@drawable/outdoor" />
+
+       <ImageButton
+           android:id="@+id/btnother"
+           android:layout_width="80dp"
+           android:layout_height="80dp"
+           android:layout_alignLeft="@+id/btnshow"
+           android:layout_below="@+id/btnshow"
+           android:layout_marginTop="34dp"
+           android:background="@drawable/other" />
+
+       <RelativeLayout
+           android:id="@+id/upr"
+           android:layout_width="fill_parent"
+           android:layout_height="40dp"
+           android:layout_alignParentLeft="true"
+           android:layout_alignParentTop="true"
+           android:background="@drawable/test" >
+
+           <ImageButton
+               android:id="@+id/btnhot"
+               android:layout_width="45dp"
+               android:layout_height="33dp"
+               android:layout_alignParentLeft="true"
+               android:layout_alignParentTop="true"
+               android:background="@drawable/hot_button" />
+
+           <TextView
+               android:id="@+id/tadvicetitle"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_alignParentTop="true"
+               android:layout_centerHorizontal="true"
+               android:background="@drawable/advicetitle" />
+           <ImageButton
+               android:id="@+id/btnhot"
+               android:layout_width="30dp"
+               android:layout_height="30dp"
+               android:layout_alignParentRight="true"
+               android:layout_alignParentTop="true"
+               android:background="@drawable/addactivity_button" />
+
+       </RelativeLayout>
+
+</RelativeLayout>

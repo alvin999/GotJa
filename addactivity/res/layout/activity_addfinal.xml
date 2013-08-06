@@ -1,0 +1,119 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Addfinal" 
+    android:background="@drawable/background">
+    
+    <RelativeLayout
+    android:id="@+id/r1"
+    android:layout_width="300dp"
+    android:layout_height="60dp"
+    android:layout_alignParentTop="true"
+    android:layout_centerHorizontal="true"
+    android:layout_marginTop="15dp" 
+    android:background="@drawable/processback" >
+    <Button
+            android:id="@+id/btnp1"
+    		android:layout_width="45dp"
+    		android:layout_height="45dp"
+    		android:layout_marginTop="8dp"
+    		android:layout_marginLeft="10dp"
+    		android:background="@drawable/process1_button"/>
+        <Button
+            android:id="@+id/btnp2"
+    		android:layout_width="45dp"
+    		android:layout_height="45dp"
+    		android:layout_marginTop="8dp"
+    		android:layout_marginLeft="93dp"
+    		android:background="@drawable/process2"/>
+        <Button
+            android:id="@+id/btnp3"
+    		android:layout_width="52dp"
+    		android:layout_height="40dp"
+    		android:layout_marginTop="13dp"
+    		android:layout_marginLeft="170dp"
+    		android:background="@drawable/process3"/>
+        <Button
+            android:id="@+id/btnp4"
+    		android:layout_width="50dp"
+    		android:layout_height="47dp"
+    		android:layout_marginTop="6dp"
+    		android:layout_marginLeft="245dp"
+    		android:background="@drawable/process4used"/>
+        </RelativeLayout>
+        
+        <TextView
+        android:id="@+id/tfinal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/r1"
+        android:text="@string/addfinal"
+        android:layout_marginTop="5dp" 
+        android:layout_marginLeft="12dp"
+        android:textSize="15sp"
+        android:textColor="#000000" />
+    
+    <ScrollView
+        android:id="@+id/scroll"
+        android:layout_width="290dp"
+    	android:layout_height="150dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp" 
+    	android:layout_below="@+id/tfinal"
+	    android:background="@layout/backtest7" >
+        
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical"  >
+
+    <TextView
+        android:id="@+id/tresult"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/btninvite"
+        android:layout_marginTop="5dp"
+        android:padding="5dp"
+        android:textColor="#000000" />
+    </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btninvite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/scroll"
+        android:layout_marginTop="24dp"
+        android:layout_marginLeft="15dp"
+        android:background="@layout/button_border2"
+        android:text="@string/addfb"
+        android:textSize="12sp"
+        android:textColor="#FFFFFF" />
+    <Button
+        android:id="@+id/btnemail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/scroll"
+        android:layout_marginTop="24dp"
+        android:layout_marginRight="15dp"
+        android:background="@layout/button_border2"
+        android:text="@string/addemail"
+        android:textSize="12sp"
+        android:textColor="#FFFFFF" />
+
+    <Button
+        android:id="@+id/btnback"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="50dp"
+        android:background="@layout/button_border2"
+        android:text="@string/backto_index"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp" />
+
+</RelativeLayout>

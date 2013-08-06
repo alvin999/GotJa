@@ -1,44 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="fill_parent"
-  android:layout_height="fill_parent"
-  android:background="@android:color/white"
->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@android:color/white" >
 
-<FrameLayout
+    <FrameLayout
         android:id="@+id/tabcontent"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" />
 
-  <RadioGroup
-      android:layout_width="fill_parent"
-      android:layout_height="wrap_content"
-      android:layout_alignParentBottom="true"
-      android:background="@drawable/navbac3"
-      android:orientation="horizontal" >
+    <RadioGroup
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/navbac3"
+        android:orientation="horizontal" >
 
-    <!-- android:background="@drawable/navbar_background" #17A2FF-->
-    <RadioButton
-      android:id="@+id/btnHome"
-      style="@style/navbar_button"
-      android:button="@drawable/home"
-      android:checked="true"
-    />
-    <RadioButton
-      android:id="@+id/btnActivity"
-      style="@style/navbar_button"
-      android:button="@drawable/activity"
-    />
-    <RadioButton
-      android:id="@+id/btnAdvice"
-      style="@style/navbar_button"
-      android:button="@drawable/advice"
-    />
-    <RadioButton
-      android:id="@+id/btnSetting"
-      style="@style/navbar_button"
-      android:button="@drawable/setting"
-    />
+        <!-- android:background="@drawable/navbar_background" #17A2FF -->
+
+        <RadioButton
+            android:id="@+id/btnHome"
+            style="@style/navbar_button"
+            android:button="@drawable/home"
+            android:checked="true" />
+
+        <RadioButton
+            android:id="@+id/btnActivity"
+            style="@style/navbar_button"
+            android:button="@drawable/activity" />
+
+        <RadioButton
+            android:id="@+id/btnAdvice"
+            style="@style/navbar_button"
+            android:button="@drawable/advice" />
+
+        <RadioButton
+            android:id="@+id/btnSetting"
+            style="@style/navbar_button"
+            android:button="@drawable/setting" />
     </RadioGroup>
+
 </RelativeLayout>

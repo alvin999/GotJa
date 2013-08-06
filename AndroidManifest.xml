@@ -72,9 +72,10 @@
             android:launchMode="singleInstance"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-        <activity android:name="InviteContacts" >
-        </activity>
+        
         <activity android:name="ChatRoom" >
+        </activity>
+         <activity android:name="TestSwipe" >
         </activity>
         
 
@@ -94,78 +95,91 @@
 
         <!-- AddActivity -->
 
-        <activity android:name="com.example.addactivity.Index" >
-        </activity>
-        <activity
+         <activity
             android:name="com.example.addactivity.Selectproperty"
             android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity
             android:name="com.example.addactivity.Addeat"
             android:label="@string/title_activity_addeat"
+            android:theme="@android:style/Theme.NoTitleBar"
             android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity
             android:name="com.example.addactivity.Addmovie"
             android:label="@string/title_activity_addmovie"
+            android:theme="@android:style/Theme.NoTitleBar"
             android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity
             android:name="com.example.addactivity.Addshopping"
             android:label="@string/title_activity_addshopping"
+            android:theme="@android:style/Theme.NoTitleBar"
             android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity
             android:name="com.example.addactivity.Addshow"
             android:label="@string/title_activity_addshow"
+            android:theme="@android:style/Theme.NoTitleBar"
             android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity
             android:name="com.example.addactivity.Addoutdoor"
             android:label="@string/title_activity_addoutdoor"
+            android:theme="@android:style/Theme.NoTitleBar"
             android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity
             android:name="com.example.addactivity.Addother"
             android:label="@string/title_activity_addother"
+            android:theme="@android:style/Theme.NoTitleBar"
             android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity
             android:name="com.example.addactivity.Addfinal"
             android:label="@string/title_activity_addfinal"
+            android:theme="@android:style/Theme.NoTitleBar"
             android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity
             android:name="com.example.addactivity.Addfriend"
-            android:label="@string/title_activity_addfriend" >
+            android:label="@string/title_activity_addfriend"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
             android:name="com.example.myactivity.Newactivity"
-            android:label="@string/title_activity_newactivity" >
+            android:label="@string/title_activity_newactivity"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
             android:name="com.example.myactivity.MainActivity"
-            android:label="@string/title_activity_main" >
+            android:label="@string/title_activity_main"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
             android:name="com.example.addactivity.Addfinaleat"
-            android:label="@string/title_activity_addfinaleat" >
+            android:label="@string/title_activity_addfinaleat"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
             android:name="com.example.addactivity.Myactivity"
-            android:label="@string/title_activity_myactivity" >
+            android:label="@string/title_activity_myactivity"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
             android:name="com.example.addactivity.Invitedac"
-            android:label="@string/title_activity_invitedac" >
+            android:label="@string/title_activity_invitedac"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
             android:name="com.example.addactivity.Myjoinac"
-            android:label="@string/title_activity_myjoinac" >
+            android:label="@string/title_activity_myjoinac"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
             android:name="com.example.addactivity.Myjoinac_organizer"
-            android:label="@string/title_activity_myjoinac_organizer" >
+            android:label="@string/title_activity_myjoinac_organizer"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
             android:name="com.example.addactivity.Myactivity_organizer_edit"
@@ -173,15 +187,63 @@
         </activity>
         <activity
             android:name="com.example.addactivity.Myjoinac_organizer_edit"
-            android:label="@string/title_activity_myjoinac_organizer_edit" >
+            android:label="@string/title_activity_myjoinac_organizer_edit"
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity
             android:name="com.example.addactivity.Invitedac_voting"
-            android:label="@string/title_activity_invitedac_voting" >
+            android:label="@string/title_activity_invitedac_voting"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.example.addactivity.Recommend_index"
+            android:label="@string/title_activity_recommend_index"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.example.addactivity.Re_movie"
+            android:label="@string/title_activity_re_movie"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.example.addactivity.Re_eat"
+            android:label="@string/title_activity_re_eat"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.example.addactivity.Test"
+            android:label="@string/title_activity_test"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
             android:name="com.example.addactivity.Voting"
             android:label="@string/title_activity_voting" >
+        </activity>
+        
+        <service android:name="com.example.addactivity.Test" />
+
+        <activity
+            android:name="com.example.addactivity.Server_MAP"
+            android:label="@string/title_activity_server__map" >
+        </activity>
+
+        <service android:name="com.example.addactivity.Server_MAP" />
+
+        <activity
+            android:name="com.example.addactivity.MAP"
+            android:label="@string/title_activity_map" >
+        </activity>
+        <activity
+            android:name="com.example.addactivity.Swipe"
+            android:label="@string/title_activity_swipe" >
+        </activity>
+        <activity
+            android:name="com.example.addactivity.Reject"
+            android:label="@string/title_activity_reject" >
+        </activity>
+        
+        <activity android:name="com.example.addactivity.InviteContacts" >
         </activity>
     </application>
 

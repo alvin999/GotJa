@@ -39,6 +39,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -58,6 +59,7 @@ public class SelectionFragment extends Fragment implements OnClickListener{
 	private TextView countdownText;
 	private TextView activityText;
 	private TextView notificationText;
+	private ImageView clockImage;
 	private static final int REAUTH_ACTIVITY_CODE = 100;
 
 	private PopupWindow pwindo;
@@ -119,6 +121,7 @@ public class SelectionFragment extends Fragment implements OnClickListener{
 		notificationText = (TextView) view.findViewById(R.id.notificationText);
 		notificationText.setOnClickListener(this);
 		countdownText = (TextView) view.findViewById(R.id.countdownText);
+		clockImage = (ImageView) view.findViewById(R.id.clockImage);
 
 		// Check for an open session
 		Session session = Session.getActiveSession();
@@ -354,7 +357,8 @@ public class SelectionFragment extends Fragment implements OnClickListener{
 				}
 
 				//      .getTime() does the conversion: Date --> long
-				/*final CountDownTimer cdt =*/ new CountDownTimer(a.getTime() - b.getTime(), 1000) {
+				/*final CountDownTimer cdt =*/ 
+				new CountDownTimer(a.getTime() - b.getTime(), 1000) {
 
 					@Override
 					public void onTick(long millisUntilFinished) {
@@ -374,8 +378,9 @@ public class SelectionFragment extends Fragment implements OnClickListener{
 					}
 				}.start();
 			}
-			else if(splitedHttpResult.length == 3){
+			else if(splitedHttpResult.length == 2){
 				countdownText.setVisibility(View.INVISIBLE);
+				clockImage.setVisibility(View.INVISIBLE);
 				activityText.setText(splitedHttpResult[0]);
 				notificationText.setText(splitedHttpResult[1]);
 			}

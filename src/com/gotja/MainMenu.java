@@ -18,6 +18,8 @@ import com.google.android.gcm.GCMRegistrar;
 public class MainMenu extends FragmentActivity{
 	Fragment f = null;
 	FragmentManager fm;
+	
+	private String userid;
 
 	private UiLifecycleHelper uiHelper;
 	private Session.StatusCallback callback = new Session.StatusCallback() {
@@ -35,6 +37,9 @@ public class MainMenu extends FragmentActivity{
 		uiHelper = new UiLifecycleHelper(this, callback);
 		uiHelper.onCreate(savedInstanceState);
 
+		GlobalVariable globalVariable = (GlobalVariable)getApplicationContext();
+		userid = globalVariable.userID;
+		
 		fm = getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fm.beginTransaction();
 
@@ -73,7 +78,11 @@ public class MainMenu extends FragmentActivity{
 					f = new SelectionFragment();
 				}
 				else if(fragmentId == R.id.btnActivity){
+					Bundle bundle=new Bundle();
+					bundle.putString("userid", userid);
 					f = new com.example.addactivity.Myactivity();
+					  //set Fragmentclass Arguments
+					f.setArguments(bundle);
 				}
 				else if(fragmentId == R.id.btnAdvice){
 					f = new TestFragment();

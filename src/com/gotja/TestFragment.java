@@ -29,7 +29,7 @@ public class TestFragment extends Fragment implements OnClickListener{
 			break;
 		case R.id.testbutton2:
 			// 指定要呼叫的 Activity Class
-			newAct = new Intent(getActivity(), InviteContacts.class);
+			newAct = new Intent(getActivity(), TestSwipe.class);
 			startActivity(newAct); 
 			// 呼叫新的 Activity Class
 			break;
