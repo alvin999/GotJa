@@ -10,7 +10,7 @@
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="#FFFFFF"
+        android:background="#BDBDBD"
         android:layout_gravity="bottom" >
 
         <ImageView

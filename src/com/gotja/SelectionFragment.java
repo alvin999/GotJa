@@ -44,6 +44,7 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.example.addactivity.Invitedac;
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
@@ -66,18 +67,38 @@ public class SelectionFragment extends Fragment implements OnClickListener{
 	private ListView notificationListView;
 
 	private String userID;
-	private String AnnouncementResult[];
+	private String[] AnnouncementResult;
 
 	Handler setNotificationHandler = new Handler(){
 		@Override
-		public void handleMessage(Message msg){	        
+		public void handleMessage(Message msg){
+			String[] AnnounceText = new String[AnnouncementResult.length / 2];
+			final String[] AnnounceUacno = new String[AnnouncementResult.length / 2];
+			for(int i = 0; i < AnnouncementResult.length; i = i + 2){
+				AnnounceText[i / 2] = AnnouncementResult[i];
+				AnnounceUacno[i / 2] = AnnouncementResult[i + 1];
+
+				Log.v("AnnounceResult", AnnounceText[i/2]);
+				Log.v("AnnounceResult", AnnounceUacno[i/2]);
+			}
 			ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
-					R.layout.notification_listview, R.id.textItem, AnnouncementResult);
+					R.layout.notification_listview, R.id.textItem, AnnounceText);
 
 			notificationListView.setAdapter(adapter);
 			notificationListView.setOnItemClickListener(new OnItemClickListener() {
 				public void onItemClick(AdapterView<?> a, View v, int position, long id) {
-					//TODO 設定intent
+					Log.v("AnnounceUacno", AnnounceUacno[position]);
+
+					Intent intent;
+
+					intent = new Intent(getActivity(), com.example.addactivity.Invitedac.class); 
+
+					Bundle bundle = new Bundle();
+					bundle.putString("uacno", AnnounceUacno[position]);
+					bundle.putString("id", userID);//使用者,不是主揪
+					bundle.putString("utemp", "0");
+					intent.putExtras(bundle);
+					startActivity(intent);
 				}
 			});
 			super.handleMessage(msg);
@@ -131,8 +152,7 @@ public class SelectionFragment extends Fragment implements OnClickListener{
 		}
 
 		//設定View的AsyncTask
-		HTTPTask httpTask = new HTTPTask();
-		httpTask.execute();
+		new HTTPTask().execute();
 
 		return view;
 	}
@@ -257,6 +277,9 @@ public class SelectionFragment extends Fragment implements OnClickListener{
 	public void onResume() {
 		super.onResume();
 		uiHelper.onResume();
+		//重新抓取通知Content
+		getPopupWindowContent();
+		new HTTPTask().execute();
 	}
 
 	@Override
@@ -379,8 +402,8 @@ public class SelectionFragment extends Fragment implements OnClickListener{
 				}.start();
 			}
 			else if(splitedHttpResult.length == 2){
-				countdownText.setVisibility(View.INVISIBLE);
-				clockImage.setVisibility(View.INVISIBLE);
+				countdownText.setVisibility(View.GONE);
+				clockImage.setVisibility(View.GONE);
 				activityText.setText(splitedHttpResult[0]);
 				notificationText.setText(splitedHttpResult[1]);
 			}

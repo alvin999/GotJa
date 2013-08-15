@@ -15,7 +15,7 @@
         android:theme="@style/AppTheme" >
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyAhVhFx2qzcM6r7nM5OEjW004sCfVMLGGo" />
+            android:value="AIzaSyC2iQiE0dVXCW3JRn8GdjFpNKr0CwprPoQ" />
 
         <activity
             android:name="com.example.addactivity.Index"

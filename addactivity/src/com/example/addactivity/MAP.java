@@ -57,7 +57,7 @@ public  class MAP extends FragmentActivity
   int countmaker=0;
   double geoLatitude,geoLongitude;
   String input,search,la,lon;
-  int count=0;
+  int count=0,countmy=0;
   int stop=1;
   ArrayList<String> longt=new ArrayList<String>();
   ArrayList<String> latt=new ArrayList<String>();
@@ -242,9 +242,12 @@ public  class MAP extends FragmentActivity
 	  @Override
 	  public void onLocationChanged(Location location) {
 	    mMessageView.setText("Location = " + location.getLatitude()+" "+location.getLongitude());
-	    double dla,dlon;
-	    dla=(int)(Math.floor(location.getLatitude()*10000))/10000.0;
-	    dlon=(int)(Math.floor(location.getLongitude()*10000))/10000.0;	    
+	    if(countmy==0)
+	    {
+	    	LatLng nkut = new LatLng(location.getLatitude(), location.getLongitude());
+		    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(nkut,15.0f)); 
+	    }
+	    countmy++;	    
 	  setPolyline();
 	}
   @Override

@@ -97,7 +97,7 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
       Double la,lon;
       int countmaker=0,countmy=0;
       double geoLatitude,geoLongitude;
-     String search;
+     String search,id,moviename;
      MarkerOptions markerOpt = new MarkerOptions();
      MarkerOptions markerOptother = new MarkerOptions();
 	
@@ -170,6 +170,13 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 		btnp4 = (Button) findViewById(R.id.btnp4);
 		
 		intent = new Intent(this,Addfinal.class);
+		Bundle bundle1 =getIntent().getExtras();
+		id=bundle1.getString("id");
+		moviename=bundle1.getString("moviename");
+		if(moviename!=null)
+		{
+			editmoviename.setText(moviename);
+		}
 		
 //===============================================================================
 	    tdes.setVisibility(View.GONE);
@@ -247,10 +254,7 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 						Toast.makeText(getApplicationContext(),getString(R.string.whether_select_deadline),Toast.LENGTH_LONG).show();				
 					}	
 					else
-					{
-					Bundle bundle1 =getIntent().getExtras();
-					String id=bundle1.getString("id");
-					 
+					{					 
 					 Bundle bundle = new Bundle();						
 					 bundle.putString("id", id);
 					 bundle.putString("name", editname.getEditableText().toString());
@@ -323,6 +327,7 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 	                .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
 	                    @Override
 	                    public void onClick(DialogInterface dialog, int which) {
+	                    	dts_array.remove(pos);
 	                    	tarray.remove(pos);
 	                        items.remove(pos);
 	                        listInput.setAdapter(adapter);

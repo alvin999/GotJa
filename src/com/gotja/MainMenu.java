@@ -85,7 +85,7 @@ public class MainMenu extends FragmentActivity{
 					f.setArguments(bundle);
 				}
 				else if(fragmentId == R.id.btnAdvice){
-					f = new TestFragment();
+					f = new AdviceFragment();
 				}
 				else if(fragmentId == R.id.btnSetting){
 					f = new SplashFragment();

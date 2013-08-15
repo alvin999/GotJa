@@ -64,8 +64,8 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 	         .setInterval(5000)         // 5 seconds
 	         .setFastestInterval(16)    // 16ms = 60fps
 	         .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-	 Date dts;
-	 Date dts_deadlinetime_array;
+	Date dts; 
+	Date dts_deadlinetime_array;
 	ScrollView scroll;
 	TextView tname;
 	TextView tdes;
@@ -96,7 +96,7 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
     Double la,lon;
     int countmaker=0,counttemp=0,countmy=0;
     double geoLatitude,geoLongitude;
-    String search;
+    String search,name,des;
     MarkerOptions markerOpt = new MarkerOptions();
     MarkerOptions markerOptother = new MarkerOptions();
 	
@@ -108,7 +108,7 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
     ArrayList<String> tarray = new ArrayList<String>();
     ArrayList<String> dts_array = new ArrayList<String>();
     String property="1",s,syear,smonth,sday,myWeek,str;
-    String sd=null,dts_time,dts_deadlinetime;
+    String sd=null,dts_time,dts_deadlinetime,id;
     Intent intent;
     
     private final void focusOnView1(){
@@ -135,7 +135,6 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
             }
         });      
     }
-
 //===============================================================
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -168,7 +167,16 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 		btnp3 = (Button) findViewById(R.id.btnp3);
 		btnp4 = (Button) findViewById(R.id.btnp4);
 		
-		intent = new Intent(this,Addfinal.class);		
+		intent = new Intent(this,Addfinal.class);	
+		Bundle bundle1 =getIntent().getExtras();
+		id=bundle1.getString("id");
+		name=bundle1.getString("name");
+		des=bundle1.getString("des");
+		if(name!=null)
+		{
+			editname.setText(name);
+		}
+		
 //===============================================================================
 	    tdes.setVisibility(View.GONE);
 		editdes.setVisibility(View.GONE);
@@ -210,8 +218,11 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 					mMessageView.setVisibility(View.VISIBLE);
 					editplace.setVisibility(View.VISIBLE);
 					tplace.setVisibility(View.VISIBLE);
-					focusOnView1();	
-								
+					if(des!=null)
+					{
+						editdes.setText(des);
+					}
+					focusOnView1();									
 				}
 	       });
 	       btnp3.setOnClickListener(new Button.OnClickListener(){
@@ -234,8 +245,7 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 					tdltime.setVisibility(View.VISIBLE);
 					btndeadlinetime.setVisibility(View.VISIBLE);
 					tdeadlinetime.setVisibility(View.VISIBLE);
-					focusOnView2();	
-								
+					focusOnView2();									
 				}
 	       });
 	       btnp4.setOnClickListener(new Button.OnClickListener(){
@@ -250,8 +260,7 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 				}	
 				else
 				{
-					Bundle bundle1 =getIntent().getExtras();
-					String id=bundle1.getString("id");
+					
 					 
 			 		Bundle bundle = new Bundle();					
 					 bundle.putString("id", id);
@@ -332,6 +341,7 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 	                .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
 	                    @Override
 	                    public void onClick(DialogInterface dialog, int which) {
+	                    	dts_array.remove(pos);
 	                    	tarray.remove(pos);
 	                        items.remove(pos);
 	                        listInput.setAdapter(adapter);
@@ -589,6 +599,7 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 								{
 									try {
 										dts_deadlinetime_array = sdf.parse(dts_array.get(i));
+										Log.v("log","time:"+dts_array.get(i));
 									} catch (ParseException e) {
 										// TODO Auto-generated catch block
 										e.printStackTrace();

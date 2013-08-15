@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".Addfinal" 
     android:background="@drawable/background">
     
@@ -42,51 +43,73 @@
     		android:layout_marginLeft="245dp"
     		android:background="@drawable/process4used"/>
         </RelativeLayout>
+
+     <ScrollView
+         android:id="@+id/scroll"
+         android:layout_width="fill_parent"
+         android:layout_height="fill_parent"
+         android:layout_below="@+id/r1"
+         android:layout_centerHorizontal="true"
+         android:layout_marginTop="5dp"
+         android:background="@drawable/background"
+         android:scrollbars="none" >
         
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"  >
+     <RelativeLayout
+   				 android:id="@+id/r2"
+    			 android:layout_width="fill_parent"
+   				 android:layout_height="wrap_content"
+   				 android:padding="15dp">
+    
         <TextView
         android:id="@+id/tfinal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/r1"
         android:text="@string/addfinal"
-        android:layout_marginTop="5dp" 
+        android:gravity="center"
         android:layout_marginLeft="12dp"
         android:textSize="15sp"
         android:textColor="#000000" />
     
-    <ScrollView
-        android:id="@+id/scroll"
-        android:layout_width="290dp"
-    	android:layout_height="150dp"
+  	 <LinearLayout
+        android:id="@+id/ll"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"  
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="5dp" 
-    	android:layout_below="@+id/tfinal"
-	    android:background="@layout/backtest7" >
-        
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:orientation="vertical"  >
+        android:orientation="vertical"
+        android:layout_below="@+id/tfinal"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/cardboard_texture_vertical"
+        android:padding="15dp">
+        <TextView
+                android:id="@+id/tname"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"               
+     		    android:layout_marginTop="10dp"
+     		    android:textSize="20sp"  		    
+     		    android:gravity="center"
+      		    android:textColor="#000000" />
 
     <TextView
-        android:id="@+id/tresult"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/btninvite"
-        android:layout_marginTop="5dp"
-        android:padding="5dp"
-        android:textColor="#000000" />
+            android:id="@+id/tresult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+     		android:textSize="15sp"
+     		android:lineSpacingExtra="5dip"   		    
+      		android:textColor="#000000" />
     </LinearLayout>
-    </ScrollView>
 
     <Button
         android:id="@+id/btninvite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/scroll"
-        android:layout_marginTop="24dp"
-        android:layout_marginLeft="15dp"
+        android:layout_below="@+id/ll"
+        android:layout_marginTop="25dp"
         android:background="@layout/button_border2"
         android:text="@string/addfb"
         android:textSize="12sp"
@@ -96,9 +119,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/scroll"
-        android:layout_marginTop="24dp"
-        android:layout_marginRight="15dp"
+        android:layout_below="@+id/ll"
+        android:layout_marginTop="25dp"
         android:background="@layout/button_border2"
         android:text="@string/addemail"
         android:textSize="12sp"
@@ -108,12 +130,14 @@
         android:id="@+id/btnback"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="50dp"
+        android:layout_marginTop="25dp"
+        android:layout_below="@+id/btninvite"
+        android:layout_centerHorizontal="true"     
         android:background="@layout/button_border2"
         android:text="@string/backto_index"
         android:textColor="#FFFFFF"
         android:textSize="20sp" />
-
+    </RelativeLayout>
+</LinearLayout>
+</ScrollView>
 </RelativeLayout>

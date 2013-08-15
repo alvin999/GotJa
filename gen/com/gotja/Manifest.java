@@ -10,5 +10,6 @@ package com.gotja;
 public final class Manifest {
     public static final class permission {
         public static final String C2D_MESSAGE="com.gotja.permission.C2D_MESSAGE";
+        public static final String MAPS_RECEIVE="com.gotja.googlemap.permission.MAPS_RECEIVE";
     }
 }

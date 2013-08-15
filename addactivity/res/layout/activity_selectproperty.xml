@@ -13,9 +13,17 @@
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
         android:text="@string/select_property"
-        android:textSize="15sp"
+        android:textSize="25sp"
         android:textColor="#000000" />
+   <RelativeLayout
+       android:layout_width="230dp"
+       android:layout_height="400dp"
+       android:layout_below="@+id/textView1"
+       android:layout_marginTop="15dp"
+       android:layout_centerHorizontal="true"> 
 
        <ImageButton
            android:id="@+id/btnmovie"
@@ -23,50 +31,49 @@
            android:layout_height="80dp"
            android:layout_alignParentRight="true"
            android:layout_alignTop="@+id/btneat"
-           android:layout_marginRight="52dp"
            android:background="@drawable/movie_button" />
-
-       <ImageButton
-           android:id="@+id/btneat"
-           android:layout_width="80dp"
-           android:layout_height="80dp"
-           android:layout_alignRight="@+id/textView1"
-           android:layout_below="@+id/textView1"
-           android:layout_marginTop="20dp"
-           android:background="@drawable/eat_button" />
-
-       <ImageButton
-           android:id="@+id/btnshopping"
-           android:layout_width="80dp"
-           android:layout_height="80dp"
-           android:layout_alignLeft="@+id/btneat"
-           android:layout_below="@+id/btneat"
-           android:layout_marginTop="40dp"
-           android:background="@drawable/shopping_button" />
 
        <ImageButton
            android:id="@+id/btnshow"
            android:layout_width="80dp"
            android:layout_height="80dp"
            android:layout_alignLeft="@+id/btnmovie"
-           android:layout_alignTop="@+id/btnshopping"
+           android:layout_centerVertical="true"
            android:background="@drawable/show_button" />
-
-       <ImageButton
-           android:id="@+id/btnother"
-           android:layout_width="80dp"
-           android:layout_height="80dp"
-           android:layout_alignLeft="@+id/btnshow"
-           android:layout_alignParentBottom="true"
-           android:layout_marginBottom="62dp"
-           android:background="@drawable/other_button" />
 
        <ImageButton
            android:id="@+id/btnoutdoor"
            android:layout_width="80dp"
            android:layout_height="80dp"
            android:layout_alignLeft="@+id/btnshopping"
-           android:layout_alignTop="@+id/btnother"
+           android:layout_below="@+id/btnshopping"
+           android:layout_marginTop="50dp"
            android:background="@drawable/outdoor_button" />
 
+       <ImageButton
+           android:id="@+id/btnother"
+           android:layout_width="80dp"
+           android:layout_height="80dp"
+           android:layout_alignLeft="@+id/btnshow"
+           android:layout_alignTop="@+id/btnoutdoor"
+           android:layout_below="@+id/btnshopping"
+           android:background="@drawable/other_button" />
+
+       <ImageButton
+           android:id="@+id/btneat"
+           android:layout_width="80dp"
+           android:layout_height="80dp"
+           android:layout_above="@+id/btnshopping"
+           android:layout_marginBottom="50dp"
+           android:layout_alignLeft="@+id/btnshopping"       
+           android:background="@drawable/eat_button" />
+
+       <ImageButton
+           android:id="@+id/btnshopping"
+           android:layout_width="80dp"
+           android:layout_height="80dp"
+           android:layout_alignParentLeft="true"
+           android:layout_centerVertical="true"
+           android:background="@drawable/shopping_button" />
+   </RelativeLayout>
 </RelativeLayout>

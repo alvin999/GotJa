@@ -46,19 +46,20 @@ public class Invitedac extends Activity {
 	TextView tinvitedac;
 	Button btnjoin;
 	Button btnvote;
-	Button btnvote_again;
 	Button btnreject;
+	Button btnchatroom;
 	TextView ttt;
-	TextView tdeadlinetime;
+	TextView tname;
 	Intent intent;
 	Intent intent_restart;
 	Intent intentvote;
+	Intent intentchat;
 	String uriAPI = "http://120.126.16.38/invitedac.php";
 	String uacno,id,zero="0000-00-00 00:00:00",organizer,invitedf="",join="",reject="";
 	String time_process,schedulename,it,whetherdelay,vote="1",minevotetime=null,votetemp;
 	String name,des,place,selecttime,time,deadlinetime,moviename,showname,property,uutemp,utemp=null,whethervote;
-	int p,ctemp;
-	boolean tf=true;
+	int p,ctemp,countvote;
+	
 	ArrayList<String> tarray = new ArrayList<String>();
 	ArrayList<String> tarray_name = new ArrayList<String>();
 	String[] timearray;
@@ -84,29 +85,45 @@ public class Invitedac extends Activity {
 	        .build());
 	     
 		tinvitedac =(TextView)findViewById(R.id.tinvitedac);
+		tname =(TextView)findViewById(R.id.tname);
 		btnjoin =(Button)findViewById(R.id.btnjoin);
 		btnvote =(Button)findViewById(R.id.btnvote);
-		btnvote_again =(Button)findViewById(R.id.btnvote_again);
 		btnreject =(Button)findViewById(R.id.btnreject);
+		btnchatroom =(Button)findViewById(R.id.btnchatroom);
 		
 		TextPaint tp = tinvitedac.getPaint(); 
 		tp.setFakeBoldText(true);
+		TextPaint tn = tname.getPaint(); 
+		tn.setFakeBoldText(true);
 		
 		intent = new Intent(this,Myactivity.class);
 		intent_restart = new Intent(this,Invitedac.class);
 		intentvote = new Intent(this,Voting.class);
+		intentchat = new Intent(this, ChatRoom.class);
+		
 		Bundle bundle =getIntent().getExtras();
 	    uacno=bundle.getString("uacno");	    
 		id=bundle.getString("id"); //使用者,不是主揪
 		uutemp=bundle.getString("utemp");
 		 
-       btnvote_again.setVisibility(View.GONE);
        btnvote.setVisibility(View.GONE);
        ttt = new TextView(this);
        if(uutemp.equals("3")==true)
        {
     	   btnreject.setVisibility(View.GONE);
        }
+      btnchatroom.setOnClickListener(new Button.OnClickListener(){
+		@Override
+		public void onClick(View v) {
+			// TODO Auto-generated method stub
+			 Bundle bundle3 = new Bundle();				
+			 bundle3.putString("id", id);
+			 bundle3.putString("uacno",uacno);
+			 intentchat.putExtras(bundle3);
+			 startActivity(intentchat);
+			// finish();	
+		}   	   
+       });
     		
 		btnjoin.setOnClickListener(new Button.OnClickListener(){
 			@Override
@@ -180,22 +197,20 @@ public class Invitedac extends Activity {
 		btnvote.setOnClickListener(new Button.OnClickListener(){
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub				
+				// TODO Auto-generated method stub
+				countvote++;
+			if(countvote%2==0)
+			{
 				Bundle bundle2 = new Bundle();				
 				 bundle2.putString("id", id);
 				 bundle2.putString("uacno",uacno);
 				 bundle2.putString("utemp",uutemp);
-				 
-				 intentvote.putExtras(bundle2);
+								 
+				 intentvote.putExtras(bundle2);				
 				 startActivity(intentvote);
-				 finish();
-			}			
-		});
-		
-		btnvote_again.setOnClickListener(new Button.OnClickListener(){
-			@Override
-			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
+				 finish();				 
+			}else
+			{
 				 votetemp="2";
 				 String url_voting_again ="http://120.126.16.38/voting_again.php";
 				 HttpPost httpRequest = new HttpPost(url_voting_again);
@@ -221,8 +236,7 @@ public class Invitedac extends Activity {
 			        {  
 			        tinvitedac.setText(e.getMessage().toString());
 			          e.printStackTrace();  
-			        }
-				 
+			        }				 
 					 Bundle bundle2 = new Bundle();				
 					 bundle2.putString("id", id);
 					 bundle2.putString("uacno",uacno);
@@ -230,9 +244,10 @@ public class Invitedac extends Activity {
 										
 					intentvote.putExtras(bundle2);
 					startActivity(intentvote);
-					finish();							
-			}			
-		});		 
+					finish();			
+			}
+		  }			
+		});
 //========================================================================================	
         String url_f ="http://120.126.16.38/outputparticipater.php";
  		HttpPost httpRequest_f = new HttpPost(url_f);
@@ -241,8 +256,7 @@ public class Invitedac extends Activity {
 		 try 
          {  
            httpRequest_f.setEntity(new UrlEncodedFormEntity(params_f, HTTP.UTF_8));
-           HttpResponse httpResponse_f = new DefaultHttpClient().execute(httpRequest_f); 
-          
+           HttpResponse httpResponse_f = new DefaultHttpClient().execute(httpRequest_f);           
            if(httpResponse_f.getStatusLine().getStatusCode() == 200) 
            {        	  
          	  String strResult_f = EntityUtils.toString(httpResponse_f.getEntity()); 
@@ -252,21 +266,33 @@ public class Invitedac extends Activity {
 	        	  String mine=jsonObject_f.getString("mine");	    
 	        	  String utemp=jsonObject_f.getString("utemp");
 	        	  if(mine.equals("0")==true)
-	        	  {
-	        	    invitedf=invitedf+" "+jsonObject_f.getString("fname");
+	        	  {	        	   
                    if(utemp.equals("1")==true)
                    {
                    	join=join+" "+jsonObject_f.getString("fname");
                    }
-                   if(utemp.equals("3")==true)
+                   else if(utemp.equals("3")==true)
                    {
                    	reject=reject+" "+jsonObject_f.getString("fname");
-                   }
-    
+                   }else{
+                	   invitedf=invitedf+" "+jsonObject_f.getString("fname");
+                   }   
 	        	  }else{
 	        		  organizer=jsonObject_f.getString("fname");
 	        	  }    	        	  
-        	 }        	 
+        	 }
+         	 if(join.equals("")==true)
+         	 {
+         		join=getString(R.string.noone_join);
+         	 }
+         	if(reject.equals("")==true)
+        	 {
+         		reject=getString(R.string.noone_reject);
+        	 }
+         	if(invitedf.equals("")==true)
+        	 {
+         		invitedf=getString(R.string.noone_invited);
+        	 }
            }
          }      
           	 catch (Exception e) 
@@ -282,8 +308,7 @@ public class Invitedac extends Activity {
         try 
         {  
           httpRequest.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
-          HttpResponse httpResponse = new DefaultHttpClient().execute(httpRequest); 
-          
+          HttpResponse httpResponse = new DefaultHttpClient().execute(httpRequest);          
           if(httpResponse.getStatusLine().getStatusCode() == 200) 
           {        	 
         	  String strResult = EntityUtils.toString(httpResponse.getEntity()); 
@@ -293,12 +318,37 @@ public class Invitedac extends Activity {
          	  des=jsonObject.getString("destination");
          	  place=jsonObject.getString("meetplace");
          	  time=jsonObject.getString("time");
-         	 deadlinetime=jsonObject.getString("deadlinetime");
+         	  deadlinetime=jsonObject.getString("deadlinetime");
          	  whethervote=jsonObject.getString("whethervote");
          	  whetherdelay=jsonObject.getString("whetherdelay");
-         	 votetemp=jsonObject.getString("votetemp");
+         	  votetemp=jsonObject.getString("votetemp");
          	String outtime=jsonObject.getString("outtime");
-         	 Log.v("log","time "+time);
+         	
+         	if(votetemp.equals("2")==true)
+         	{
+         		btnvote.setText(getString(R.string.vote_i));
+         		countvote=1;
+         	}else{
+         		btnvote.setText(getString(R.string.vote_again));
+         		countvote=0;
+         	}
+         	Log.v("log","votetemp:"+votetemp);
+         	Log.v("log","countvote:"+countvote);
+         	//=======判斷空值
+         	if(name.equals(" ")==true || name.equals("")==true)
+         	{
+         		name=getString(R.string.undifine);
+         	}
+         	if(des.equals(" ")==true || des.equals("")==true)
+         	{
+         		des=getString(R.string.undifine);
+         	}
+         	if(place.equals(" ")==true || place.equals("")==true)
+         	{
+         		place=getString(R.string.undifine);
+         	}
+         	//=============
+         	Log.v("log","time "+time);
          	Log.v("log","whetherdelay "+whetherdelay);
          	  if(time.equals("0000-00-00 00:00:00")==true && whetherdelay.equals("0")==true)
          	  {
@@ -307,24 +357,32 @@ public class Invitedac extends Activity {
          	 if(time.equals("0000-00-00 00:00:00")==true && whetherdelay.equals("1")==true)
         	  {
         		  time=getString(R.string.organizer_deciding_time);		
-        	  }
-         	  
+        	  }       	  
          	  property=jsonObject.getString("property");
-         	  p=Integer.parseInt(property);         
-         	 tinvitedac.setText(getString(R.string.organizer)+":"+organizer+"\n"+
-         			 		    getString(R.string.activity_name)+":"+name+"\n");
+         	  p=Integer.parseInt(property); 
+         	  tname.setText(name);
+         	 tinvitedac.setText(getString(R.string.organizer)+"　　　"+organizer+"\n");
          	 if(p==2)
          	  {
          		 moviename=jsonObject.getString("moviename");
-         		tinvitedac.append(getString(R.string.movie_name)+":"+moviename+"\n");
+         		if(moviename.equals("")==true || moviename.equals(" ")==true)
+             	{
+         			moviename=getString(R.string.undifine);
+             	}
+         		Log.v("log","movie:"+moviename+"ffffff");
+         		tinvitedac.append(getString(R.string.movie_name)+"　"+moviename+"\n");
          	  }
          	 if(p==4)
         	  {
          		showname=jsonObject.getString("showname");
-         		tinvitedac.append(getString(R.string.show_name)+":"+showname+"\n");
+         		if(showname.equals(" ")==true || showname.equals("")==true)
+             	{
+         			showname=getString(R.string.undifine);
+             	}
+         		tinvitedac.append(getString(R.string.show_name)+"　"+showname+"\n");
         	  }
          	if(p==5)
-         	{   tinvitedac.append(getString(R.string.process_name)+":\n");
+         	{   tinvitedac.append(getString(R.string.process)+"\n");
          		String url ="http://120.126.16.38/process.php";
          		HttpPost httpRequest_process = new HttpPost(url);
          		List <NameValuePair> params_process = new ArrayList <NameValuePair>();
@@ -337,14 +395,18 @@ public class Invitedac extends Activity {
                    if(httpResponse_process.getStatusLine().getStatusCode() == 200) 
                    {        	  
                  	  String strResult_process = EntityUtils.toString(httpResponse_process.getEntity()); 
-                 	  JSONArray result_process = new JSONArray(strResult_process);
-                  		 
+                 	 if(strResult_process.equals("null")==true)
+                   	{              			
+                 		tinvitedac.append(getString(R.string.undifine)+"\n");
+                   	}else{
+                 	  JSONArray result_process = new JSONArray(strResult_process);                  		 
                  	 for (int i = 0; i < result_process.length(); i++) {		        		 
    		        	  JSONObject jsonObject_process = result_process.getJSONObject(i);
    		        	  time_process=jsonObject_process.getString("time");
    		        	  schedulename=jsonObject_process.getString("schedulename");
    		        	  tinvitedac.append(time_process+" "+schedulename+"\n");  		        	  
                  	 }
+                   	}
                    }
                  }
                   	 catch (Exception e) 
@@ -354,26 +416,17 @@ public class Invitedac extends Activity {
                      }  
             	
          	} //if(p==5)         	        	
-         	 tinvitedac.append(getString(R.string.des)+":"+des+"\n"+
-         			 		   getString(R.string.place)+":"+place+"\n"+
-         			 		   getString(R.string.friend_invited)+":"+invitedf+"\n "+
-         			 		   getString(R.string.join)+":"+join+"\n "+
-         			 		   getString(R.string.reject)+":"+reject+"\n"+
-         			 		   getString(R.string.time_result)+": "+time+"\n");
+         	 tinvitedac.append(getString(R.string.des)+"　　　"+des+"\n"+
+         			 		   getString(R.string.place)+"　"+place+"\n----------------------------------\n"+
+         			 		   getString(R.string.friend_invited)+"　　"+invitedf+"\n"+
+         			 		   getString(R.string.join)+"　　　"+join+"\n"+
+         			 		   getString(R.string.reject)+"　　　"+reject+"\n----------------------------------\n"+
+         			 		   getString(R.string.time_result)+"　　　"+time+"\n");
          	 if(whethervote.equals("0")==true && outtime.equals("0")==true)
          	 {
          		 tinvitedac.append(getString(R.string.vote_deadlinetime1)+" "+deadlinetime+" "+getString(R.string.vote_deadlinetime3));       				
          	 }
-         	 if(whethervote.equals("1")==true )
-         	 {
-         		if(votetemp.equals("1")==true && whetherdelay.equals("0")==true)
-             	{
-             		
-             		btnvote.setVisibility(View.GONE);
-             		btnvote_again.setVisibility(View.VISIBLE);
-             	}
-      //=============================================================================   		
-         	 }
+         	 
          	 } 
           else 
           { 
@@ -386,12 +439,12 @@ public class Invitedac extends Activity {
           e.printStackTrace();  
         }   
 //==============================================================================如果需要投票+位超過時間        
-        if(whethervote.equals("1")==true && whetherdelay.equals("0")==true && votetemp.equals("2")==true)
+        if(whethervote.equals("1")==true && whetherdelay.equals("0")==true)
         { 
         	btnvote.setVisibility(View.VISIBLE);
         }  
-	}
-	
+        else{btnvote.setVisibility(View.GONE);}
+	}	
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 	  if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
@@ -406,8 +459,7 @@ public class Invitedac extends Activity {
 			try 
 	        {
 			httpRequest.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
-			HttpResponse httpResponse = new DefaultHttpClient().execute(httpRequest); 
-	          
+			HttpResponse httpResponse = new DefaultHttpClient().execute(httpRequest); 	          
 	          if(httpResponse.getStatusLine().getStatusCode() == 200) 
 	          {        	  
 	        	  String strResult = EntityUtils.toString(httpResponse.getEntity());

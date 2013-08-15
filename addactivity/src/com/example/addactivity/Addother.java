@@ -319,6 +319,7 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 	                .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
 	                    @Override
 	                    public void onClick(DialogInterface dialog, int which) {
+	                    	dts_array.remove(pos);
 	                    	tarray.remove(pos);
 	                        items.remove(pos);
 	                        listInput.setAdapter(adapter);

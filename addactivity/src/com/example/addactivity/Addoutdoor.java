@@ -254,7 +254,10 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 				@Override
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
-					if(tarray.isEmpty()){
+					if(parray.isEmpty()){
+						Toast.makeText(getApplicationContext(),getString(R.string.whether_select_process),Toast.LENGTH_LONG).show();				
+					}
+					else if(tarray.isEmpty()){
 						Toast.makeText(getApplicationContext(),getString(R.string.whether_select_time),Toast.LENGTH_LONG).show();				
 					}
 					else if(sd==null){
@@ -339,6 +342,7 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 	                .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
 	                    @Override
 	                    public void onClick(DialogInterface dialog, int which) {
+	                    	dts_array.remove(pos);
 	                    	tarray.remove(pos);
 	                        items.remove(pos);
 	                        listInput.setAdapter(adapter);
@@ -369,6 +373,7 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 	                .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
 	                    @Override
 	                    public void onClick(DialogInterface dialog, int which) {
+	                
 	                    	parray.remove(pos);
 	                        items2.remove(pos);
 	                        listInput2.setAdapter(adapter2);

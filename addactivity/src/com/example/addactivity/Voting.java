@@ -36,17 +36,17 @@ import android.widget.Toast;
 @SuppressLint("NewApi")
 @TargetApi(Build.VERSION_CODES.GINGERBREAD)
 public class Voting extends Activity {
-	TextView ttt;
-	TextView tv;
+	TextView tname;
 	TextView tdeadlinetime;
 	Button btnvote;
-	String uacno,id,minevotetime=null,vote="1",deadlinetime,uutemp;
+	String uacno,id,minevotetime=null,vote="1",deadlinetime,uutemp,st;
 	String[] timearray,content;
 	LinearLayout ll;
 	RelativeLayout rr;
 	Intent intent;
 	
 	ArrayList<String> tarray = new ArrayList<String>();
+	ArrayList<String> t = new ArrayList<String>();
 	ArrayList<String> tarray_name = new ArrayList<String>();
 	@SuppressLint("NewApi")
 	@Override
@@ -67,7 +67,7 @@ public class Voting extends Activity {
 	        .build());
 	        
 		ll=(LinearLayout)findViewById(R.id.ll);
-		ttt =(TextView)findViewById(R.id.ttt);
+		tname =(TextView)findViewById(R.id.tname);
 		btnvote =(Button)findViewById(R.id.btnvote);
 		intent = new Intent(this,Invitedac.class);
 		
@@ -75,11 +75,11 @@ public class Voting extends Activity {
 	    uacno=bundle.getString("uacno");	    
 		id=bundle.getString("id");
 		uutemp=bundle.getString("utemp");
-		
-		TextPaint tp = ttt.getPaint(); 
-		tp.setFakeBoldText(true);
+	
+		TextPaint tn = tname.getPaint(); 
+		tn.setFakeBoldText(true);
 	//=================================================	
-		 ttt.append(getString(R.string.vote_result));
+	//	 ttt.append(getString(R.string.vote_result));
   		String url_voting ="http://120.126.16.38/voting_organizer.php";
 	 		HttpPost httpRequest_voting = new HttpPost(url_voting);
 	 		List <NameValuePair> params_voting = new ArrayList <NameValuePair>();
@@ -93,21 +93,37 @@ public class Voting extends Activity {
 	           {        	  
 	         	  String strResult_voting = EntityUtils.toString(httpResponse_voting.getEntity()); 
 	         	 // tjoin.append(strResult_voting);
-	         	  timearray=strResult_voting.split("~");
-	         	 for(int i = 0 ; i < timearray.length ; i ++)
-	         	 {  	         		
-	         		 content=timearray[i].split("&");	         		
-	         		 ttt.append("\n");
-	      		    for(int j=0;j<content.length;j++)
-	         		 {
-	      		    	ttt.append(" "+content[j]);       			
-	         		 }
-	         	 }	   	 
+	         	 Log.v("log", "sstrResult "+strResult_voting);
+	        	  timearray=strResult_voting.split("~");
+	        	 for(int i = 0 ; i < timearray.length ; i ++)
+	        	 {  
+	        		 st="";
+	        		 content=timearray[i].split("&");
+	        		 Log.v("log","content:"+content);
+	     		    for(int j=1;j<content.length;j++)
+	        		 {
+	     		    	if(j==1)
+	     		    	{
+	     		    		String[] tt=content[j].split(":");
+	     		    		st=st+" "+tt[0]+":"+tt[1]; 
+	     		    	}
+	     		    	else if(j==2)
+	      		    	{
+	      		    		st=st+" 共"+content[j]+"票";
+	      		    	}else{
+	      		    			st=st+" "+content[j];  
+	      		    		}
+	        		 }
+	     		   Log.v("log","ast:"+st);
+	        		 t.add(st);
+	        		 
+	        	 }	   	 
 	           }
 	         }      
 	          	 catch (Exception e) 
 	             {  
-	          		ttt.setText(e.getMessage().toString());
+	          		tname.setText(e.getMessage().toString());
+	          		 
 	               e.printStackTrace();  
 	             }  	 
 //==============================================================================================
@@ -165,7 +181,7 @@ public class Voting extends Activity {
                         }
                          	 catch (Exception e) 
                             {  
-                            ttt.setText(e.getMessage().toString());
+                            tname.setText(e.getMessage().toString());
                               e.printStackTrace();  
                             }  
        				minevotetime=null;			
@@ -180,13 +196,14 @@ public class Voting extends Activity {
    				 finish();
        			}			
        		});
-   //===================================================================================================          
-             tv = new TextView(this);
-             tv.setText(getString(R.string.vote_friend_want));              
-             ll.addView(tv);
-             
+   //===================================================================================================                     
              tdeadlinetime = new TextView(this);
              tdeadlinetime.setText(getString(R.string.vote_deadlinetime1)+" "+deadlinetime+" "+getString(R.string.vote_deadlinetime3));              
+             tdeadlinetime.setPadding(20, 0, 0, 0);
+             tdeadlinetime.setTextColor(Color.BLACK);
+             tdeadlinetime.setTextSize(15);
+             TextPaint td = tdeadlinetime.getPaint(); 
+     		 td.setFakeBoldText(true);
              ll.addView(tdeadlinetime);
                
              final CheckBox ch[]=new CheckBox[tarray.size()];             
@@ -195,7 +212,7 @@ public class Voting extends Activity {
             	   ch[i]=new CheckBox(getApplicationContext());
                    ch[i].setId(i);
                    ch[i].setTextColor(Color.BLACK);
-                   ch[i].setText(tarray.get(i));
+                   ch[i].setText(t.get(i));
                    
                    final int c=i;
                    final String cp=Integer.toString(c);
@@ -206,7 +223,8 @@ public class Voting extends Activity {
 						if(isChecked)
 						{
 							tarray_name.add(ch[c].getText().toString());			
-							String a=Integer.toString(tarray_name.indexOf(ch[c].getText().toString()));					
+							String a=Integer.toString(tarray_name.indexOf(ch[c].getText().toString()));	
+							
 						}
 						else
 						{   													
@@ -219,7 +237,7 @@ public class Voting extends Activity {
              }
               	 catch (Exception e) 
                  {  
-                 ttt.setText(e.getMessage().toString());
+                 tname.setText(e.getMessage().toString());
                    e.printStackTrace();  
                  } 		             	
 	}

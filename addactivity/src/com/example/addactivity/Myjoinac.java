@@ -20,6 +20,7 @@ import android.os.StrictMode;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Intent;
 import android.text.TextPaint;
 import android.util.Log;
 import android.view.Menu;
@@ -32,12 +33,15 @@ import android.widget.Toast;
 @TargetApi(Build.VERSION_CODES.GINGERBREAD)
 public class Myjoinac extends Activity {
 	TextView tjoin;
+	TextView tname;
 	String uriAPI = "http://120.126.16.38/myjoinac.php";
 	String name,des,place,selecttime,time,deadlinetime,moviename,showname,property,utemp,mine;
 	String uacno,id,whetherdelay; 
     int p,m;
     Button btnreject;
+    Button btnchatroom;
     String time_process,schedulename,invitedf="",organizer,join="",reject="";
+    Intent intentchat;
     
 	@TargetApi(Build.VERSION_CODES.GINGERBREAD)
 	@SuppressLint("NewApi")
@@ -59,14 +63,32 @@ public class Myjoinac extends Activity {
         .build());
         
 		tjoin=(TextView)findViewById(R.id.tjoin);
+		tname=(TextView)findViewById(R.id.tname);
 		btnreject = (Button)findViewById(R.id.btnreject);
+		btnchatroom =(Button)findViewById(R.id.btnchatroom);
+		intentchat = new Intent(this, ChatRoom.class);
 		
 		Bundle bundle =getIntent().getExtras();
 		uacno=bundle.getString("uacno");
 		id=bundle.getString("id");
 		TextPaint tp = tjoin.getPaint(); 
 		tp.setFakeBoldText(true);
+		TextPaint ta = tname.getPaint(); 
+		ta.setFakeBoldText(true);
 //========================================================================================
+		 btnchatroom.setOnClickListener(new Button.OnClickListener(){
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					 Bundle bundle3 = new Bundle();				
+					 bundle3.putString("id", id);
+					 bundle3.putString("uacno",uacno);
+					 intentchat.putExtras(bundle3);
+					 startActivity(intentchat);
+					// finish();	
+				}   	   
+		       });
+		 
 		btnreject.setOnClickListener(new Button.OnClickListener(){
 			@Override
 			public void onClick(View arg0) {
@@ -118,21 +140,36 @@ public class Myjoinac extends Activity {
 	        	  String mine=jsonObject_f.getString("mine");	    
 	        	  String utemp=jsonObject_f.getString("utemp");
 	        	  if(mine.equals("0")==true)
-	        	  {
-	        	    invitedf=invitedf+" "+jsonObject_f.getString("fname");
+	        	  {	        	    
                     if(utemp.equals("1")==true)
                     {
                     	join=join+" "+jsonObject_f.getString("fname");
                     }
-                    if(utemp.equals("3")==true)
+                    else if(utemp.equals("3")==true)
                     {
                     	reject=reject+" "+jsonObject_f.getString("fname");
-                    }    
+                    }else{
+                    	invitedf=invitedf+" "+jsonObject_f.getString("fname");
+                    }  
 	        	  }else{
 	        		  organizer=jsonObject_f.getString("fname");
-	        	  }    
-	        	  
-         	 }  	 
+	        	  }    	        	  
+         	 } 
+         	Log.v("log","join:"+join+"gggggg");
+         	Log.v("log","reject:"+reject+"gggggg");
+         	if(join.equals("")==true)
+        	 {
+        		join=getString(R.string.noone_join);
+        		
+        	 }
+        	if(reject.equals("")==true)
+        	{
+        		reject=getString(R.string.noone_reject);
+        	}
+        	if(invitedf.equals("")==true)
+        	{
+        		invitedf=getString(R.string.noone_invited);
+        	}
            }
          }      
           	 catch (Exception e) 
@@ -162,9 +199,22 @@ public class Myjoinac extends Activity {
          	  mine=jsonObject.getString("mine");
          	 whetherdelay=jsonObject.getString("whetherdelay");
          	  m=Integer.parseInt(mine);
-         	  p=Integer.parseInt(property);        	  
-          	 tjoin.setText(getString(R.string.organizer)+":"+organizer+"\n"+
-          			 			getString(R.string.activity_name)+":"+name+"\n");
+         	  p=Integer.parseInt(property);  
+         	  
+         	 if(name.equals(" ")==true || name.equals("")==true)
+          	{
+          		name=getString(R.string.undifine);
+          	}
+          	if(des.equals(" ")==true || des.equals("")==true)
+          	{
+          		des=getString(R.string.undifine);
+          	}
+          	if(place.equals(" ")==true || place.equals("")==true)
+          	{
+          		place=getString(R.string.undifine);
+          	}
+          	tname.setText(name);
+        	tjoin.setText(getString(R.string.organizer)+"　　　"+organizer+"\n");
           	if(time.equals("0000-00-00 00:00:00")==true && whetherdelay.equals("0")==true)
        	  {
        		  time=getString(R.string.voting);	
@@ -176,16 +226,24 @@ public class Myjoinac extends Activity {
          	 if(p==2)
          	  {
          		 moviename=jsonObject.getString("moviename");
-         		tjoin.append(getString(R.string.movie_name)+":"+moviename+"\n");
+         		if(moviename.equals("")==true || moviename.equals(" ")==true)
+             	{
+         			moviename=getString(R.string.undifine);
+             	}
+         		tjoin.append(getString(R.string.movie_name)+"　"+moviename+"\n");
          	  }
          	 if(p==4)
         	  {
          		showname=jsonObject.getString("showname");
-         		tjoin.append(getString(R.string.show_name)+":"+showname+"\n");
+         		if(showname.equals(" ")==true || showname.equals("")==true)
+             	{
+         			showname=getString(R.string.undifine);
+             	}
+         		tjoin.append(getString(R.string.show_name)+"　"+showname+"\n");
         	  }
          	if(p==5)
          	{  
-         		tjoin.append(getString(R.string.process_name)+":\n");
+         		tjoin.append(getString(R.string.process)+"\n");
          		String url ="http://120.126.16.38/process.php";
          		HttpPost httpRequest_process = new HttpPost(url);
          		List <NameValuePair> params_process = new ArrayList <NameValuePair>();
@@ -197,13 +255,21 @@ public class Myjoinac extends Activity {
                    if(httpResponse_process.getStatusLine().getStatusCode() == 200) 
                    {        	  
                  	  String strResult_process = EntityUtils.toString(httpResponse_process.getEntity()); 
+                 	 Log.v("log","strResult_process:"+strResult_process+"ffffff");
+                 	 if(strResult_process.equals("null")==true)
+                  	{              			
+              				tjoin.append(getString(R.string.undifine)+"\n");
+                  	}else{
+                  		Log.v("log","false:"+strResult_process+"ffffff");
                  	  JSONArray result_process = new JSONArray(strResult_process);                 		 
-                 	 for (int i = 0; i < result_process.length(); i++) {		        		 
+                 	  for (int i = 0; i < result_process.length(); i++) {		        		 
    		        	  JSONObject jsonObject_process = result_process.getJSONObject(i);
    		        	  time_process=jsonObject_process.getString("time");
    		        	  schedulename=jsonObject_process.getString("schedulename");
-   		        	  tjoin.append(time_process+" "+schedulename+"\n");   		        	  
-                 	 } 
+   		        	  tjoin.append(time_process+" "+schedulename+"\n");
+   		        	
+                 	  } 
+                  	}
                    }
                  }
                   	 catch (Exception e) 
@@ -212,12 +278,12 @@ public class Myjoinac extends Activity {
                        e.printStackTrace();  
                      }             	
          	}
-         	tjoin.append(getString(R.string.des)+":"+des+"\n"+
-			 		   getString(R.string.place)+":"+place+"\n"+
-			 		   getString(R.string.friend_invited)+":"+invitedf+"\n "+
-			 		   getString(R.string.join)+":"+join+"\n "+
-			 		   getString(R.string.reject)+":"+reject+"\n"+
-			 		   getString(R.string.time_result)+": "+time); 
+         	tjoin.append(getString(R.string.des)+"　　　"+des+"\n"+
+			 		   getString(R.string.place)+"　"+place+"\n----------------------------------\n"+
+			 		   getString(R.string.friend_invited)+"　　"+invitedf+"\n"+
+			 		   getString(R.string.join)+"　　　"+join+"\n"+
+			 		   getString(R.string.reject)+"　　　"+reject+"\n----------------------------------\n"+
+			 		   getString(R.string.time_result)+"　　　"+time); 
          	if(m==0)
          	 {
          		tjoin.append("\n"+getString(R.string.youarenot_organizer));

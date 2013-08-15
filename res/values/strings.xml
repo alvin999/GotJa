@@ -12,7 +12,8 @@
     <string name="send_request">Send Request</string>
     <!-- Selection -->
     <string name="last_activity">最近活動：</string>
-    <!-- Chatroom -->
-    <string name="prompt_chat">請輸入留言</string>
-    <string name="send_button">送出</string>
+    <!--  Movie -->
+    <string name="choose_function">請選擇要執行的動作</string>
+    <string name="get_group">揪團</string>
+    <string name="get_search">搜尋</string>
 </resources>

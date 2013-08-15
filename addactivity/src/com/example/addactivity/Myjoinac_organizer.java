@@ -31,6 +31,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.text.TextPaint;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -55,14 +56,17 @@ public class Myjoinac_organizer extends Activity {
 	Date dts,dts_st;
 	TextView tjoin;
 	TextView ttt;
+	TextView tname;
 	Button btnedit;
 	Button btntime;
+	Button btnchatroom;
 	ScrollView sv;
 	String uriAPI = "http://120.126.16.38/myjoinac.php";
 	String name,des,place,selecttime,time,deadlinetime,moviename,showname,property,utemp="1",mine,whetherdelay;
 	String uacno,id,str,sd,st="";
-    String basetime;
-	Intent intent; 
+    String basetime="";
+	Intent intent;
+	Intent intentchat;
     int p,m,k;
     String time_process,schedulename,invitedf="",organizer,join="",reject="";
     ArrayList<String> t = new ArrayList<String>();
@@ -91,14 +95,19 @@ public class Myjoinac_organizer extends Activity {
         .build());
         
         tjoin=(TextView)findViewById(R.id.tjoin);
+        tname=(TextView)findViewById(R.id.tname);
         btnedit=(Button)findViewById(R.id.btnedit);
+        btnchatroom =(Button)findViewById(R.id.btnchatroom);
         intent = new Intent(this,Myjoinac_organizer_edit.class); 
+        intentchat = new Intent(this, ChatRoom.class);
         
 		Bundle bundle =getIntent().getExtras();
 		uacno=bundle.getString("uacno");
 		id=bundle.getString("id");
 		TextPaint tp = tjoin.getPaint(); 
 		tp.setFakeBoldText(true);
+		TextPaint tn= tname.getPaint(); 
+		tn.setFakeBoldText(true);
 //========================================================================================		
         String url_f ="http://120.126.16.38/outputparticipater.php";
  		HttpPost httpRequest_f = new HttpPost(url_f);
@@ -117,20 +126,34 @@ public class Myjoinac_organizer extends Activity {
 	        	  String mine=jsonObject_f.getString("mine");	    
 	        	  String utemp=jsonObject_f.getString("utemp");
 	        	  if(mine.equals("0")==true)
-	        	  {
-	        	    invitedf=invitedf+" "+jsonObject_f.getString("fname");
+	        	  {	        	    
                     if(utemp.equals("1")==true)
                     {
                     	join=join+" "+jsonObject_f.getString("fname");
                     }
-                    if(utemp.equals("3")==true)
+                    else if(utemp.equals("3")==true)
                     {
                     	reject=reject+" "+jsonObject_f.getString("fname");
-                    }   
+                    }else
+                    {
+                    	invitedf=invitedf+" "+jsonObject_f.getString("fname");
+                    }
 	        	  }else{
 	        		  organizer=jsonObject_f.getString("fname");
 	        	  }    	        	  
-         	 }        	 
+         	 }
+         	if(join.equals("")==true)
+        	 {
+        		join=getString(R.string.noone_join);
+        	 }
+        	if(reject.equals("")==true)
+       	 	{
+        		reject=getString(R.string.noone_reject);
+       	 	}
+        	if(invitedf.equals("")==true)
+        	{
+        		invitedf=getString(R.string.noone_invited);
+        	}
            }
          }      
           	 catch (Exception e) 
@@ -138,6 +161,19 @@ public class Myjoinac_organizer extends Activity {
           		tjoin.setText(e.getMessage().toString());
                e.printStackTrace();  
              } 
+//========================================================
+		 btnchatroom.setOnClickListener(new Button.OnClickListener(){
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					 Bundle bundle3 = new Bundle();				
+					 bundle3.putString("id", id);
+					 bundle3.putString("uacno",uacno);
+					 intentchat.putExtras(bundle3);
+					 startActivity(intentchat);
+					// finish();	
+				}   	   
+		       });
 //========================================================================================				
 		HttpPost httpRequest = new HttpPost(uriAPI);
     	List <NameValuePair> params = new ArrayList <NameValuePair>();
@@ -162,9 +198,21 @@ public class Myjoinac_organizer extends Activity {
          	  mine=jsonObject.getString("mine");
          	  m=Integer.parseInt(mine);
          	  p=Integer.parseInt(property); 
+         	 if(name.equals(" ")==true || name.equals("")==true)
+         	 {
+          		name=getString(R.string.undifine);
+         	 }
+         	 if(des.equals(" ")==true || des.equals("")==true)
+         	 {
+          		des=getString(R.string.undifine);
+         	 }
+         	 if(place.equals(" ")==true || place.equals("")==true)
+         	 {
+          		place=getString(R.string.undifine);
+         	 }
          	  
-           	 tjoin.setText(getString(R.string.organizer)+":"+organizer+"\n"+
-			 			getString(R.string.activity_name)+":"+name+"\n");        	  
+         	 tname.setText(name);
+         	 tjoin.setText(getString(R.string.organizer)+"　　　"+organizer+"\n");       	  
            	if(time.equals("0000-00-00 00:00:00")==true)
         	  {
        		  time=getString(R.string.voting);	
@@ -177,16 +225,24 @@ public class Myjoinac_organizer extends Activity {
          	 if(p==2)
          	  {
          		 moviename=jsonObject.getString("moviename");
-          		tjoin.append(getString(R.string.movie_name)+":"+moviename+"\n");
+         		if(moviename.equals("")==true || moviename.equals(" ")==true)
+             	{
+         			moviename=getString(R.string.undifine);
+             	}
+          		tjoin.append(getString(R.string.movie_name)+"　"+moviename+"\n");
          	  }
          	 if(p==4)
         	  {
          		showname=jsonObject.getString("showname");
-         		tjoin.append(getString(R.string.show_name)+":"+showname+"\n");
+         		if(showname.equals(" ")==true || showname.equals("")==true)
+             	{
+         			showname=getString(R.string.undifine);
+             	}
+         		tjoin.append(getString(R.string.show_name)+"　"+showname+"\n");
         	  }
          	if(p==5)
          	{  
-         		tjoin.append(getString(R.string.process_name)+":\n");
+         		tjoin.append(getString(R.string.process)+"\n");
          		String url ="http://120.126.16.38/process.php";
          		HttpPost httpRequest_process = new HttpPost(url);
          		List <NameValuePair> params_process = new ArrayList <NameValuePair>();
@@ -199,6 +255,10 @@ public class Myjoinac_organizer extends Activity {
                    if(httpResponse_process.getStatusLine().getStatusCode() == 200) 
                    {        	  
                  	  String strResult_process = EntityUtils.toString(httpResponse_process.getEntity()); 
+                 	 if(strResult_process.equals("null")==true)
+                   	{              			
+               				tjoin.append(getString(R.string.undifine)+"\n");
+                   	}else{
                  	  JSONArray result_process = new JSONArray(strResult_process);                 		 
                  	 for (int i = 0; i < result_process.length(); i++) {		        		 
    		        	  JSONObject jsonObject_process = result_process.getJSONObject(i);
@@ -206,6 +266,7 @@ public class Myjoinac_organizer extends Activity {
    		        	  schedulename=jsonObject_process.getString("schedulename");
    		        	  tjoin.append(time_process+" "+schedulename+"\n"); 		        	  
                  	 }
+                   	}
                    }
                  }
                   	 catch (Exception e) 
@@ -214,15 +275,15 @@ public class Myjoinac_organizer extends Activity {
                        e.printStackTrace();  
                      }              	
          	}
-         	tjoin.append(getString(R.string.des)+":"+des+"\n"+
-			 		   getString(R.string.place)+":"+place+"\n"+
-			 		   getString(R.string.friend_invited)+":"+invitedf+"\n "+
-			 		   getString(R.string.join)+":"+join+"\n "+
-			 		   getString(R.string.reject)+":"+reject+"\n"+
-			 		   getString(R.string.time_result)+": "+time); 
+         	tjoin.append(getString(R.string.des)+"　　　"+des+"\n"+
+			 		   getString(R.string.place)+"　"+place+"\n----------------------------------\n"+
+			 		   getString(R.string.friend_invited)+"　　"+invitedf+"\n"+
+			 		   getString(R.string.join)+"　　　"+join+"\n"+
+			 		   getString(R.string.reject)+"　　　"+reject+"\n----------------------------------\n"+
+			 		   getString(R.string.time_result)+"　　　"+time); 
          	if(whetherdelay.equals("0")==true)
          	{
-         		tjoin.append("\n"+getString(R.string.decide_deadlinetime)+":"+deadlinetime);
+         		tjoin.append("\n"+getString(R.string.decide_deadlinetime)+"\n"+deadlinetime);
          	}
          	
         	tjoin.append("\n"+getString(R.string.youare_organizer));	
@@ -272,15 +333,22 @@ public class Myjoinac_organizer extends Activity {
         	 {  
         		 st="";
         		 content=timearray[i].split("&");
+        		 Log.v("log","content:"+content);
      		    for(int j=1;j<content.length;j++)
         		 {
-     		    	st=st+" "+content[j];      			
+     		    	if(j==1)
+     		    	{
+     		    		String[] tt=content[j].split(":");
+     		    		st=st+" "+tt[0]+":"+tt[1]; 
+     		    	}else if(j==2)
+      		    	{
+      		    		st=st+" 共"+content[j]+"票";
+      		    	}else{
+      		    			st=st+" "+content[j];  
+      		    		}
         		 }
-     		   Log.v("log", "st "+st);
-        		 t.add(st);
-        		 
-        	 }
-  	 
+        		 t.add(st);       		 
+        	 } 	 
           }
         }      
          	 catch (Exception e) 
@@ -291,7 +359,12 @@ public class Myjoinac_organizer extends Activity {
 	   //=====================================================================
        LinearLayout ll =(LinearLayout)findViewById(R.id.ll);
          ttt = new TextView(this); 
-         ttt.setText(getString(R.string.vote_decide_time));              
+         ttt.setText(getString(R.string.vote_decide_time));
+         ttt.setPadding(20, 0, 0, 0);
+         ttt.setTextColor(Color.BLACK);
+         ttt.setTextSize(18);
+         TextPaint tt = ttt.getPaint(); 
+ 		 tt.setFakeBoldText(true);
          ll.addView(ttt);       
          group=new RadioGroup(this);        
          final RadioButton ch[]=new RadioButton[t.size()];     
@@ -301,13 +374,12 @@ public class Myjoinac_organizer extends Activity {
             Log.v("log", "t "+t.get(i));
             ch[i].setTextColor(Color.BLACK);
             group.addView(ch[i]);          
-        }
+        } 
         ll.addView(group);
             group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
 				@Override
 				public void onCheckedChanged(RadioGroup group, int checkedId) {
-					// TODO Auto-generated method stub
-			         
+					// TODO Auto-generated method stub			         
 			      for(int i=0;i<t.size();i++)
 			      {
 			    	  	if(checkedId==ch[i].getId())
@@ -319,19 +391,29 @@ public class Myjoinac_organizer extends Activity {
 			     basetime=sttr[2]+" "+sttr[3];
 			     Log.v("log", basetime);
 				}						
-			});
-							           			
+			});							           			
 	         btntime =new Button(this);
 	         btntime.setText(getString(R.string.ok));
+	         btntime.setTextColor(Color.WHITE);
+	         btntime.setTextSize(15);
 	         btntime.setBackgroundResource(R.layout.button_border2);
+	         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);  
+	         lp.setMargins(0,0, 0, 40);  
+	         btntime.setLayoutParams(lp);  
 	         ll.addView(btntime);
                                    
       btntime.setOnClickListener(new Button.OnClickListener(){
 		@Override
 		public void onClick(View arg0) {
 			// TODO Auto-generated method stub			
-//================================================================================================	        
-	        Calendar c = Calendar.getInstance();// 直接創建一個DatePickerDialog對話框實例，並將它顯示出來
+//================================================================================================	
+			
+	        Log.v("log","basetime:"+basetime);
+	        if(basetime.equals("")==true)
+	        {
+	        	Toast.makeText(getApplicationContext(),getString(R.string.select_time_notyet),Toast.LENGTH_LONG).show();
+	        }else{
+			Calendar c = Calendar.getInstance();// 直接創建一個DatePickerDialog對話框實例，並將它顯示出來
 	    	Dialog dateDialog = new DatePickerDialog(Myjoinac_organizer.this,
 	    	// 绑定監聽器
 	    	new DatePickerDialog.OnDateSetListener() {
@@ -384,6 +466,7 @@ public class Myjoinac_organizer extends Activity {
 								Long timeP=ut1-ut2;//毫秒差
 					//==========================================			
 									try {
+										basetime=basetime+":00";
 										dts_st = sdf.parse(basetime);
 									} catch (ParseException e) {
 										// TODO Auto-generated catch block
@@ -447,6 +530,7 @@ public class Myjoinac_organizer extends Activity {
 	    		.get(Calendar.DAY_OF_MONTH));
 	    		dateDialog.setTitle(getString(R.string.deadlinetime));
 	    		dateDialog.show();
+	        }
 		}    	  
       });       
    }//whether

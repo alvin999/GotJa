@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="app_name">addactivity</string>
+<string name="app_name">addactivity</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_addeat">Addeat</string>
@@ -33,13 +32,11 @@
     <string name="activity_name">活動名稱</string>
     <string name="movie_name">電影名稱</string>
     <string name="show_name">展覽名稱</string>
-    <string name="process_name">加入行程</string>
     <string name="process_addname">新增行程</string>
     <string name="process_addcontent">請輸入行程名稱或地點</string>
     <string name="des">地點</string>
     <string name="place">集合地點</string>
-    <string name="time">請選擇活動時間</string>
-    <string name="deadlinetime">請選擇最後時間決定期限</string>
+    <string name="time">請選擇活動時間</string>   
     <string name="cancel">刪除</string>
     <string name="cancel_correct">你確定要刪除？</string>
     <string name="organizer">主揪</string>
@@ -56,7 +53,6 @@
     <string name="you_join">你參加了</string>
     <string name="you_reject">你婉拒了</string>
     <string name="voting">投票中</string>
-    <string name="friend_invited">已邀請</string>
     <string name="join">參加</string>
     <string name="reject">婉拒</string>
     <string name="vote">投票</string>
@@ -82,26 +78,40 @@
     <string name="edit">編輯</string>
     <string name="whether_select_deadline">請輸入期限</string>
     <string name="whether_select_time">請輸入時間</string>
-    <string name="delay_nowtime">請輸入未來的時間</string>
-    <string name="delay_deadlinetime">請輸入較活動日期更近期的日期,讓你的朋友們能在此日期之前決定好意願</string>
+    <string name="delay_nowtime">請輸入未來的時間</string>   
     <string name="please_decide_time">請選擇時間</string>
     <string name="please_decide_date">請選擇日期</string>
     <string name="vote_result">以下是大家投的時間</string>
     <string name="vote_friend_want">請投出你有空的時間</string>
     <string name="vote_deadlinetime1">要在</string>
     <string name="vote_deadlinetime2">以前完成投票喔!!!</string>
-    <string name="vote_deadlinetime3">以前決定好是否要參加喔!!!</string>
-    <string name="organizer_deciding_time">主糾正在決定時間</string>
+    <string name="vote_deadlinetime3">以前決定好是否要參加喔!!!</string>   
     <string name="title_activity_server__map">Server_MAP</string>
     <string name="title_activity_map">MAP</string>
     <string name="title_activity_swipe">Swipe</string>
     <string name="title_activity_reject">Reject</string>
-    <string name="time_select_organizer">時間修改中</string>
-    <string name="invite_new_friend">邀請新朋友</string>
-    <string name="add_now_time">立即決定時間</string>
-    <string name="delay_time">請輸入較期限更未來的日期</string>
-
+	<string name="time_select_organizer">時間修改中</string>
+	<string name="invite_new_friend">+FB朋友</string>
+	<string name="invite_new_emailfriend">+EMAIL朋友</string>
+	<string name="add_now_time">立即決定時間</string>
+	<string name="delay_time">請輸入較期限更未來的日期</string>
+	<string name="chatroom">聊天室</string>
+	<string name="noone_join">未有人參加</string>
+	<string name="noone_reject">未有人婉拒</string>
+	<string name="noone_invited">未有受邀者</string>
+	<string name="friend_invited">受邀者</string>
+	<string name="undifine">未定中</string>
+	<string name="change_deadlinetime">要記得更改期限喔</string>
+	<string name="deadlinetime">請設定最後確認的時間</string>
+	<string name="delay_deadlinetime">請不要越過活動時間</string>
+	 <string name="organizer_deciding_time">主糾正在決定 </string>
+	 <string name="select_time_notyet">請選擇活動時間 </string>
+	 <string name="process">行程規劃</string>
+	 <string name="whether_select_process">請加入行程規劃</string>
+	    <string name="process_name">加入行程規劃</string>
     <!-- inviteContacts -->
     <string name="send_request">Send Request</string>
-
+  <!-- Chatroom -->
+    <string name="prompt_chat">請輸入留言</string>
+    <string name="send_button">送出</string>
 </resources>

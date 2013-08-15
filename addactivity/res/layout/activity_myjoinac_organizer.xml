@@ -1,47 +1,76 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    tools:context=".Myjoinac_organizer"
+    android:id="@+id/scrollView1"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".Myjoinac_organizer" 
-    android:id="@+id/relative"
-    android:background="@drawable/background">
+    android:background="@drawable/background"
+    android:scrollbars="none">
+<LinearLayout
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
     
-    <ScrollView
-        android:id="@+id/ScrollView1"
-        android:layout_width="fill_parent"
-        android:layout_height="370dp"
-        android:layout_below="@+id/btnedit"
+<RelativeLayout
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" 
+    android:id="@+id/relative">
+      <Button
+        android:id="@+id/btnchatroom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+ 		android:layout_alignParentTop="true"
         android:layout_marginTop="15dp"
-        android:layout_centerHorizontal="true"
-        android:background="@layout/backtest7">
+        android:background="@layout/button_border2"
+        android:text="@string/chatroom"
+		android:textSize="15sp"
+        android:textColor="#FFFFFF"/> 
+       <Button
+        android:id="@+id/btnedit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+ 		android:layout_alignParentTop="true"
+        android:layout_marginTop="15dp"
+        android:background="@layout/button_border2"
+        android:text="@string/edit"
+		android:textSize="15sp"
+        android:textColor="#FFFFFF" />
+    
+
     <LinearLayout 
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-            android:orientation="vertical"
-            android:id="@+id/ll">
+	    android:layout_height="wrap_content"
+	    android:orientation="vertical"
+	    android:layout_below="@+id/btnedit"
+	   	android:layout_centerHorizontal="true"
+	   	android:layout_marginTop="10dp"
+	    android:background="@drawable/cardboard_texture_vertical"
+	    android:id="@+id/ll"
+	    android:padding="15dp">
+	    <TextView
+                android:id="@+id/tname"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" 
+                android:layout_marginTop="10dp"              
+     		    android:textSize="20dp"  		    
+     		    android:gravity="center"
+      		    android:textColor="#000000" />
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:id="@+id/tjoin"
-        android:padding="5dp"
+        android:padding="15dp"
+     	android:textSize="15dp"
+     	android:lineSpacingExtra="5dip"   		    
         android:textColor="#000000"  />
     </LinearLayout>
-    </ScrollView>
-
-    <Button
-        android:id="@+id/btnedit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/ScrollView1"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="18dp"
-        android:background="@layout/button_border2"
-        android:text="@string/edit"
-		android:textSize="12sp"
-        android:textColor="#FFFFFF" />
+ 
 
 </RelativeLayout>
+</LinearLayout>
+</ScrollView>

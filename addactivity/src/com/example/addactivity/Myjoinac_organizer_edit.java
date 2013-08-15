@@ -83,6 +83,7 @@ public class Myjoinac_organizer_edit extends Activity{
 	Button btntime_now;
 	Button btndeadlinetime;
 	Button btnaddfriend;
+	Button btnaddemailfriend;
 	EditText editname;
 	EditText editmovie;
 	EditText editshow;
@@ -98,6 +99,7 @@ public class Myjoinac_organizer_edit extends Activity{
 	String uacno,id,s2,sd,st="0000-00-00 00:00:00",dts_time,dts_deadlinetime; 
 	Intent intent; 
 	Intent intentaddfriend;
+	Intent intentaddemailfriend;
     int p,m,k,vote=1;
     String  time_process,schedulename,invitedf="",organizer,join="",reject="";
     ArrayList<String> t = new ArrayList<String>();
@@ -118,6 +120,7 @@ public class Myjoinac_organizer_edit extends Activity{
 		btndeadlinetime = (Button) findViewById(R.id.btndeadlinetime);
 		btneditcomplete = (Button) findViewById(R.id.btneditcomplete);
 		btnaddfriend = (Button) findViewById(R.id.btnaddfriend);
+		btnaddemailfriend = (Button) findViewById(R.id.btnaddemailfriend);
 		
 		editname = (EditText) findViewById(R.id.editname);
 		editmovie = (EditText) findViewById(R.id.editmovie);
@@ -150,53 +153,10 @@ public class Myjoinac_organizer_edit extends Activity{
 		
         intent = new Intent(this,Myjoinac_organizer.class); 
         intentaddfriend = new Intent(this,Addfriend.class);
+        intentaddemailfriend = new Intent(this,Addfriend.class);
 		Bundle bundle =getIntent().getExtras();
 		uacno=bundle.getString("uacno");
-		id=bundle.getString("id");		
-		
-	   String url_f ="http://120.126.16.38/outputparticipater.php";
-	 		HttpPost httpRequest_f = new HttpPost(url_f);
-	 		List <NameValuePair> params_f = new ArrayList <NameValuePair>();
-			params_f.add(new BasicNameValuePair("uacno", uacno));
-			
-			  
-			 try 
-	         {  
-	           httpRequest_f.setEntity(new UrlEncodedFormEntity(params_f, HTTP.UTF_8));
-	           HttpResponse httpResponse_f = new DefaultHttpClient().execute(httpRequest_f); 
-	          
-	           if(httpResponse_f.getStatusLine().getStatusCode() == 200) 
-	           {        	  
-	         	  String strResult_f = EntityUtils.toString(httpResponse_f.getEntity()); 
-	         	  JSONArray result_f = new JSONArray(strResult_f);
-	         	 
-	         	 for (int i = 0; i < result_f.length(); i++) {		        		 
-		        	  JSONObject jsonObject_f= result_f.getJSONObject(i);
-		        	  String mine=jsonObject_f.getString("mine");	    
-		        	  String utemp=jsonObject_f.getString("utemp");
-		        	  if(mine.equals("0")==true)
-		        	  {
-		        	    invitedf=invitedf+" "+jsonObject_f.getString("fname");
-	                   /* if(utemp.equals("1")==true)
-	                    {
-	                    	join=join+" "+jsonObject_f.getString("fname");
-	                    }
-	                    if(utemp.equals("3")==true)
-	                    {
-	                    	reject=reject+" "+jsonObject_f.getString("fname");
-	                    }
-	                     */
-		        	  }else{
-		        		  organizer=jsonObject_f.getString("fname");
-		        	  }    		        	  
-	         	 }	   	 
-	           }
-	         }      
-	          	 catch (Exception e) 
-	             {  
-	          		Log.v("log",e.getMessage().toString());
-	               e.printStackTrace();  
-	             } 
+		id=bundle.getString("id");				
 //============================================================================
 			 btnaddfriend.setOnClickListener(new Button.OnClickListener(){
 				@Override
@@ -208,6 +168,16 @@ public class Myjoinac_organizer_edit extends Activity{
 			        startActivity(intentaddfriend);					
 				}				 
 			 });
+			 btnaddemailfriend.setOnClickListener(new Button.OnClickListener(){
+					@Override
+					public void onClick(View arg0) {
+						// TODO Auto-generated method stub
+						Bundle bundle3 = new Bundle();
+						bundle3.putString("uacno", uacno);
+						intentaddemailfriend.putExtras(bundle3);
+				        startActivity(intentaddemailfriend);					
+					}				 
+				 });
 			 btntime_now.setOnClickListener(new Button.OnClickListener(){
 				@Override
 				public void onClick(View v) {
@@ -267,7 +237,8 @@ public class Myjoinac_organizer_edit extends Activity{
 										if(timeP<0)
 										{
 											Toast.makeText(getApplicationContext(),getString(R.string.delay_nowtime),Toast.LENGTH_LONG).show();
-										}else{		    					
+										}else{	
+											Toast.makeText(getApplicationContext(),getString(R.string.change_deadlinetime),Toast.LENGTH_LONG).show();
 			    					Log.v("log",st);
 			    					vote=0;
 			    					taddtime.setText(st);	

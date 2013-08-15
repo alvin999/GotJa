@@ -3,25 +3,25 @@
     xmlns:facebook="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/paper_background"
     android:fillViewport="true" >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/paper_background"
         android:orientation="vertical" >
 
-            <TextView
-                android:id="@+id/notificationText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:gravity="center_vertical"
-                android:background="@drawable/button_border"
-                android:drawableLeft="@drawable/bell_blue"
-                android:clickable="true"
-                android:textColor="#333" />
+        <TextView
+            android:id="@+id/notificationText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/button_border"
+            android:clickable="true"
+            android:drawableLeft="@drawable/bell_blue"
+            android:gravity="center_vertical"
+            android:textColor="#333" />
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -83,9 +83,9 @@
                     android:id="@+id/activityText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:textColor="#333"
-                    android:textSize="18sp"
-                    android:layout_weight="1" />
+                    android:textSize="18sp" />
             </TableRow>
 
             <TableRow>

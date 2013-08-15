@@ -49,8 +49,7 @@ public class Addfriend extends Activity {
 		// 設定 Layout
 		setContentView(R.layout.activity_addfriend);
 
-
-		Bundle bundle =getIntent().getExtras();
+		Bundle bundle = getIntent().getExtras();
 		uacno=bundle.getString("uacno");
 		userID = uacno.split("_")[0];
 		Log.v("User ID", userID);

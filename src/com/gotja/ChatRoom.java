@@ -41,7 +41,7 @@ public class ChatRoom extends Activity {
 	String message;
 	String nowUserName;
 	String userid;
-	String activityid = "100000217523324_1";//-->¿é¤Jactivityid
+	String activityid;//-->¿é¤Jactivityid
 	String view;
 	private ScrollView mChatBox;
 
@@ -159,6 +159,10 @@ public class ChatRoom extends Activity {
 
 		GlobalVariable globalVariable = (GlobalVariable)getApplicationContext();
 		userid = globalVariable.userID;
+		
+		Bundle bundle = this.getIntent().getExtras();
+		activityid = bundle.getString("uacno");
+		
 		mChatBox = (ScrollView)findViewById(R.id.scrollView);
 		
 

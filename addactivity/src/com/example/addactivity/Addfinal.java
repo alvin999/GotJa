@@ -28,6 +28,7 @@ import android.os.StrictMode;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.text.TextPaint;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -44,6 +45,7 @@ public class Addfinal extends Activity {
 	Button btnback;
 	Button btnp1;
 	TextView tresult;
+	TextView tname;
 
 	String id,uname,time;
 	String name,des,place,friend,whethervote,uacno="0";
@@ -80,8 +82,14 @@ public class Addfinal extends Activity {
         btnback= (Button)findViewById(R.id.btnback);
         btnp1= (Button)findViewById(R.id.btnp1);
 		tresult= (TextView)findViewById(R.id.tresult);
+		tname= (TextView)findViewById(R.id.tname);
 		intent = new Intent(this,Addfriend.class);
-		intentemail = new Intent(this,InviteContacts.class);
+		intentemail = new Intent(this,Addfriend.class);
+		
+		TextPaint tp = tresult.getPaint(); 
+		tp.setFakeBoldText(true);
+		TextPaint tn = tname.getPaint(); 
+		tn.setFakeBoldText(true);
 		
 		 Bundle bundle =getIntent().getExtras();
 		 id=bundle.getString("id");
@@ -127,46 +135,76 @@ public class Addfinal extends Activity {
 				 finish();
 			}			 
 		 });
+		//=======判斷空值
+      	if(name.equals(" ")==true || name.equals("")==true)
+      	{
+      		name=getString(R.string.undifine);
+      	}
+      	if(des.equals(" ")==true || des.equals("")==true)
+      	{
+      		des=getString(R.string.undifine);
+      	}
+      	if(place.equals(" ")==true || place.equals("")==true)
+      	{
+      		place=getString(R.string.undifine);
+      	}
+      	//=============
 
-		 if(pproperty==1 || pproperty==3 || pproperty==6){		 
-		  tresult.setText(getString(R.string.activity_name)+":"+name+"\n");
+		 if(pproperty==1 || pproperty==3 || pproperty==6){				
+			 tname.setText(getString(R.string.activity_name)+"　"+name);
 		 }
 		 
 		 if(pproperty==2)
 		 {
 			 moviename=bundle.getString("moviename");
-			tresult.setText(getString(R.string.activity_name)+":"+name+"\n"+
-							getString(R.string.movie_name)+":"+moviename+"\n");
+			 if(moviename.equals("")==true || moviename.equals(" ")==true)
+          	{
+      			moviename=getString(R.string.undifine);
+          	}
+			 tname.setText(getString(R.string.activity_name)+"　"+name);
+			tresult.setText(getString(R.string.movie_name)+"　"+moviename+"\n");
 		 }
 		 
 		 if(pproperty==4)
 		 {
 			 showname=bundle.getString("showname");
-			 tresult.setText(getString(R.string.activity_name)+":"+name+"\n"+
-					 		 getString(R.string.show_name)+":"+moviename+"\n");
+			 Log.v("log","show:"+ showname);
+			 if(showname.equals(" ")==true || showname.equals("")==true)
+          	{
+      			showname=getString(R.string.undifine);
+          	}
+			 Log.v("log","ashow:"+ showname);
+			 tname.setText(getString(R.string.activity_name)+"　"+name);
+			 tresult.setText(getString(R.string.show_name)+"　"+moviename+"\n");
 		 }
 		 
 		 if(pproperty==5)
-		 {						
-			tresult.setText(getString(R.string.activity_name)+":"+name+"\n"+
-							getString(R.string.process_name)+":\n");
+		 {	
+			 tname.setText(getString(R.string.activity_name)+"　"+name);
+			 tresult.setText(getString(R.string.process)+"\n");
 			 parray=bundle.getStringArrayList("parray");
+			 Log.v("log","parray:"+parray);
+			 if(parray.equals("null")==true)
+            	{              			
+				 tresult.append(getString(R.string.undifine)+"\n");
+            	}else{
 			 pcount=parray.size();
 			 for(int i=0;i<parray.size();i++){
 				tresult.append(parray.get(i)+"\n");
 				 processarray=processarray+"~"+parray.get(i);
 			 }
+            }
 		 }
-		 tresult.append(getString(R.string.des)+":"+des+"\n"+
-						getString(R.string.place)+":"+place+"\n"+
-						getString(R.string.time_result)+":\n");
+		 tresult.append(getString(R.string.des)+"　　　"+des+"\n"+
+						getString(R.string.place)+"　"+place+"\n----------------------------------\n"+
+						getString(R.string.time_result)+"\n");
 		tcount=tarray.size();
 		for(int i=0;i<tarray.size();i++)
 		{
 			tresult.append(" "+tarray.get(i)+"\n");
 			timearray=timearray+"~"+tarray.get(i);
 		}
-		tresult.append(getString(R.string.deadlinetime_result)+":\n"+sd);				
+		tresult.append(getString(R.string.deadlinetime_result)+"\n"+sd);				
 	//=========================================================	        
         btninvite.setOnClickListener(new Button.OnClickListener(){
 			@Override
@@ -191,6 +229,7 @@ public class Addfinal extends Activity {
 		        if(pproperty==2)
 		        {
 		        	params.add(new BasicNameValuePair("moviename", moviename));	
+		        	Log.v("log",moviename);
 		        }
 		        if(pproperty==4)
 				 {
@@ -207,13 +246,12 @@ public class Addfinal extends Activity {
 		          httpRequest.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
 		          HttpResponse httpResponse = new DefaultHttpClient().execute(httpRequest); 
 		          if(httpResponse.getStatusLine().getStatusCode() == 200) 
-		          { 
-		        	  
+		          { 		        	  
 		            String strResult = EntityUtils.toString(httpResponse.getEntity()); 
 		            JSONArray result = new JSONArray(strResult);		        	
 		         	  JSONObject jsonObject = result.getJSONObject(0);      
 		         	 uacno=jsonObject.getString("uacno");
-		         	Log.v("log",uacno);		         	 		         	
+		         	Log.v("log","uacno:"+uacno);		         	 		         	
 		            Toast.makeText(getApplicationContext(),getString(R.string.invite_friend),Toast.LENGTH_LONG).show();
 		          } 
 		          else 

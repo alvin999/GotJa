@@ -13,6 +13,7 @@ import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
@@ -25,12 +26,9 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.GestureDetector.OnGestureListener;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
@@ -41,10 +39,10 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TableLayout;
 import android.widget.TextView;
 
 @TargetApi(Build.VERSION_CODES.GINGERBREAD)
@@ -87,7 +85,7 @@ public class Myactivity extends Fragment {
 		v = inflater.inflate(R.layout.activity_myactivity, container, false);
 
 		addid = getArguments().getString("userid");
-		
+
 		StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
 		.detectDiskReads()
 		.detectDiskWrites()
@@ -274,7 +272,7 @@ public class Myactivity extends Fragment {
 			}
 		});
 		//====================================================偵測listview是否有滾動     
-		listInput.setOnScrollListener(new OnScrollListener() {
+		/*listInput.setOnScrollListener(new OnScrollListener() {
 			@Override
 			public void onScroll(AbsListView arg0, int arg1, int arg2,
 					int arg3) {
@@ -295,7 +293,7 @@ public class Myactivity extends Fragment {
 
 			}
 
-		});
+		});*/
 		return v;
 	}
 
@@ -392,7 +390,7 @@ public class Myactivity extends Fragment {
 
 			TextView mTextView = new TextView(getActivity()); 
 			mTextView.setTextColor(Color.BLACK);
-			mTextView.setHeight(50);
+			//mTextView.setHeight(50);
 			mTextView.setGravity(Gravity.CENTER);
 			mTextView.setTextSize(50);
 			mTextView.setText(items.get(position));
@@ -414,4 +412,10 @@ public class Myactivity extends Fragment {
 			return mTextView;
 		}
 	}//MyCustomAdapter
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		spncontent(null);
+	}
 }

@@ -3,55 +3,59 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    tools:context=".Myactivity"
-    android:background="@drawable/background" >   
+    android:background="@drawable/background"
+    tools:context=".Myactivity" >
 
-        <RelativeLayout
+    <RelativeLayout
         android:id="@+id/rr"
         android:layout_width="wrap_content"
         android:layout_height="45dp"
-         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true">
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="10dp" >
 
- 
         <Spinner
             android:id="@+id/spn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-           android:layout_alignParentLeft="true"
-        	android:layout_alignParentTop="true"
-            android:layout_marginLeft="30dp"/>
-         <Button
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="30dp" />
+
+        <Button
             android:id="@+id/btnmap"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-        	android:layout_alignParentTop="true"
-        	android:layout_marginRight="80dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="80dp"
+            android:background="@layout/button_border2"
             android:text="@string/my_foot"
-            android:textSize="13sp"
-        	android:textColor="#FFFFFF"
-            android:background="@layout/button_border2"/>
-             <Button
+            android:textColor="#FFFFFF"
+            android:textSize="13sp" />
+
+        <Button
             android:id="@+id/btnadd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-        	android:layout_alignParentTop="true"
+            android:layout_alignParentTop="true"
+            android:background="@layout/button_border2"
             android:text="@string/addactivity"
-            android:textSize="13sp"
-        	android:textColor="#FFFFFF"
-            android:background="@layout/button_border2"/>
-   
- </RelativeLayout>
-    <ListView 
+            android:textColor="#FFFFFF"
+            android:textSize="13sp" />
+    </RelativeLayout>
+
+    <ListView
         android:id="@+id/listView1"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_below="@+id/rr"
-        android:headerDividersEnabled="False" 
+        android:layout_centerHorizontal="true"
+        android:divider="@drawable/background"
+        android:dividerHeight="20dip"
+        android:scrollbars="none"
         android:footerDividersEnabled="False"
-        android:dividerHeight="40dip"
-        android:divider="@drawable/background"/>
+        android:headerDividersEnabled="False" />
 
 </RelativeLayout>
