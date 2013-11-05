@@ -116,18 +116,21 @@
             android:padding="5dp"
             style="@style/my_edittext_style_eat"/>
          </RelativeLayout>
-         
-        <TextView
-    		android:id="@+id/message_text"
-    		android:layout_width="match_parent"
-    		android:layout_height="wrap_content"
-    		/>
+       <RelativeLayout
+            android:layout_width="match_parent"
+    		android:layout_height="200dp"
+    		android:layout_marginTop="10dp">
          <fragment 
       android:id="@+id/map"
       android:layout_width="match_parent"
-      android:layout_height="200dp"
-      class="com.google.android.gms.maps.SupportMapFragment"/>
-        
+        android:layout_height="match_parent" 
+      class="com.google.android.gms.maps.SupportMapFragment" />
+         <ImageView
+        android:id="@+id/image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#00000000" />
+    </RelativeLayout>    
         <TextView
             android:id="@+id/tplace"
             android:layout_width="wrap_content"

@@ -85,7 +85,11 @@ public class MainMenu extends FragmentActivity{
 					f.setArguments(bundle);
 				}
 				else if(fragmentId == R.id.btnAdvice){
-					f = new AdviceFragment();
+					Bundle bundle=new Bundle();
+					bundle.putString("userid", userid);
+					f = new Fragment4();
+					  //set Fragmentclass Arguments
+					f.setArguments(bundle);
 				}
 				else if(fragmentId == R.id.btnSetting){
 					f = new SplashFragment();

@@ -18,6 +18,7 @@ import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -42,6 +43,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -50,6 +52,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ScrollView;
@@ -67,9 +70,10 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 	Date dts; 
 	Date dts_deadlinetime_array;
 	ScrollView scroll;
+	ImageView transparentImageView;
+	
 	TextView tname;
 	TextView tdes;
-	TextView mMessageView;
 	TextView tplace;
 	TextView ttime;
 	TextView tdltime;
@@ -86,7 +90,7 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 	EditText editname;
 	EditText editdes;
 	EditText editplace;
-	
+	 
 	View v1;
 	View v2;
 	View v3;
@@ -95,16 +99,16 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
     LocationClient mLocationClient; 
     Double la,lon;
     int countmaker=0,counttemp=0,countmy=0;
+    int daytemp=0,deadlinetimetemp=0;
     double geoLatitude,geoLongitude;
-    String search,name,des;
+    String search,name,position=" ";
     MarkerOptions markerOpt = new MarkerOptions();
     MarkerOptions markerOptother = new MarkerOptions();
-	
 	//Fragment map;
 	private ListView listInput;	
 	private ArrayAdapter<String> adapter;
     private ArrayList<String> items;
-       
+    
     ArrayList<String> tarray = new ArrayList<String>();
     ArrayList<String> dts_array = new ArrayList<String>();
     String property="1",s,syear,smonth,sday,myWeek,str;
@@ -142,17 +146,18 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 		setContentView(R.layout.activity_addeat);
 		
 		scroll = (ScrollView) findViewById(R.id.scroll);
+		transparentImageView = (ImageView) findViewById(R.id.image);
+		
 		v1=(View) findViewById(R.id.v1);
 		v2=(View) findViewById(R.id.v2);
 		v3=(View) findViewById(R.id.v3);
-		
+				
 		editname = (EditText) findViewById(R.id.editname);
 		editdes = (EditText) findViewById(R.id.editdes);
 		editplace = (EditText) findViewById(R.id.editplace);
 		
 		tname = (TextView) findViewById(R.id.tname);
-		tdes= (TextView) findViewById(R.id.tdes);
-		mMessageView= (TextView) findViewById(R.id.message_text);
+		tdes= (TextView) findViewById(R.id.tdes);;
 		tplace= (TextView) findViewById(R.id.tplace);
 
 		ttime = (TextView) findViewById(R.id.ttime);
@@ -171,17 +176,14 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 		Bundle bundle1 =getIntent().getExtras();
 		id=bundle1.getString("id");
 		name=bundle1.getString("name");
-		des=bundle1.getString("des");
 		if(name!=null)
 		{
 			editname.setText(name);
 		}
-		
 //===============================================================================
 	    tdes.setVisibility(View.GONE);
 		editdes.setVisibility(View.GONE);
-		btnaddress.setVisibility(View.GONE);
-		mMessageView.setVisibility(View.GONE);		
+		btnaddress.setVisibility(View.GONE);	
 		//map.setVisibility(View.GONE);
 		tplace.setVisibility(View.GONE);
 		editplace.setVisibility(View.GONE);
@@ -215,13 +217,8 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 					tdes.setVisibility(View.VISIBLE);
 					editdes.setVisibility(View.VISIBLE);
 					btnaddress.setVisibility(View.VISIBLE);
-					mMessageView.setVisibility(View.VISIBLE);
 					editplace.setVisibility(View.VISIBLE);
 					tplace.setVisibility(View.VISIBLE);
-					if(des!=null)
-					{
-						editdes.setText(des);
-					}
 					focusOnView1();									
 				}
 	       });
@@ -236,7 +233,6 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 					tdes.setVisibility(View.VISIBLE);
 					editdes.setVisibility(View.VISIBLE);
 					btnaddress.setVisibility(View.VISIBLE);
-					mMessageView.setVisibility(View.VISIBLE);
 					editplace.setVisibility(View.VISIBLE);
 					tplace.setVisibility(View.VISIBLE);
 					ttime.setVisibility(View.VISIBLE);
@@ -260,8 +256,32 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 				}	
 				else
 				{
-					
-					 
+					if(position.equals(" ")==true && (editdes.getEditableText().toString().equals(" ")!=true || editdes.getEditableText().toString().equals("")!=true))
+					{
+						String input = editdes.getText().toString().trim();
+		    			if(input.length()>0)
+		    			{
+		    				Geocoder geocoder = new Geocoder(Addeat.this);
+		    			    List<Address> addresses =null;
+		    				Address	address=null;
+		    				try{
+		    				addresses = geocoder.getFromLocationName(input,1);
+		    				}
+		    				catch (IOException e){
+		    			           //log.e("AddeToGP",e.toString());
+		    				}
+		    			        if(addresses == null || addresses.isEmpty())
+		    				{
+		    			          Toast.makeText(Addeat.this, "Not Fond", Toast.LENGTH_SHORT).show();}
+		    			else{
+		    				address=addresses.get(0);				
+		    				geoLatitude=address.getLatitude();	
+		    				geoLongitude=address.getLongitude();		    				
+		    			        }		    			       
+		    				position=Double.toString(geoLatitude)+","+Double.toString(geoLongitude);
+		    				Log.v("log","position2 "+position);
+		    			}		
+					}
 			 		Bundle bundle = new Bundle();					
 					 bundle.putString("id", id);
 					 bundle.putString("name", editname.getEditableText().toString());
@@ -270,6 +290,8 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 					 bundle.putStringArrayList("tarray", tarray);
 					 bundle.putString("sd", sd);
 					 bundle.putString("property", property);
+					 bundle.putString("position", position);
+					 Log.v("log","position3 "+position);
 					 					 
 				    intent.putExtras(bundle);
 				 	startActivity(intent);	
@@ -316,15 +338,15 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
     					    mMap.addMarker(markerOptother);
     					    countmaker++;
     					    LatLng nkut = new LatLng(geoLatitude, geoLongitude);
+    					    position=Double.toString(geoLatitude)+","+Double.toString(geoLongitude);
+    					    Log.v("log","position1 "+position);
     					    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(nkut,15.0f));    			
     		}         
     			
     	}
     		
     	});
-        
-//===============================================================================listview
-		
+//===============================================================================listview		
 		    listInput = (ListView)findViewById(R.id.listView1);
 	        items = new ArrayList<String>();
 	        adapter = new MyCustomAdapter(this, android.R.layout.simple_list_item_1, items);
@@ -361,6 +383,11 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 	 btnDate.setOnClickListener(new OnClickListener() {
 	    	@Override
 	    	public void onClick(View source) {
+	    		daytemp=0;
+	    		daytemp++;
+	    		if(daytemp==1){
+	    		Log.v("log","daytemp1 "+daytemp);
+	    		
 	    	Calendar c = Calendar.getInstance();// 直接創建一個DatePickerDialog對話框實例，並將它顯示出來
 	    	Dialog dateDialog = new DatePickerDialog(Addeat.this,
 	    	// 绑定監聽器
@@ -368,7 +395,10 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 	    	@Override
 	    	public void onDateSet(DatePicker dp, int year,
 	    	int month, int dayOfMonth) {
+	    		daytemp++;
+	    		if(daytemp==2){
 	    		
+	    		Log.v("log","daytemp2 "+daytemp);
 	    	Calendar time = Calendar.getInstance();	    	
 	    	syear=Integer.toString(year);
 			smonth=Integer.toString(month+1);
@@ -429,7 +459,8 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 			}
 	    	s=year + "-" + mon + "-"+ da + " 星期"+myWeek+" ";
 	    	dts_time=year + "-" + mon + "-"+ da+" ";
-	      	
+	    	Log.v("log","s "+s);
+	    	
 	    	Dialog timeDialog = new TimePickerDialog(
 	    			Addeat.this,			
 	    	// 绑定監聽器
@@ -438,6 +469,10 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 	    				public void onTimeSet(
 	    						TimePicker tp,
 	    						int hourOfDay, int minute) {
+	    					Log.v("log","daytemp "+daytemp);
+	    					daytemp++;
+	    					if(daytemp==3 || daytemp==4){
+	    						Log.v("log","daytemp3 "+daytemp);
 	    					String h=Integer.toString(hourOfDay);
 	    					String m=Integer.toString(minute);
 	    					if(minute<10)
@@ -466,32 +501,40 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 									Toast.makeText(getApplicationContext(),getString(R.string.delay_nowtime),Toast.LENGTH_LONG).show();
 								}else{								    					
 	    					s=s+h + ":"+ m+":00";
+	    					Log.v("log","time: "+s);
 	    					 menuAddItem();
 	    					 dts_array.add(dts_time);
 	    					 tarray.add(s);      
-	    					 }                  	                    
-	    				}
-	    	}
+	    					 } 
+								daytemp=0;			
+	    				}//daytemp3	    				
+	    			 }
+	    			}//timedialog
 	    			// 設置初始時間
 	    			, time.get(Calendar.HOUR_OF_DAY), time
 	    			.get(Calendar.MINUTE)
 	    			// true表示采用24小時制
 	    			, true);
 	    	timeDialog.setTitle(getString(R.string.please_decide_time));
-	    	timeDialog.show();
-	    		}
+	    		timeDialog.show();		    	
+	    	 }//daytemp2
 	    	}
+	    }	    	
 	    	// 設置初始日期
 	    		, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c
 	    		.get(Calendar.DAY_OF_MONTH));
-	    		dateDialog.setTitle(getString(R.string.please_decide_date));
-	    		dateDialog.show();
+	    		dateDialog.setTitle(getString(R.string.please_decide_date));	    		
+	    		dateDialog.show();	    	
+	    		}//daytemp	    		
 	    	}
-	    	});
-	     
+	    });
+	 
 	 btndeadlinetime.setOnClickListener(new OnClickListener() {
 	    	@Override
 	    	public void onClick(View source) {
+	    		deadlinetimetemp=0;
+	    		deadlinetimetemp++;
+	    		if(deadlinetimetemp==1){
 	    	Calendar c = Calendar.getInstance();// 直接創建一個DatePickerDialog對話框實例，並將它顯示出來
 	    	Dialog dateDialog = new DatePickerDialog(Addeat.this,
 	    	// 绑定監聽器
@@ -499,7 +542,8 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 	    	@Override
 	    	public void onDateSet(DatePicker dp, int year,
 	    	int month, int dayOfMonth) {
-	    		
+	    		deadlinetimetemp++;
+	    		if(deadlinetimetemp==2){
 	    	Calendar time = Calendar.getInstance();	    	
 	    	syear=Integer.toString(year);
 			smonth=Integer.toString(month+1);
@@ -569,6 +613,8 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 	    				public void onTimeSet(
 	    						TimePicker tp,
 	    						int hourOfDay, int minute) {
+	    					deadlinetimetemp++;
+	    					if(deadlinetimetemp==3 || deadlinetimetemp==4){
 	    					String h=Integer.toString(hourOfDay);
 	    					String m=Integer.toString(minute);
 	    					if(minute<10)
@@ -623,6 +669,8 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 									sd=sd+h + ":"+ m+":00";
 									tdeadlinetime.setText(sd+"\n");	 
 								}
+								deadlinetimetemp=0;
+	    					}//deadlinetimetemp=3
 	    				}
 	    	}
 	    			// 設置初始時間
@@ -632,6 +680,7 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 	    			, true);
 	    	timeDialog.setTitle(getString(R.string.please_decide_time));
 	    	timeDialog.show();
+	    		}//deadlinetimetemp=2
 	    		}
 	    	}
 	    	// 設置初始日期
@@ -639,8 +688,36 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 	    		.get(Calendar.DAY_OF_MONTH));
 	    		dateDialog.setTitle(getString(R.string.please_decide_date));
 	    		dateDialog.show();
+	    		}//deadlinetemp=1
 	    	}
-	    	});
+	 });
+	 transparentImageView.setOnTouchListener(new View.OnTouchListener() {
+
+	     @Override
+	     public boolean onTouch(View v, MotionEvent event) {
+	         int action = event.getAction();
+	         switch (action) {
+	            case MotionEvent.ACTION_DOWN:
+	                 // Disallow ScrollView to intercept touch events.
+	                 scroll.requestDisallowInterceptTouchEvent(true);
+	                 // Disable touch on transparent view
+	                 return false;
+
+	            case MotionEvent.ACTION_UP:
+	                 // Allow ScrollView to intercept touch events.
+	            	scroll.requestDisallowInterceptTouchEvent(false);
+	                 return true;
+
+	            case MotionEvent.ACTION_MOVE:
+	            	scroll.requestDisallowInterceptTouchEvent(true);
+	                 return false;
+
+	            default: 
+	                 return true;
+	         }   
+	     }
+	 });
+	 
 		}
 //====================================================================++listview
 	    @Override
@@ -674,7 +751,7 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 		        params.height = totalHeight; 
 		        listInput.setLayoutParams(params); 
 	    }
-//====================================================================== map
+//====================================================================== map	   
 @Override
 protected void onResume() {
 super.onResume();
@@ -716,7 +793,6 @@ if (mLocationClient == null) {
   
   @Override
   public void onLocationChanged(Location location) {
-    mMessageView.setText("Location = " + location.getLatitude()+" "+location.getLongitude());
     if(countmy==0)
     {
     	LatLng nkut = new LatLng(location.getLatitude(), location.getLongitude());
@@ -761,6 +837,8 @@ public class MyCustomAdapter extends ArrayAdapter<String> {
         return mTextView;  
 	 }
 	}//MyCustomAdapter
+
+
 }
 
 

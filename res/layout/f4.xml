@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" 
+    android:background="@drawable/background">
+
+    <Button
+        android:id="@+id/btn_food"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:text="food" />
+
+    <Button
+        android:id="@+id/btn_movie"
+        android:layout_width="fill_parent"
+    	android:layout_height="50dp"
+        android:text="movie" />
+    <Button
+        android:id="@+id/btn_show"
+        android:layout_width="fill_parent"
+    	android:layout_height="50dp"
+        android:text="show" />
+    <Button
+        android:id="@+id/btn_comment_food"
+        android:layout_width="fill_parent"
+    	android:layout_height="50dp"
+        android:text="comment_food" />
+    <Button
+        android:id="@+id/btn_comment_outdoor"
+        android:layout_width="fill_parent"
+    	android:layout_height="50dp"
+        android:text="comment_outdoor" />
+
+   
+
+</LinearLayout>

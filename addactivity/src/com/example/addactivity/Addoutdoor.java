@@ -41,6 +41,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -49,6 +50,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ScrollView;
@@ -66,9 +68,10 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 	 Date dts;
 	 Date dts_deadlinetime_array;
 	 ScrollView scroll;
+	 ImageView transparentImageView;
+	 
 	TextView tname;
 	TextView tdes;
-	TextView mMessageView;
 	TextView tplace;
 	TextView ttime;
 	TextView tprocess;
@@ -98,6 +101,7 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 	  GoogleMap mMap;  
       LocationClient mLocationClient; 
       Double la,lon;
+      int daytemp=0,deadlinetimetemp=0,ptemp=0;
       int countmaker=0,countmy=0;
       double geoLatitude,geoLongitude;
      String search;
@@ -116,7 +120,7 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
     ArrayList<String> dts_array = new ArrayList<String>();
     
     String property="5",s,syear,smonth,sday,myWeek,str,process;
-    String sd,s2,dts_time,dts_deadlinetime;
+    String s1,sd,s2,dts_time,dts_deadlinetime,position=" ";
     int counttemp=0;
     Intent intent;    
     private final void focusOnView1(){
@@ -150,6 +154,7 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 		setContentView(R.layout.activity_addoutdoor);
 		
 		scroll = (ScrollView) findViewById(R.id.scroll);
+		transparentImageView = (ImageView) findViewById(R.id.image);
 		
 		v1=(View) findViewById(R.id.v1);
 		v2=(View) findViewById(R.id.v2);
@@ -161,7 +166,6 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 		
 		tname = (TextView) findViewById(R.id.tname);
 		tdes= (TextView) findViewById(R.id.tdes);
-		mMessageView= (TextView) findViewById(R.id.message_text);
 		tplace= (TextView) findViewById(R.id.tplace);
 		tprocess= (TextView) findViewById(R.id.tprocess);
 		ttime = (TextView) findViewById(R.id.ttime);
@@ -181,8 +185,7 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 //===============================================================================
 	    tdes.setVisibility(View.GONE);
 		editdes.setVisibility(View.GONE);
-		btnaddress.setVisibility(View.GONE);
-		mMessageView.setVisibility(View.GONE);		
+		btnaddress.setVisibility(View.GONE);		
 		//map.setVisibility(View.GONE);
 		tplace.setVisibility(View.GONE);
 		editplace.setVisibility(View.GONE);	
@@ -217,7 +220,6 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 					tdes.setVisibility(View.VISIBLE);
 					editdes.setVisibility(View.VISIBLE);
 					btnaddress.setVisibility(View.VISIBLE);
-					mMessageView.setVisibility(View.VISIBLE);
 					editplace.setVisibility(View.VISIBLE);
 					tplace.setVisibility(View.VISIBLE);
 					btnprocess.setVisibility(View.VISIBLE);
@@ -236,7 +238,6 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 					tdes.setVisibility(View.VISIBLE);
 					editdes.setVisibility(View.VISIBLE);
 					btnaddress.setVisibility(View.VISIBLE);
-					mMessageView.setVisibility(View.VISIBLE);
 					editplace.setVisibility(View.VISIBLE);
 					tplace.setVisibility(View.VISIBLE);
 					btnprocess.setVisibility(View.VISIBLE);
@@ -265,6 +266,32 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 					}	
 					else
 					{
+						if(position.equals(" ")==true && (editdes.getEditableText().toString().equals(" ")!=true || editdes.getEditableText().toString().equals("")!=true))
+						{
+							String input = editdes.getText().toString().trim();
+			    			if(input.length()>0)
+			    			{
+			    				Geocoder geocoder = new Geocoder(Addoutdoor.this);
+			    			    List<Address> addresses =null;
+			    				Address	address=null;
+			    				try{
+			    				addresses = geocoder.getFromLocationName(input,1);
+			    				}
+			    				catch (IOException e){
+			    			           //log.e("AddeToGP",e.toString());
+			    				}
+			    			        if(addresses == null || addresses.isEmpty())
+			    				{
+			    			          Toast.makeText(Addoutdoor.this, "Not Fond", Toast.LENGTH_SHORT).show();}
+			    			else{
+			    				address=addresses.get(0);				
+			    				geoLatitude=address.getLatitude();	
+			    				geoLongitude=address.getLongitude();		    				
+			    			        }		    			       
+			    				position=Double.toString(geoLatitude)+","+Double.toString(geoLongitude);
+			    				Log.v("log","position2 "+position);
+			    			}		
+						}
 					Bundle bundle1 =getIntent().getExtras();
 					String id=bundle1.getString("id");
 					 
@@ -277,6 +304,7 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 					 bundle.putStringArrayList("tarray", tarray);					 
 					 bundle.putString("sd", sd);
 					 bundle.putString("property", property);
+					 bundle.putString("position", position);
 					 bundle.putString("process", process);				 
 					 
 				    intent.putExtras(bundle);
@@ -321,6 +349,8 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
     					    mMap.addMarker(markerOptother);
     					    countmaker++;
     					    LatLng nkut = new LatLng(geoLatitude, geoLongitude);
+    					    position=Double.toString(geoLatitude)+","+Double.toString(geoLongitude);
+    					    Log.v("log","position1 "+position);
     					    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(nkut,15.0f));    			
     		}            			
     	}   		
@@ -373,7 +403,6 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 	                .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
 	                    @Override
 	                    public void onClick(DialogInterface dialog, int which) {
-	                
 	                    	parray.remove(pos);
 	                        items2.remove(pos);
 	                        listInput2.setAdapter(adapter2);
@@ -388,12 +417,16 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 					return false;
 				}
 	        });
-	        final LayoutInflater inflater = LayoutInflater.from(Addoutdoor.this);	
+	 /*       final LayoutInflater inflater = LayoutInflater.from(Addoutdoor.this);	
 	        builder = new AlertDialog.Builder(this);
 			   btnprocess.setOnClickListener(new Button.OnClickListener(){
 					@Override
 					public void onClick(View v) {
-						// TODO Auto-generated method stub
+					 	// TODO Auto-generated method stub
+						ptemp=0;
+						 ptemp++;
+						 if(ptemp==1)
+						 {	
 						 View login_view = inflater.inflate(R.layout.process_view,null);							
 							edit=(EditText)login_view.findViewById(R.id.edit);
 					        builder.setTitle(getString(R.string.process_addname));		 
@@ -404,6 +437,7 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 		        @Override
 		        public void onClick(DialogInterface arg0, int arg1) {
 		              //如果未輸入提示使用者輸入
+		        	
 		           try{
 		        	  		s2=edit.getEditableText().toString();
 		        	  		Calendar time = Calendar.getInstance();
@@ -416,6 +450,8 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 		        	    				public void onTimeSet(
 		        	    						TimePicker tp,
 		        	    						int hourOfDay, int minute) {
+		        	    					ptemp++;
+		        	    		    		if(ptemp==2){
 		        	    					String h=Integer.toString(hourOfDay);
 		        	    					String m=Integer.toString(minute);
 		        	    					if(minute<10)
@@ -435,6 +471,9 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 		        	    	@Override
 		        	    	public void onDateSet(DatePicker dp, int year,
 		        	    	int month, int dayOfMonth) {
+		        	    		ptemp++;
+		    		    		if(ptemp==3){
+		        	    	
 		        	    		String mon=Integer.toString(month + 1);
 		        				String da=Integer.toString(dayOfMonth);
 		        				if(month + 1<10)
@@ -472,12 +511,15 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 		        	    				        listInput2.setLayoutParams(params);	      	    				        
 		        	    				        parray.add(s2);		        	    				     			        	    			          
 		        	    	    }
-		        	  		}		        	    				
+		    		    		ptemp=0;
+		        	    	}//ptemp=3
+		        	  	}		        	    				
 			        	    			       // 設置初始日期
 			  			        	    		, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c
 			  			        	    		.get(Calendar.DAY_OF_MONTH));
 			  			        	    		dateDialog.setTitle(getString(R.string.please_decide_time));
-			  			        	    		dateDialog.show();		        	    			
+			  			        	    		dateDialog.show();
+		        	    		    		}//ptemp=2
 		        	    	}
 		        	    }
 		        	  			
@@ -497,13 +539,149 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 		           public void onClick(DialogInterface arg0, int arg1) {
 		           }
 		   }).create();    			      
-			      dialog.show();		      		
+			      dialog.show();
+						 }//ptemp=1
+	             }							
+			   });*/
+	       final LayoutInflater inflater = LayoutInflater.from(Addoutdoor.this);	
+	        builder = new AlertDialog.Builder(this);
+			   btnprocess.setOnClickListener(new Button.OnClickListener(){
+					@Override
+					public void onClick(View v) {
+					 	// TODO Auto-generated method stub
+						ptemp=0;
+						ptemp++;
+						 if(ptemp==1)
+						 {	
+						 View login_view = inflater.inflate(R.layout.process_view,null);							
+							edit=(EditText)login_view.findViewById(R.id.edit);
+					        builder.setTitle(getString(R.string.process_addname));		 
+						    builder.setMessage(getString(R.string.process_addcontent));	
+					        builder.setView(login_view);					        
+		final AlertDialog dialog = builder.setPositiveButton(getString(R.string.ok),
+		       new DialogInterface.OnClickListener() {
+		        @Override
+		        public void onClick(DialogInterface arg0, int arg1) {
+		              //如果未輸入提示使用者輸入
+		        	ptemp++;
+					 if(ptemp==2)
+					 {	
+		           try{
+		        	  		s1=edit.getEditableText().toString();
+		        	  		Calendar c = Calendar.getInstance();
+		        	  		Dialog dateDialog = new DatePickerDialog(Addoutdoor.this,
+		        	    	// 绑定監聽器
+		        	    	new DatePickerDialog.OnDateSetListener() {
+		        	    	@Override
+		        	    	public void onDateSet(DatePicker dp, int year,
+		        	    	int month, int dayOfMonth) {
+		        	    		ptemp++;
+		    		    		if(ptemp==3){
+		        	    	
+		        	    		String mon=Integer.toString(month + 1);
+		        				String da=Integer.toString(dayOfMonth);
+		        				if(month + 1<10)
+		        				{
+		        					mon="0"+mon;
+		        				}
+		        				if(dayOfMonth<10)
+		        				{
+		        					da="0"+da;
+		        				}		        	    				        	  		
+		        	  		s2=year + "-" + mon + "-"+ da+" ";
+	       	    	                   
+		        	  		Calendar time = Calendar.getInstance();
+		        	  		// 直接創建一個DatePickerDialog對話框實例，並將它顯示出來
+		        	  		Dialog timeDialog = new TimePickerDialog(
+		        	  				Addoutdoor.this,			
+		        	    	// 绑定監聽器
+		        	    	new TimePickerDialog.OnTimeSetListener() {
+		        	    				@Override
+		        	    				public void onTimeSet(
+		        	    						TimePicker tp,
+		        	    						int hourOfDay, int minute) {
+		        	    					ptemp++;
+		        	    		    		if(ptemp==4 || ptemp==5){
+		        	    					String h=Integer.toString(hourOfDay);
+		        	    					String m=Integer.toString(minute);
+		        	    					if(minute<10)
+		        	    					{
+		        	    						m="0"+m;
+		        	    					}
+		        	    					if(hourOfDay<10)
+		        	    					{
+		        	    						h="0"+h;
+		        	    					}
+		        	    					
+		        	    					s2=s2+h + ":"+ m+" "+s1;	
+		        	    					Log.v("log","ps2 "+s2);
+		        	    					  items2.add(s2);     
+		        	    			          listInput2.setAdapter(adapter2);  
+		        	    			          Log.v("log","count "+Integer.toString(adapter2.getCount()));
+		        	    				        for (int i = 0; i < adapter2.getCount(); i++) {  
+		        	    				            View listItem = adapter2.getView(i, null, listInput2);  
+		        	    				            listItem.measure(0, 0);  
+		        	    				            if(i==0)
+		        	    				            {
+		        	    				            	kp=listItem.getMeasuredHeight();	 
+		        	    				            }		        	    				            
+		        	    				        } 
+		        	    				        if(s2.length()>23)
+		        	    				        {
+		        	    				        	kp=kp+kp;
+		        	    				        }    
+		        	    				        //Log.v("log","s2 "+Integer.toString(s2.length()));
+		        	    				        //Log.v("log","kp "+Integer.toString(kp));
+		        	    				        totalHeightp += kp;
+		        	    				       // Log.v("log","totalHeightp "+Integer.toString(totalHeightp));
+		        	    				        ViewGroup.LayoutParams params = listInput2.getLayoutParams();  
+		        	    				        params.height = totalHeightp;
+		        	    				        //Log.v("log","getDividerHeight() "+Integer.toString(listInput2.getDividerHeight()));
+		        	    				        listInput2.setLayoutParams(params);	
+		        	    				        parray.add(s2);
+		        	    				        ptemp=0;
+		        	    		    		}//ptemp=4
+		        	    	}
+		        	    }
+		        	  				// 設置初始時間
+		        	    			, time.get(Calendar.HOUR_OF_DAY), time
+		        	    			.get(Calendar.MINUTE)
+		        	    			// true表示采用24小時制
+		        	    			, true);
+		        	    	timeDialog.setTitle(getString(R.string.please_decide_time));
+		        	    	timeDialog.show();	
+		    		    		  }	//ptemp=3	    		    	
+		        	    	}
+		        	  	}		        	    				
+			        	    			       // 設置初始日期
+			  			        	    		, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c
+			  			        	    		.get(Calendar.DAY_OF_MONTH));
+			  			        	    		dateDialog.setTitle(getString(R.string.please_decide_date));
+			  			        	    		dateDialog.show();
+		        	    	
+		        	    	
+		           }catch(Exception e){		        	          
+		           }
+		        }//ptemp=2
+		        }
+		   }).setNegativeButton("取消",new DialogInterface.OnClickListener() 
+		   {   
+		        @Override
+		           public void onClick(DialogInterface arg0, int arg1) {
+		           }
+		   }).create();    			      
+			      dialog.show();
+						 }//ptemp=1
 	             }							
 			   });
+	       
 //==============================================================================	 
 	 btnDate.setOnClickListener(new OnClickListener() {
 	    	@Override
 	    	public void onClick(View source) {
+	    		daytemp=0;
+	    		daytemp++;
+	    		if(daytemp==1){
 	    	Calendar c = Calendar.getInstance();// 直接創建一個DatePickerDialog對話框實例，並將它顯示出來
 	    	Dialog dateDialog = new DatePickerDialog(Addoutdoor.this,
 	    	// 绑定監聽器
@@ -511,7 +689,8 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 	    	@Override
 	    	public void onDateSet(DatePicker dp, int year,
 	    	int month, int dayOfMonth) {
-	    		
+	    		daytemp++;
+	    		if(daytemp==2){
 	    	Calendar time = Calendar.getInstance();	    	
 	    	syear=Integer.toString(year);
 			smonth=Integer.toString(month+1);
@@ -580,7 +759,8 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 	    				public void onTimeSet(
 	    						TimePicker tp,
 	    						int hourOfDay, int minute) {
-	    					
+	    					daytemp++;
+	    					if(daytemp==3 || daytemp==4){
 	    					String h=Integer.toString(hourOfDay);
 	    					String m=Integer.toString(minute);
 	    					if(minute<10)
@@ -612,7 +792,9 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 	    					 menuAddItem();
 	    					 dts_array.add(dts_time);
 	    					 tarray.add(s);      
-	    					 }                          	                          
+	    					 }       
+								daytemp=0;			
+		    				}//daytemp3	
 	    				}
 	    	}
 	    			// 設置初始時間
@@ -622,6 +804,7 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 	    			, true);
 	    	timeDialog.setTitle(getString(R.string.please_decide_time));
 	    	timeDialog.show();
+	    		}//daytemp2
 	    		}
 	    	}
 	    	// 設置初始日期
@@ -629,12 +812,16 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 	    		.get(Calendar.DAY_OF_MONTH));
 	    		dateDialog.setTitle(getString(R.string.please_decide_date));
 	    		dateDialog.show();
+	    		}//daytemp	
 	    	}
 	    	});
 	     
 	 btndeadlinetime.setOnClickListener(new OnClickListener() {
 	    	@Override
 	    	public void onClick(View source) {
+	    		deadlinetimetemp=0;
+	    		deadlinetimetemp++;
+	    		if(deadlinetimetemp==1){
 	    	Calendar c = Calendar.getInstance();// 直接創建一個DatePickerDialog對話框實例，並將它顯示出來
 	    	Dialog dateDialog = new DatePickerDialog(Addoutdoor.this,
 	    	// 绑定監聽器
@@ -642,7 +829,8 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 	    	@Override
 	    	public void onDateSet(DatePicker dp, int year,
 	    	int month, int dayOfMonth) {
-	    		
+	    		deadlinetimetemp++;
+	    		if(deadlinetimetemp==2){
 	    	Calendar time = Calendar.getInstance();	    	
 	    	syear=Integer.toString(year);
 			smonth=Integer.toString(month+1);
@@ -713,7 +901,8 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 	    				public void onTimeSet(
 	    						TimePicker tp,
 	    						int hourOfDay, int minute) {
-	    					
+	    					deadlinetimetemp++;
+	    					if(deadlinetimetemp==3 || deadlinetimetemp==4){
 	    					String h=Integer.toString(hourOfDay);
 	    					String m=Integer.toString(minute);
 	    					if(minute<10)
@@ -764,7 +953,9 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 								else{
 									sd=sd+h + ":"+ m+":00";
 									tdeadlinetime.setText(sd+"\n");	 
-								}	                  
+								}	 
+								deadlinetimetemp=0;
+	    					}//deadlinetimetemp=3
 	    				}
 	    	}
 	    			// 設置初始時間
@@ -774,6 +965,7 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 	    			, true);
 	    	timeDialog.setTitle(getString(R.string.please_decide_time));
 	    	timeDialog.show();
+	    		}//deadlinetimetemp=2
 	    		}
 	    	}
 	    	// 設置初始日期
@@ -781,8 +973,35 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 	    		.get(Calendar.DAY_OF_MONTH));
 	    		dateDialog.setTitle(getString(R.string.please_decide_date));
 	    		dateDialog.show();
+	    		}//deadlinetemp=1
 	    	}
 	    	});
+	 transparentImageView.setOnTouchListener(new View.OnTouchListener() {
+
+	     @Override
+	     public boolean onTouch(View v, MotionEvent event) {
+	         int action = event.getAction();
+	         switch (action) {
+	            case MotionEvent.ACTION_DOWN:
+	                 // Disallow ScrollView to intercept touch events.
+	                 scroll.requestDisallowInterceptTouchEvent(true);
+	                 // Disable touch on transparent view
+	                 return false;
+
+	            case MotionEvent.ACTION_UP:
+	                 // Allow ScrollView to intercept touch events.
+	            	scroll.requestDisallowInterceptTouchEvent(false);
+	                 return true;
+
+	            case MotionEvent.ACTION_MOVE:
+	            	scroll.requestDisallowInterceptTouchEvent(true);
+	                 return false;
+
+	            default: 
+	                 return true;
+	         }   
+	     }
+	 });
 		}
 //====================================================================++listview
 	    @Override
@@ -854,7 +1073,6 @@ if (mLocationClient == null) {
 }
   @Override
   public void onLocationChanged(Location location) {
-    mMessageView.setText("Location = " + location.getLatitude()+" "+location.getLongitude());
     if(countmy==0)
     {
     	LatLng nkut = new LatLng(location.getLatitude(), location.getLongitude());

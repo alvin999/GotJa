@@ -5,6 +5,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
+
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
@@ -28,6 +39,7 @@ import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -57,7 +69,7 @@ public  class MAP extends FragmentActivity
   int countmaker=0;
   double geoLatitude,geoLongitude;
   String input,search,la,lon;
-  int count=0,countmy=0;
+  int count=0,countmy=0,ct=0;
   int stop=1;
   ArrayList<String> longt=new ArrayList<String>();
   ArrayList<String> latt=new ArrayList<String>();
@@ -72,6 +84,28 @@ public  class MAP extends FragmentActivity
       .setInterval(10000)         // 5 seconds
       .setFastestInterval(16)    // 16ms = 60fps
       .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+  private class GotjaBroadcastReceiver extends BroadcastReceiver
+	{
+		public void onReceive(Context context, Intent intent)
+		{
+			//loadChatView();
+			latt = intent.getStringArrayListExtra("latt");
+			 longt = intent.getStringArrayListExtra("longt");
+			String t=intent.getExtras().getString("data");
+			 
+			 count=Integer.parseInt(t);
+
+			 if(ct==0 && count!=0)
+			    {
+			    	stop=0;
+			    	btnclean.setVisibility(View.GONE);
+					btnstop.setText(getString(R.string.stop));
+					ct++;
+			    }
+			Log.v("log","t "+t);
+			Log.v("BroadcastReceive", "Receive!");
+		}
+	}
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -81,10 +115,10 @@ public  class MAP extends FragmentActivity
     btnaddress = (Button)findViewById(R.id.btnaddress);
     btnstop = (Button)findViewById(R.id.btnstop);
     btnclean = (Button)findViewById(R.id.btnclean);
-   editaddress = (EditText)findViewById(R.id.editaddress);    
+    editaddress = (EditText)findViewById(R.id.editaddress);    
     mMessageView = (TextView) findViewById(R.id.message_text);
     btnclean.setVisibility(View.GONE);
-    
+  
     btnclean.setOnClickListener(new Button.OnClickListener(){
     	@Override
     	public void onClick(View v) {
@@ -101,6 +135,7 @@ public  class MAP extends FragmentActivity
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
+		
 		stop++;
 		if(stop%2==0)
 		{
@@ -153,29 +188,12 @@ public  class MAP extends FragmentActivity
 					    countmaker++;
 					    LatLng nkut = new LatLng(geoLatitude, geoLongitude);
 					    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(nkut,15.0f));    			
-		}         
-			
-	}
-		
-});
-
-    
+		}         			
+	}		
+});    
   
-  }
-  private class GotjaBroadcastReceiver extends BroadcastReceiver
-	{
-		public void onReceive(Context context, Intent intent)
-		{
-			//loadChatView();
-			latt = intent.getStringArrayListExtra("latt");
-			 longt = intent.getStringArrayListExtra("longt");
-			String t=intent.getExtras().getString("data");
-			 
-			 count=Integer.parseInt(t);
-			Log.v("log","t "+t);
-			Log.v("BroadcastReceive", "Receive!");
-		}
-	}
+}//oncreate()
+
   GotjaBroadcastReceiver broadcastReceiver = new GotjaBroadcastReceiver();
   @Override
   protected void onResume() {

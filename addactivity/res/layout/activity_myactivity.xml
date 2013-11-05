@@ -3,59 +3,66 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/background"
-    tools:context=".Myactivity" >
-
-    <RelativeLayout
-        android:id="@+id/rr"
+    android:orientation="vertical"
+    tools:context=".Myactivity"
+    android:background="@drawable/background" >   
+    <TextView
+        android:id="@+id/ttt"
         android:layout_width="wrap_content"
-        android:layout_height="45dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="10dp" >
-
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="30dp"
+        android:textSize="20sp"
+        android:textColor="#000000"
+        android:text="@string/classify"/>
+ 
         <Spinner
             android:id="@+id/spn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="30dp" />
-
-        <Button
-            android:id="@+id/btnmap"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginRight="80dp"
-            android:background="@layout/button_border2"
-            android:text="@string/my_foot"
-            android:textColor="#FFFFFF"
-            android:textSize="13sp" />
-
+            android:layout_alignTop="@+id/ttt"
+           android:layout_alignLeft="@+id/ttt"
+            android:layout_marginLeft="50dp"
+             />
         <Button
             android:id="@+id/btnadd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:background="@layout/button_border2"
+        	android:layout_alignParentTop="true"
+        	android:layout_marginTop="30dp"
+        	android:layout_marginRight="30dp"
             android:text="@string/addactivity"
-            android:textColor="#FFFFFF"
-            android:textSize="13sp" />
-    </RelativeLayout>
-
-    <ListView
+            android:textSize="15sp"
+        	android:textColor="#FFFFFF"
+            android:background="@layout/button_border2"/>
+ 
+    <ListView 
         android:id="@+id/listView1"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/rr"
-        android:layout_centerHorizontal="true"
-        android:divider="@drawable/background"
-        android:dividerHeight="20dip"
-        android:scrollbars="none"
+        android:layout_width="250dp"
+        android:layout_height="280dp"
+        android:layout_below="@+id/spn"
+        android:layout_marginTop="30dp"
+        android:headerDividersEnabled="False" 
         android:footerDividersEnabled="False"
-        android:headerDividersEnabled="False" />
+        android:dividerHeight="5dip"
+        android:divider="#F0F0F0"
+        android:layout_marginLeft="35dp" />
+    
+    <Button
+            android:id="@+id/btnmap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+        	android:layout_alignParentBottom="true"
+        	android:layout_marginBottom="15dp"
+        	android:layout_marginRight="30dp"
+            android:text="@string/my_foot"
+            android:textSize="15sp"
+        	android:textColor="#FFFFFF"
+            android:background="@layout/button_border2"/>
+
 
 </RelativeLayout>

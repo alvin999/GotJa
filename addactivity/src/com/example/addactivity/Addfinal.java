@@ -1,12 +1,9 @@
-package com.example.addactivity;
+﻿package com.example.addactivity;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList; 
-import java.util.Date;
 import java.util.List; 
   
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse; 
 import org.apache.http.NameValuePair; 
 import org.apache.http.client.ClientProtocolException; 
@@ -26,11 +23,9 @@ import android.os.Build;
 import android.os.StrictMode;
 
 import android.os.Bundle;
-import android.app.Activity;
 import android.content.Intent;
 import android.text.TextPaint;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -47,7 +42,7 @@ public class Addfinal extends Activity {
 	TextView tresult;
 	TextView tname;
 
-	String id,uname,time;
+	String id,uname,time,position;
 	String name,des,place,friend,whethervote,uacno="0";
 	String syear,smonth,sday,timearray,sd,ccount,property,moviename,showname,processarray,ppcount;
 	int pproperty,pcount,tcount;
@@ -84,7 +79,7 @@ public class Addfinal extends Activity {
 		tresult= (TextView)findViewById(R.id.tresult);
 		tname= (TextView)findViewById(R.id.tname);
 		intent = new Intent(this,Addfriend.class);
-		intentemail = new Intent(this,Addfriend.class);
+		intentemail = new Intent(this,InviteContacts.class);
 		
 		TextPaint tp = tresult.getPaint(); 
 		tp.setFakeBoldText(true);
@@ -98,9 +93,16 @@ public class Addfinal extends Activity {
 		 place=bundle.getString("place");
 		 friend=bundle.getString("friend");	
 		 tarray=bundle.getStringArrayList("tarray");
-		 sd=bundle.getString("sd");		
+		 sd=bundle.getString("sd");	
+		 position=bundle.getString("position");
+		 Log.v("log","position4 "+position);
+		 if(position.equals(" ")==true)
+		 {
+			 position="0";
+		 }
 		 property=bundle.getString("property");
 		 pproperty=Integer.parseInt(property);
+		  
 		 
 		switch(pproperty){
 			case 1:					
@@ -224,6 +226,7 @@ public class Addfinal extends Activity {
 		        params.add(new BasicNameValuePair("count", ccount));
 		        params.add(new BasicNameValuePair("sd", sd));
 		        params.add(new BasicNameValuePair("property", property));
+		        //params.add(new BasicNameValuePair("position", position));
 		        params.add(new BasicNameValuePair("uacno", uacno));
 		        
 		        if(pproperty==2)

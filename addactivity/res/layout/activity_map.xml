@@ -22,9 +22,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_marginLeft="10dp"
-        android:onClick="showMyLocation"     
+        android:layout_marginLeft="10dp"     
         android:text="@string/search"
+        android:onClick="showMyLocation"
         android:textSize="15sp"
         android:textColor="#FFFFFF"
         android:background="@layout/button_border2"/>

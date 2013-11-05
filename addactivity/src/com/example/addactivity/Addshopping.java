@@ -41,6 +41,7 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -49,6 +50,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ScrollView;
@@ -66,9 +68,10 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 	 Date dts;
 	 Date dts_deadlinetime_array;
 	 ScrollView scroll;
+	 ImageView transparentImageView;
+	 
 	TextView tname;
 	TextView tdes;
-	TextView mMessageView;
 	TextView tplace;
 	TextView ttime;
 	TextView tdltime;
@@ -93,6 +96,7 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 	  GoogleMap mMap;  
       LocationClient mLocationClient; 
       Double la,lon;
+      int daytemp=0,deadlinetimetemp=0;
       int countmaker=0,countmy=0;
       double geoLatitude,geoLongitude;
      String search;
@@ -106,7 +110,7 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
     ArrayList<String> tarray = new ArrayList<String>();
     ArrayList<String> dts_array = new ArrayList<String>();
     String property="3",s,syear,smonth,sday,myWeek,str;
-    String sd,dts_time,dts_deadlinetime;
+    String sd,dts_time,dts_deadlinetime,position=" ";
     int counttemp=0;
     Intent intent;
     private final void focusOnView1(){
@@ -140,6 +144,7 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 		setContentView(R.layout.activity_addshopping);
 		
 		scroll = (ScrollView) findViewById(R.id.scroll);
+		transparentImageView = (ImageView) findViewById(R.id.image);
 		
 		v1=(View) findViewById(R.id.v1);
 		v2=(View) findViewById(R.id.v2);
@@ -151,7 +156,6 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 		
 		tname = (TextView) findViewById(R.id.tname);
 		tdes= (TextView) findViewById(R.id.tdes);
-		mMessageView= (TextView) findViewById(R.id.message_text);
 		tplace= (TextView) findViewById(R.id.tplace);
 		ttime = (TextView) findViewById(R.id.ttime);
 		tdltime = (TextView) findViewById(R.id.tdltime);
@@ -169,8 +173,7 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 //===============================================================================
 	    tdes.setVisibility(View.GONE);
 		editdes.setVisibility(View.GONE);
-		btnaddress.setVisibility(View.GONE);
-		mMessageView.setVisibility(View.GONE);		
+		btnaddress.setVisibility(View.GONE);		
 		//map.setVisibility(View.GONE);
 		tplace.setVisibility(View.GONE);
 		editplace.setVisibility(View.GONE);
@@ -202,7 +205,6 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 					tdes.setVisibility(View.VISIBLE);
 					editdes.setVisibility(View.VISIBLE);
 					btnaddress.setVisibility(View.VISIBLE);
-					mMessageView.setVisibility(View.VISIBLE);
 					editplace.setVisibility(View.VISIBLE);
 					tplace.setVisibility(View.VISIBLE);
 					focusOnView1();									
@@ -219,7 +221,6 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 					tdes.setVisibility(View.VISIBLE);
 					editdes.setVisibility(View.VISIBLE);
 					btnaddress.setVisibility(View.VISIBLE);
-					mMessageView.setVisibility(View.VISIBLE);
 					editplace.setVisibility(View.VISIBLE);
 					tplace.setVisibility(View.VISIBLE);
 					ttime.setVisibility(View.VISIBLE);
@@ -243,6 +244,32 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 					}	
 					else
 					{
+						if(position.equals(" ")==true && (editdes.getEditableText().toString().equals(" ")!=true || editdes.getEditableText().toString().equals("")!=true))
+						{
+							String input = editdes.getText().toString().trim();
+			    			if(input.length()>0)
+			    			{
+			    				Geocoder geocoder = new Geocoder(Addshopping.this);
+			    			    List<Address> addresses =null;
+			    				Address	address=null;
+			    				try{
+			    				addresses = geocoder.getFromLocationName(input,1);
+			    				}
+			    				catch (IOException e){
+			    			           //log.e("AddeToGP",e.toStrig());
+			    				}
+			    			        if(addresses == null || addresses.isEmpty())
+			    				{
+			    			          Toast.makeText(Addshopping.this, "Not Fond", Toast.LENGTH_SHORT).show();}
+			    			else{
+			    				address=addresses.get(0);				
+			    				geoLatitude=address.getLatitude();	
+			    				geoLongitude=address.getLongitude();		    				
+			    			        }		    			       
+			    				position=Double.toString(geoLatitude)+","+Double.toString(geoLongitude);
+			    				Log.v("log","position2 "+position);
+			    			}		
+						}
 					Bundle bundle1 =getIntent().getExtras();
 					String id=bundle1.getString("id");
 					 
@@ -253,7 +280,8 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 				     bundle.putString("place", editplace.getEditableText().toString());
 					 bundle.putStringArrayList("tarray", tarray);
 					 bundle.putString("sd", sd);
-					 bundle.putString("property", property);					 
+					 bundle.putString("property", property);
+					 bundle.putString("position", position);
 					 
 				    intent.putExtras(bundle);
 				 	startActivity(intent);	
@@ -297,6 +325,8 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
     					    mMap.addMarker(markerOptother);
     					    countmaker++;
     					    LatLng nkut = new LatLng(geoLatitude, geoLongitude);
+    					    position=Double.toString(geoLatitude)+","+Double.toString(geoLongitude);
+    					    Log.v("log","position1 "+position);
     					    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(nkut,15.0f));    			
     		}             			
     	}   		
@@ -337,6 +367,9 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 	 btnDate.setOnClickListener(new OnClickListener() {
 	    	@Override
 	    	public void onClick(View source) {
+	    		daytemp=0;
+	    		daytemp++;
+	    		if(daytemp==1){
 	    	Calendar c = Calendar.getInstance();// 直接創建一個DatePickerDialog對話框實例，並將它顯示出來
 	    	Dialog dateDialog = new DatePickerDialog(Addshopping.this,
 	    	// 绑定監聽器
@@ -344,7 +377,8 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 	    	@Override
 	    	public void onDateSet(DatePicker dp, int year,
 	    	int month, int dayOfMonth) {
-	    		
+	    		daytemp++;
+	    		if(daytemp==2){
 	    	Calendar time = Calendar.getInstance();	    	
 	    	syear=Integer.toString(year);
 			smonth=Integer.toString(month+1);
@@ -412,7 +446,10 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 	    				@Override
 	    				public void onTimeSet(
 	    						TimePicker tp,
-	    						int hourOfDay, int minute) {    					
+	    						int hourOfDay, int minute) {    
+	    					daytemp++;
+	    					if(daytemp==3 || daytemp==4){
+	    				
 	    					String h=Integer.toString(hourOfDay);
 	    					String m=Integer.toString(minute);
 	    					if(minute<10)
@@ -444,6 +481,8 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 	    					 dts_array.add(dts_time);
 	    					 tarray.add(s);      
 	    					 }  
+								daytemp=0;			
+		    				}//daytemp3	
 	    				}
 	    	}
 	    			// 設置初始時間
@@ -453,6 +492,7 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 	    			, true);
 	    	timeDialog.setTitle(getString(R.string.please_decide_time));
 	    	timeDialog.show();
+	    		}//daytemp2
 	    		}
 	    	}
 	    	// 設置初始日期
@@ -460,12 +500,16 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 	    		.get(Calendar.DAY_OF_MONTH));
 	    		dateDialog.setTitle(getString(R.string.please_decide_date));
 	    		dateDialog.show();
+	    		}//daytemp	
 	    	}
 	    	});
 	     
 	 btndeadlinetime.setOnClickListener(new OnClickListener() {
 	    	@Override
 	    	public void onClick(View source) {
+	    		deadlinetimetemp=0;
+	    		deadlinetimetemp++;
+	    		if(deadlinetimetemp==1){
 	    	Calendar c = Calendar.getInstance();// 直接創建一個DatePickerDialog對話框實例，並將它顯示出來
 	    	Dialog dateDialog = new DatePickerDialog(Addshopping.this,
 	    	// 绑定監聽器
@@ -473,7 +517,8 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 	    	@Override
 	    	public void onDateSet(DatePicker dp, int year,
 	    	int month, int dayOfMonth) {
-	    		
+	    		deadlinetimetemp++;
+	    		if(deadlinetimetemp==2){
 	    	Calendar time = Calendar.getInstance();	    	
 	    	syear=Integer.toString(year);
 			smonth=Integer.toString(month+1);
@@ -542,7 +587,10 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 	    				@Override
 	    				public void onTimeSet(
 	    						TimePicker tp,
-	    						int hourOfDay, int minute) {	    					
+	    						int hourOfDay, int minute) {
+	    					deadlinetimetemp++;
+	    					if(deadlinetimetemp==3 || deadlinetimetemp==4){
+	    				
 	    					String h=Integer.toString(hourOfDay);
 	    					String m=Integer.toString(minute);
 	    					if(minute<10)
@@ -594,7 +642,9 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 								else{
 									sd=sd+h + ":"+ m+":00";
 									tdeadlinetime.setText(sd+"\n");	 
-								}    	                  
+								}    	
+								deadlinetimetemp=0;
+	    					}//deadlinetimetemp=3
 	    				}
 	    	}
 	    			// 設置初始時間
@@ -604,6 +654,7 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 	    			, true);
 	    	timeDialog.setTitle(getString(R.string.please_decide_time));
 	    	timeDialog.show();
+	    		}//deadlinetimetemp=2
 	    		}
 	    	}
 	    	// 設置初始日期
@@ -611,8 +662,35 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 	    		.get(Calendar.DAY_OF_MONTH));
 	    		dateDialog.setTitle(getString(R.string.please_decide_date));
 	    		dateDialog.show();
+	    		}//deadlinetemp=1
 	    	}
 	    	});
+	 transparentImageView.setOnTouchListener(new View.OnTouchListener() {
+
+	     @Override
+	     public boolean onTouch(View v, MotionEvent event) {
+	         int action = event.getAction();
+	         switch (action) {
+	            case MotionEvent.ACTION_DOWN:
+	                 // Disallow ScrollView to intercept touch events.
+	                 scroll.requestDisallowInterceptTouchEvent(true);
+	                 // Disable touch on transparent view
+	                 return false;
+
+	            case MotionEvent.ACTION_UP:
+	                 // Allow ScrollView to intercept touch events.
+	            	scroll.requestDisallowInterceptTouchEvent(false);
+	                 return true;
+
+	            case MotionEvent.ACTION_MOVE:
+	            	scroll.requestDisallowInterceptTouchEvent(true);
+	                 return false;
+
+	            default: 
+	                 return true;
+	         }   
+	     }
+	 });
 		}
 //====================================================================++listview
 	    @Override
@@ -684,7 +762,6 @@ if (mLocationClient == null) {
  
   @Override
   public void onLocationChanged(Location location) {
-    mMessageView.setText("Location = " + location.getLatitude()+" "+location.getLongitude());
     if(countmy==0)
     {
     	LatLng nkut = new LatLng(location.getLatitude(), location.getLongitude());

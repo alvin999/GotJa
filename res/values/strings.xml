@@ -16,4 +16,18 @@
     <string name="choose_function">請選擇要執行的動作</string>
     <string name="get_group">揪團</string>
     <string name="get_search">搜尋</string>
+    <!-- Suggestion -->
+     <string name="c_showpname">地名:</string>
+    <string name="c_showname">店名:</string>
+    <string name="c_showpaddress">地址:</string>
+    <string name="c_showdish">推薦菜色:</string>
+    <string name="c_showaddress">店址:</string>
+    <string name="c_showplace">推薦景點:</string>
+    <string name="c_showopnion">評論:</string>
+    <string name="c_score">評分:</string>
+    <string name="c_leave">留言</string>
+    <string name="c_upsuccess">上傳成功</string>
+    <string name="c_blank">欄位不可空白</string>
+    <string name="title_activity_foodlist">Foodlist</string>
+    <string name="title_activity_foodhome">Foodhome</string>
 </resources>

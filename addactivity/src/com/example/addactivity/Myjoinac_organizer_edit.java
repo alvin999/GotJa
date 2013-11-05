@@ -100,7 +100,7 @@ public class Myjoinac_organizer_edit extends Activity{
 	Intent intent; 
 	Intent intentaddfriend;
 	Intent intentaddemailfriend;
-    int p,m,k,vote=1;
+    int p,m,k,vote=1,daytemp=0,daynowtemp=0,deadlinetimetemp=0;
     String  time_process,schedulename,invitedf="",organizer,join="",reject="";
     ArrayList<String> t = new ArrayList<String>();
     ArrayList<String> parray = new ArrayList<String>();
@@ -182,6 +182,9 @@ public class Myjoinac_organizer_edit extends Activity{
 				@Override
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
+					daynowtemp=0;
+		    		daynowtemp++;
+		    		if(daynowtemp==1){
 					Calendar c = Calendar.getInstance();// 直接創建一個DatePickerDialog對話框實例，並將它顯示出來
 			    	Dialog dateDialog = new DatePickerDialog(Myjoinac_organizer_edit.this,
 			    	// 绑定監聽器
@@ -189,6 +192,8 @@ public class Myjoinac_organizer_edit extends Activity{
 			    	@Override
 			    	public void onDateSet(DatePicker dp, int year,
 			    	int month, int dayOfMonth) {
+			    		daynowtemp++;
+			    		if(daynowtemp==2){
 			    	Calendar time = Calendar.getInstance();
 			    	String mon=Integer.toString(month + 1);
 					String da=Integer.toString(dayOfMonth);
@@ -202,14 +207,13 @@ public class Myjoinac_organizer_edit extends Activity{
 					}			    				    	
 			    	st=year + "-" + mon + "-"+ da+" ";	    	
 			    	Log.v("log",st);
-			    	Dialog timeDialog = new TimePickerDialog(
-			    			Myjoinac_organizer_edit.this,			
+			    	Dialog timeDialog = new TimePickerDialog(Myjoinac_organizer_edit.this,			
 			    	// 绑定監聽器
 			    	new TimePickerDialog.OnTimeSetListener() {
 			    				@Override
-			    				public void onTimeSet(
-			    						TimePicker tp,
-			    						int hourOfDay, int minute) {		    					
+			    				public void onTimeSet(TimePicker tp,int hourOfDay, int minute) {
+			    					daynowtemp++;
+			    					if(daynowtemp==3 || daynowtemp==4){
 			    					String h=Integer.toString(hourOfDay);
 			    					String m=Integer.toString(minute);
 			    					if(minute<10)
@@ -242,7 +246,9 @@ public class Myjoinac_organizer_edit extends Activity{
 			    					Log.v("log",st);
 			    					vote=0;
 			    					taddtime.setText(st);	
-			    					}    	                  
+			    					}    	
+										daynowtemp=0;			
+				    				}//daynowtemp3	
 			    				}
 			    	}
 			    			// 設置初始時間
@@ -252,6 +258,7 @@ public class Myjoinac_organizer_edit extends Activity{
 			    			, true);
 			    	timeDialog.setTitle(getString(R.string.please_decide_time));
 			    	timeDialog.show();
+			    		}//daynowtemp2
 			    		}
 			    	}
 			    	// 設置初始日期
@@ -259,8 +266,7 @@ public class Myjoinac_organizer_edit extends Activity{
 			    		.get(Calendar.DAY_OF_MONTH));
 			    		dateDialog.setTitle(getString(R.string.please_decide_date));
 			    		dateDialog.show();	
-					
-					
+		    		}//daynowtemp					
 				}				 
 			 });
 //============================================================================		
@@ -380,13 +386,17 @@ public class Myjoinac_organizer_edit extends Activity{
         btndeadlinetime.setOnClickListener(new OnClickListener() {
 	    	@Override
 	    	public void onClick(View source) {
+	    		deadlinetimetemp=0;
+	    		deadlinetimetemp++;
+	    		if(deadlinetimetemp==1){
 	    	Calendar c = Calendar.getInstance();// 直接創建一個DatePickerDialog對話框實例，並將它顯示出來
 	    	Dialog dateDialog = new DatePickerDialog(Myjoinac_organizer_edit.this,
 	    	// 绑定監聽器
 	    	new DatePickerDialog.OnDateSetListener() {
 	    	@Override
-	    	public void onDateSet(DatePicker dp, int year,
-	    	int month, int dayOfMonth) {
+	    	public void onDateSet(DatePicker dp, int year,int month, int dayOfMonth) {
+	    		deadlinetimetemp++;
+	    		if(deadlinetimetemp==2){
 	    	Calendar time = Calendar.getInstance();
 	    	String mon=Integer.toString(month + 1);
 			String da=Integer.toString(dayOfMonth);
@@ -408,6 +418,8 @@ public class Myjoinac_organizer_edit extends Activity{
 	    				public void onTimeSet(
 	    						TimePicker tp,
 	    						int hourOfDay, int minute) {
+	    					deadlinetimetemp++;
+	    					if(deadlinetimetemp==3 || deadlinetimetemp==4){
 	    					String h=Integer.toString(hourOfDay);
 	    					String m=Integer.toString(minute);
 	    					if(minute<10)
@@ -458,7 +470,9 @@ public class Myjoinac_organizer_edit extends Activity{
 								else{	    					
 	    					Log.v("log",sd);
 	    					tdeadlinetime.setText(sd);	  
-	    					} 	                  
+	    					} 	    
+								deadlinetimetemp=0;
+	    					}//deadlinetimetemp=3
 	    				}
 	    	}
 	    			// 設置初始時間
@@ -468,6 +482,7 @@ public class Myjoinac_organizer_edit extends Activity{
 	    			, true);
 	    	timeDialog.setTitle("請選擇時間");
 	    	timeDialog.show();
+	    		}//deadlinetimetemp=2
 	    		}
 	    	}
 	    	// 設置初始日期
@@ -475,15 +490,19 @@ public class Myjoinac_organizer_edit extends Activity{
 	    		.get(Calendar.DAY_OF_MONTH));
 	    		dateDialog.setTitle("請選擇日期");
 	    		dateDialog.show();
+	    		}//deadlinetemp=1
 	    	}
-	    	});
+	    });
         
         if(whethervote.equals("0")==true)
         {
         	btntime.setOnClickListener(new Button.OnClickListener(){
 				@Override
 				public void onClick(View v) {
-					// TODO Auto-generated method stub					
+					// TODO Auto-generated method stub	
+					daytemp=0;
+		    		daytemp++;
+		    		if(daytemp==1){
 					Calendar c = Calendar.getInstance();// 直接創建一個DatePickerDialog對話框實例，並將它顯示出來
 			    	Dialog dateDialog = new DatePickerDialog(Myjoinac_organizer_edit.this,
 			    	// 绑定監聽器
@@ -491,6 +510,8 @@ public class Myjoinac_organizer_edit extends Activity{
 			    	@Override
 			    	public void onDateSet(DatePicker dp, int year,
 			    	int month, int dayOfMonth) {
+			    		daytemp++;
+			    		if(daytemp==2){
 			    	Calendar time = Calendar.getInstance();
 			    	String mon=Integer.toString(month + 1);
 					String da=Integer.toString(dayOfMonth);
@@ -511,7 +532,9 @@ public class Myjoinac_organizer_edit extends Activity{
 			    				@Override
 			    				public void onTimeSet(
 			    						TimePicker tp,
-			    						int hourOfDay, int minute) {		    					
+			    						int hourOfDay, int minute) {
+			    					daytemp++;
+			    					if(daytemp==3 || daytemp==4){
 			    					String h=Integer.toString(hourOfDay);
 			    					String m=Integer.toString(minute);
 			    					if(minute<10)
@@ -559,7 +582,9 @@ public class Myjoinac_organizer_edit extends Activity{
 										else{		    					
 			    					Log.v("log",st);
 			    					taddtime.setText(st);	
-			    					}    	                  
+			    					}    	
+										daytemp=0;			
+				    				}//daytemp3
 			    				}
 			    	}
 			    			// 設置初始時間
@@ -569,13 +594,15 @@ public class Myjoinac_organizer_edit extends Activity{
 			    			, true);
 			    	timeDialog.setTitle(getString(R.string.please_decide_time));
 			    	timeDialog.show();
+			    		}//daytemp2
 			    		}
 			    	}
 			    	// 設置初始日期
 			    		, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c
 			    		.get(Calendar.DAY_OF_MONTH));
 			    		dateDialog.setTitle(getString(R.string.please_decide_date));
-			    		dateDialog.show();					
+			    		dateDialog.show();
+		    		}//daytemp	  
 				}       		
         	});        	      	
         }
